@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>core.project.datagrid.DataGrid</title>
+
+<link rel="stylesheet" type="text/css" href="/~/core/resource/jquery-easyui-1.5/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="/~/core/resource/jquery-easyui-1.5/themes/icon.css">
+
+</head>
+<body>
+	<div id="datagrid"></div>
+</body>
+
+<script type="text/javascript" src="/~/core/resource/jquery-3.1.0/jquery-3.1.0.js"></script>
+
+<script type="text/javascript" src="/~/core/resource/jquery-easyui-1.5/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="/~/core/resource/jquery-easyui-1.5/locale/easyui-lang-zh_CN.js"></script>
+
+<script type="text/javascript" src="/~/core/release/core.min.js"></script>
+<script type="text/javascript" src="/~/core/release/easyui.min.js"></script>
+
+<script type="text/javascript" src="/~/core/package.js"></script>
+
+<script type="text/javascript" src="/~/core/project/datagrid/DataGrid.js"></script>
+
+<script type="text/javascript">
+	$(function() {
+		var dataGrid = new core.project.datagrid.DataGrid("datagrid");
+
+		dataGrid.columns([ [ {
+			field : 'itemid',
+			title : 'Item ID',
+			rowspan : 2,
+			width : 80,
+			sortable : true
+		}, {
+			field : 'productid',
+			title : 'Product ID',
+			rowspan : 2,
+			width : 80,
+			sortable : true
+		}, {
+			title : 'Item Details',
+			colspan : 4
+		} ], [ {
+			field : 'listprice',
+			title : 'List Price',
+			width : 80,
+			align : 'right',
+			sortable : true
+		}, {
+			field : 'unitcost',
+			title : 'Unit Cost',
+			width : 80,
+			align : 'right',
+			sortable : true
+		}, {
+			field : 'attr1',
+			title : 'Attribute',
+			width : 100
+		}, {
+			field : 'status',
+			title : 'Status',
+			width : 60
+		} ] ]);
+		dataGrid.url("http://localhost:8080/~/core/project/datagrid/dataGrid.json");
+		dataGrid.onSelect(function(index, row) {
+			alert(index + "===" + dataGrid.getRowIndex(row));
+		});
+		dataGrid.height("500px");
+		dataGrid.createDataGrid();
+	});
+</script>
+
+</html>
