@@ -17,18 +17,91 @@
 <script type="text/javascript" src="/~/core/resource/jquery-easyui-1.5/locale/easyui-lang-zh_CN.js"></script>
 
 <script type="text/javascript" src="/~/core/release/core.js"></script>
-<script type="text/javascript" src="/~/core/release/easyui.min.js"></script>
+<script type="text/javascript" src="/~/core/release/easyui.js"></script>
 
 <script type="text/javascript" src="/~/core/package.js"></script>
 
+<script type="text/javascript" src="/~/core/project/form/Form.js"></script>
+<script type="text/javascript" src="/~/core/project/form/Type.js"></script>
+
 <script type="text/javascript">
 	$(function() {
-		var form = new core.html.element.viewer.Form("form");
-		var table = new core.html.element.viewer.Table();
-		table.append(new core.html.element.viewer.Tr().append(new core.html.element.viewer.Td()).append(
-				new core.html.element.viewer.Td()));
-		form.append(table);
-		form.show();
+		var form = new core.project.form.Form("form");
+		form.groupContent([ {
+			id : "group1",
+			text : "这是分组1",
+			data : [ [ {
+				label : "combo",
+				type : core.project.form.Type.EASYUI.COMBO,
+				id : "combo"
+			}, {
+				label : "combobox",
+				type : core.project.form.Type.EASYUI.COMBOBOX,
+				id : "combobox",
+				easyui : {
+					valueField : "label",
+					textField : "value",
+					data : [ {
+						label : "java",
+						value : "Java"
+					} ]
+				}
+			}, {
+				label : "datebox",
+				type : core.project.form.Type.EASYUI.DATEBOX,
+				id : "datebox"
+			} ], [ {
+				label : "datetimebox",
+				type : core.project.form.Type.EASYUI.DATETIMEBOX,
+				id : "datetimebox"
+			}, {
+				label : "datetimespinner",
+				type : core.project.form.Type.EASYUI.DATETIMESPINNER,
+				id : "datetimespinner"
+			} ], [ {
+				label : "filebox",
+				type : core.project.form.Type.EASYUI.FILEBOX,
+				id : "filebox"
+			}, {
+				label : "numberbox",
+				type : core.project.form.Type.EASYUI.NUMBERBOX,
+				id : "numberbox"
+			}, {
+				label : "numberspinner",
+				type : core.project.form.Type.EASYUI.NUMBERSPINNER,
+				id : "numberspinner"
+			} ], [ {
+				label : "passwordbox",
+				type : core.project.form.Type.EASYUI.PASSWORDBOX,
+				id : "passwordbox"
+			}, {
+				label : "slider",
+				type : core.project.form.Type.EASYUI.SLIDER,
+				id : "slider"
+			}, {
+				label : "spinner",
+				type : core.project.form.Type.EASYUI.SPINNER,
+				id : "spinner"
+			} ], [ {
+				label : "textbox",
+				type : core.project.form.Type.EASYUI.TEXTBOX,
+				id : "textbox"
+			}, {
+				label : "timespinner",
+				type : core.project.form.Type.EASYUI.TIMESPINNER,
+				id : "timespinner"
+			}, {
+				label : "validatebox",
+				type : core.project.form.Type.EASYUI.VALIDATEBOX,
+				id : "validatebox",
+				easyui : {
+					required : true,
+					validType : "email"
+				}
+			} ] ]
+		} ]);
+		form.showGroup(true);
+		form.init();
 	});
 </script>
 

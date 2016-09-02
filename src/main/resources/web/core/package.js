@@ -5,5 +5,7 @@
 // 项目包
 core.project = {
 
-	datagrid : {}
+	datagrid : {},
+	
+	form : {}
 };
