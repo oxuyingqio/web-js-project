@@ -12,7 +12,7 @@ core.project.datagrid.DataGrid = (function() {
 	/**
 	 * 对象转字符串
 	 */
-	function object2Str(object) {
+	function object2JsonStr(object) {
 
 		if (typeof (object) == "object")
 			return JSON.stringify(object);
@@ -139,9 +139,9 @@ core.project.datagrid.DataGrid = (function() {
 
 		var param = {
 			rightsFilter : this.rightsFilter(),
-			params : object2Str(jsonParam),
+			params : object2JsonStr(jsonParam),
 			whereSql : sqlParam,
-			orderBy : object2Str(orderParam)
+			orderBy : object2JsonStr(orderParam)
 		}
 
 		if (typeof (_otherParam) === "object") {
@@ -164,9 +164,9 @@ core.project.datagrid.DataGrid = (function() {
 
 		var param = {
 			rightsFilter : this.rightsFilter(),
-			params : object2Str(jsonParam),
+			params : object2JsonStr(jsonParam),
 			whereSql : sqlParam,
-			orderBy : object2Str(orderParam)
+			orderBy : object2JsonStr(orderParam)
 		}
 
 		if (typeof (_otherParam) === "object") {

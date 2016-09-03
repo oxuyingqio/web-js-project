@@ -338,13 +338,19 @@ core.project.form.Form = (function() {
 	 */
 	var Constructor = function(id) {
 
-		// 表单对象
+		/**
+		 * 表单对象
+		 */
 		var form = new core.html.element.viewer.Form(id);
-		// 表单内容
+		/**
+		 * 表单内容
+		 */
 		var content = [ {
 			data : []
 		} ];
-		// 是否分组
+		/**
+		 * 是否分组
+		 */
 		var showGroup = false;
 
 		/**
@@ -423,7 +429,10 @@ core.project.form.Form = (function() {
 		var content = this.groupContent();
 		// 获取是否分组
 		var showGroup = this.showGroup();
-
+		
+		// 清空表单内容
+		form.clear();
+		
 		// 遍历表单内容
 		for (var i = 0, length = content.length; i < length; i++) {
 
