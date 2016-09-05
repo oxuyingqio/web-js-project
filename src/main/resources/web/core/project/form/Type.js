@@ -1,7 +1,7 @@
 /**
  * @name	Type
  * @package core.project.form
- * @desc	表单数据类型
+ * @desc	表单数据内容类型
  * @type	枚举
  * 
  * @date	2016年9月2日 16:25:11

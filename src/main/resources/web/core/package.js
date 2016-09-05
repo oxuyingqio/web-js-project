@@ -9,5 +9,7 @@ core.project = {
 
 	datagrid : {},
 
-	form : {}
+	form : {},
+
+	search : {}
 };

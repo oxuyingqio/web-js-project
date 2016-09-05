@@ -21,13 +21,40 @@
 
 <script type="text/javascript" src="/~/core/package.js"></script>
 
-<script type="text/javascript" src="/~/core/project/form/Search.js"></script>
+<script type="text/javascript" src="/~/core/project/search/Search.js"></script>
+<script type="text/javascript" src="/~/core/project/search/Type.js"></script>
+<script type="text/javascript" src="/~/core/project/search/DataType.js"></script>
+<script type="text/javascript" src="/~/core/project/search/QueryMode.js"></script>
 
 <script type="text/javascript">
 	$(function() {
 		var search = new core.project.search.Search("search");
-		search.init();
-		search.init();
+		search.searchEvent(function(){
+			console.log(search.getFields())
+		});
+		search.init([ [ {
+			label : "combobox",
+			id : "combobox",
+			filed : "combobox",
+			type : core.project.search.Type.EASYUI.COMBOBOX
+		}, {
+			label : "datebox",
+			id : "datebox",
+			type : core.project.search.Type.EASYUI.DATEBOX
+		}, {
+			label : "datetimebox",
+			id : "datetimebox",
+			type : core.project.search.Type.EASYUI.DATETIMEBOX
+		} ], [ {
+			label : "numberbox",
+			id : "numberbox",
+			type : core.project.search.Type.EASYUI.NUMBERBOX
+		}, {
+			label : "textbox",
+			id : "textbox",
+			type : core.project.search.Type.EASYUI.TEXTBOX
+		} ] ]);
+		search.show();
 	});
 </script>
 
