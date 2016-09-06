@@ -310,12 +310,12 @@ core.project.search.Search = (function() {
 
 			fields.push(field);
 		};
-		
+
 		/**
 		 * 返回搜索字段
 		 */
-		this.getFields = function(){
-			
+		this.getFields = function() {
+
 			return fields;
 		};
 
@@ -412,6 +412,145 @@ core.project.search.Search = (function() {
 	Constructor.prototype.hide = function() {
 
 		this.div().hide();
+	};
+
+	/**
+	 * 获取json
+	 * 
+	 * @returns {Array}
+	 */
+	Constructor.prototype.getJson = function() {
+
+		// 返回的json数组
+		var json = [];
+
+		// 获取搜索字段
+		var fields = this.getFields();
+		// 遍历搜索字段
+		for (var i = 0, length = fields.length; i < length; i++) {
+
+			// 搜索字段
+			var field = fields[i];
+			// 最小值
+			var min = field.min();
+			// 最大值
+			var max = field.max();
+
+			// 最大值为空
+			if (max === null) {
+
+				// 最小值不为空
+				if (min != "") {
+
+					json.push({
+						field : field.field,
+						value : [ min ],
+						fieldtype : field.dataType,
+						model : field.queryMode
+					})
+				}
+			} else {
+
+				// 最小为空,最大不为空
+				if (min === "" && max !== "") {
+
+					json
+							.push({
+								field : field.field,
+								value : [ max ],
+								fieldtype : field.dataType,
+								model : field.queryMode === core.project.search.QueryMode.BETWEEN ? core.project.search.QueryMode.LE
+										: field.queryMode
+							});
+				} else if (min !== "" && max === "") {
+
+					json
+							.push({
+								field : field.field,
+								value : [ min ],
+								fieldtype : field.dataType,
+								model : field.queryMode === core.project.search.QueryMode.BETWEEN ? core.project.search.QueryMode.GE
+										: field.queryMode
+							});
+				} else if (min !== "" && max !== "") {
+
+					json.push({
+						field : field.field,
+						value : [ min, max ],
+						fieldtype : field.dataType,
+						model : field.queryMode
+					});
+				}
+			}
+		}
+
+		// 返回json数组
+		return json;
+	};
+
+	/**
+	 * 获取sql
+	 * 
+	 * @returns {String}
+	 */
+	Constructor.prototype.getSql = function() {
+
+		// 返回的sql
+		var sql = [];
+
+		// 获取搜索字段
+		var fields = this.getFields();
+		// 遍历搜索字段
+		for (var i = 0, length = fields.length; i < length; i++) {
+
+			// 搜索字段
+			var field = fields[i];
+			// 最小值
+			var min = field.min();
+			// 最大值
+			var max = field.max();
+
+			// 最大值为空
+			if (max === null) {
+
+				// 最小值不为空
+				if (min != "") {
+
+					sql.push(" and ");
+					sql.push(field.field);
+					switch (field.queryMode) {
+					case core.project.search.QueryMode.EQ:
+						sql.push(" ='" + min + "' ");
+						break;
+					case core.project.search.QueryMode.LIKE:
+						sql.push(" like '%" + min + "%' ");
+						break;
+					}
+				}
+			} else {
+
+				// 最小为空,最大不为空
+				if (min === "" && max !== "") {
+
+					sql.push(" and ");
+					sql.push(field.field);
+					sql.push(" <='" + max + "' ");
+				} else if (min !== "" && max === "") {
+
+					sql.push(" and ");
+					sql.push(field.field);
+					sql.push(" >='" + min + "' ");
+				} else if (min !== "" && max !== "") {
+
+					sql.push(" and ");
+					sql.push(field.field);
+					sql.push(" between '" + min + "' and '" + max + "' ");
+				}
+			}
+		}
+
+		// 返回sql
+		return sql.join("");
 	};
 
 	return Constructor;

@@ -29,29 +29,35 @@
 <script type="text/javascript">
 	$(function() {
 		var search = new core.project.search.Search("search");
-		search.searchEvent(function(){
-			console.log(search.getFields())
+		search.searchEvent(function() {
+			console.log(search.getJson())
+			console.log(search.getSql())
 		});
 		search.init([ [ {
 			label : "combobox",
 			id : "combobox",
-			filed : "combobox",
+			field : "combobox",
 			type : core.project.search.Type.EASYUI.COMBOBOX
 		}, {
 			label : "datebox",
 			id : "datebox",
+			field : "datebox",
 			type : core.project.search.Type.EASYUI.DATEBOX
 		}, {
 			label : "datetimebox",
 			id : "datetimebox",
+			field : "datetimebox",
 			type : core.project.search.Type.EASYUI.DATETIMEBOX
 		} ], [ {
 			label : "numberbox",
 			id : "numberbox",
+			field : "numberbox",
+			dataType : core.project.search.DataType.FLOAT,
 			type : core.project.search.Type.EASYUI.NUMBERBOX
 		}, {
 			label : "textbox",
 			id : "textbox",
+			field : "textbox",
 			type : core.project.search.Type.EASYUI.TEXTBOX
 		} ] ]);
 		search.show();
