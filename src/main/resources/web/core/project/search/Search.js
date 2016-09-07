@@ -352,7 +352,7 @@ core.project.search.Search = (function() {
 		div.clear();
 
 		// 创建表格对象
-		var table = new core.html.element.viewer.Table().style("width:100%;font-size:12px;").appendTo(div);
+		var table = new core.html.element.viewer.Table().style("font-size:12px;").appendTo(div);
 		// 遍历配置
 		for (var i = 0, length = config.length; i < length; i++) {
 
