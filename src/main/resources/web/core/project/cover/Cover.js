@@ -4,6 +4,11 @@
  * @desc	遮盖层
  * @type	类
  * 
+ * @method	static core.project.cover.Cover		getInstance()			获取遮盖层实例
+ * 			core.project.cover.Cover			append(Object html)		添加HTML信息
+ * 			core.project.cover.Cover			show()					显示遮盖层
+ * 			core.project.cover.Cover			hide()					隐藏遮盖层
+ *  
  * @date	2016年9月3日 09:36:45
  */
 
@@ -58,30 +63,46 @@ core.project.cover.Cover = (function() {
 	 * 添加HTML信息
 	 * 
 	 * @param html
+	 * @returns {core.project.cover.Cover}
 	 */
 	Constructor.prototype.append = function(html) {
 
 		this.div().append(html);
+		
+		return this;
 	};
 
 	/**
 	 * 显示遮盖层
+	 * 
+	 * @returns {core.project.cover.Cover}
 	 */
 	Constructor.prototype.show = function() {
 
 		this.div().show();
+		
+		return this;
 	};
 
 	/**
 	 * 隐藏遮盖层
+	 * 
+	 * @returns {core.project.cover.Cover}
 	 */
 	Constructor.prototype.hide = function() {
 
 		this.div().hide();
+		
+		return this;
 	};
 
 	return {
 
+		/**
+		 * 获取遮盖层实例
+		 * 
+		 * @returns {core.project.cover.Cover}
+		 */
 		getInstance : function() {
 
 			if (!cover) {

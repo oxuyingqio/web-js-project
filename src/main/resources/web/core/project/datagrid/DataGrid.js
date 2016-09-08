@@ -4,6 +4,10 @@
  * @desc	数据列表
  * @type	类型
  * 
+ * @constructor	core.project.datagrid.DataGrid(String id)
+ * 
+ * @extend	core.html.easyui.datagrid.DataGrid
+ * 
  * @date	2016年9月1日 16:02:05
  */
 
@@ -11,6 +15,9 @@ core.project.datagrid.DataGrid = (function() {
 
 	/**
 	 * 对象转字符串
+	 * 
+	 * @param object{Object}
+	 * @returns {String}
 	 */
 	function object2JsonStr(object) {
 

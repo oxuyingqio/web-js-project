@@ -1,3 +1,12 @@
+/**
+ * @name	Search
+ * @package core.project.search
+ * @desc	搜索
+ * @type	类
+ * 
+ * @date	2016年9月7日 15:52:52
+ */
+
 core.project.search.Search = (function() {
 
 	/**
@@ -396,6 +405,8 @@ core.project.search.Search = (function() {
 				});
 			}
 		}
+
+		return this;
 	};
 
 	/**
@@ -404,6 +415,8 @@ core.project.search.Search = (function() {
 	Constructor.prototype.show = function() {
 
 		this.div().show();
+
+		return this;
 	};
 
 	/**
@@ -412,6 +425,8 @@ core.project.search.Search = (function() {
 	Constructor.prototype.hide = function() {
 
 		this.div().hide();
+
+		return this;
 	};
 
 	/**
