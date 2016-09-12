@@ -19,6 +19,11 @@ core.project = {
  * @desc	遮盖层
  * @type	类
  * 
+ * @method	static core.project.cover.Cover		getInstance()			获取遮盖层实例
+ * 			core.project.cover.Cover			append(Object html)		添加HTML信息
+ * 			core.project.cover.Cover			show()					显示遮盖层
+ * 			core.project.cover.Cover			hide()					隐藏遮盖层
+ *  
  * @date	2016年9月3日 09:36:45
  */
 
@@ -73,30 +78,46 @@ core.project.cover.Cover = (function() {
 	 * 添加HTML信息
 	 * 
 	 * @param html
+	 * @returns {core.project.cover.Cover}
 	 */
 	Constructor.prototype.append = function(html) {
 
 		this.div().append(html);
+		
+		return this;
 	};
 
 	/**
 	 * 显示遮盖层
+	 * 
+	 * @returns {core.project.cover.Cover}
 	 */
 	Constructor.prototype.show = function() {
 
 		this.div().show();
+		
+		return this;
 	};
 
 	/**
 	 * 隐藏遮盖层
+	 * 
+	 * @returns {core.project.cover.Cover}
 	 */
 	Constructor.prototype.hide = function() {
 
 		this.div().hide();
+		
+		return this;
 	};
 
 	return {
 
+		/**
+		 * 获取遮盖层实例
+		 * 
+		 * @returns {core.project.cover.Cover}
+		 */
 		getInstance : function() {
 
 			if (!cover) {
@@ -113,6 +134,10 @@ core.project.cover.Cover = (function() {
  * @desc	数据列表
  * @type	类型
  * 
+ * @constructor	core.project.datagrid.DataGrid(String id)
+ * 
+ * @extend	core.html.easyui.datagrid.DataGrid
+ * 
  * @date	2016年9月1日 16:02:05
  */
 
@@ -120,6 +145,9 @@ core.project.datagrid.DataGrid = (function() {
 
 	/**
 	 * 对象转字符串
+	 * 
+	 * @param object{Object}
+	 * @returns {String}
 	 */
 	function object2JsonStr(object) {
 
@@ -890,6 +918,15 @@ core.project.search.QueryMode = {
 	 */
 	ISNOTNULL : "isNotNull"
 };
+/**
+ * @name Search
+ * @package core.project.search
+ * @desc 搜索
+ * @type 类
+ * 
+ * @date 2016年9月7日 15:52:52
+ */
+
 core.project.search.Search = (function() {
 
 	/**
@@ -1244,7 +1281,7 @@ core.project.search.Search = (function() {
 		div.clear();
 
 		// 创建表格对象
-		var table = new core.html.element.viewer.Table().style("width:100%;font-size:12px;").appendTo(div);
+		var table = new core.html.element.viewer.Table().style("font-size:12px;").appendTo(div);
 		// 遍历配置
 		for (var i = 0, length = config.length; i < length; i++) {
 
@@ -1277,7 +1314,7 @@ core.project.search.Search = (function() {
 						tr);
 
 				// 添加按钮
-				new core.html.element.viewer.A().appendTo(td).load(function(_this) {
+				new core.html.element.viewer.A().append("&nbsp;").appendTo(td).load(function(_this) {
 
 					var linkbutton = new core.html.easyui.button.LinkButton(_this.id());
 					linkbutton.text("搜索");
@@ -1288,6 +1325,8 @@ core.project.search.Search = (function() {
 				});
 			}
 		}
+
+		return this;
 	};
 
 	/**
@@ -1296,6 +1335,8 @@ core.project.search.Search = (function() {
 	Constructor.prototype.show = function() {
 
 		this.div().show();
+
+		return this;
 	};
 
 	/**
@@ -1304,6 +1345,8 @@ core.project.search.Search = (function() {
 	Constructor.prototype.hide = function() {
 
 		this.div().hide();
+
+		return this;
 	};
 
 	/**

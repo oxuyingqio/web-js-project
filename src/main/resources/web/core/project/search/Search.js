@@ -1,10 +1,10 @@
 /**
- * @name	Search
+ * @name Search
  * @package core.project.search
- * @desc	搜索
- * @type	类
+ * @desc 搜索
+ * @type 类
  * 
- * @date	2016年9月7日 15:52:52
+ * @date 2016年9月7日 15:52:52
  */
 
 core.project.search.Search = (function() {
@@ -394,7 +394,7 @@ core.project.search.Search = (function() {
 						tr);
 
 				// 添加按钮
-				new core.html.element.viewer.A().appendTo(td).load(function(_this) {
+				new core.html.element.viewer.A().append("&nbsp;").appendTo(td).load(function(_this) {
 
 					var linkbutton = new core.html.easyui.button.LinkButton(_this.id());
 					linkbutton.text("搜索");
