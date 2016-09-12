@@ -394,7 +394,7 @@ core.project.search.Search = (function() {
 						tr);
 
 				// 添加按钮
-				new core.html.element.viewer.A().append("&nbsp;").appendTo(td).load(function(_this) {
+				new core.html.element.viewer.A().append("&nbsp;").load(function(_this) {
 
 					var linkbutton = new core.html.easyui.button.LinkButton(_this.id());
 					linkbutton.text("搜索");
@@ -402,7 +402,8 @@ core.project.search.Search = (function() {
 						search.searchEvent()();
 					});
 					linkbutton.init();
-				});
+					alert(111111111111111111111111)
+				}).appendTo(td);
 			}
 		}
 
