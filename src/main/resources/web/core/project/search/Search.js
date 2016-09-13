@@ -92,7 +92,7 @@ core.project.search.Search = (function() {
 					enddatebox[attr] && enddatebox[attr](easyui[attr]);
 				}
 				// 初始化
-				datebox.init();
+				enddatebox.init();
 			}));
 
 			// 添加字段
