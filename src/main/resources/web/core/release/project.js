@@ -1291,6 +1291,7 @@ core.project.search.Search = (function() {
 						tr);
 
 				// 添加按钮
+				td.append("&nbsp;");
 				new core.html.element.viewer.A().load(function(_this) {
 
 					var linkbutton = new core.html.easyui.button.LinkButton(_this.id());
@@ -1300,6 +1301,7 @@ core.project.search.Search = (function() {
 					});
 					linkbutton.init();
 				}).appendTo(td);
+				td.append("&nbsp;");
 				new core.html.element.viewer.A().load(function(_this) {
 
 					var linkbutton = new core.html.easyui.button.LinkButton(_this.id());
