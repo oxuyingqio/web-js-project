@@ -26,8 +26,7 @@
 
 <script type="text/javascript">
 	$(function() {
-		var form = new core.project.form.Form("form");
-		form.groupContent([ {
+		new core.project.form.Form("form").isGroup(true).groupContent([ {
 			id : "group1",
 			text : "这是分组1",
 			data : [ [ {
@@ -99,10 +98,7 @@
 					validType : "email"
 				}
 			} ] ]
-		} ]);
-		form.isGroup(true);
-		form.init();
-		form.show();
+		} ]).init().show();
 	});
 </script>
 

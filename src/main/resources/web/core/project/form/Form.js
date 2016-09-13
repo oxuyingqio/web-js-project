@@ -460,6 +460,8 @@ core.project.form.Form = (function() {
 				}
 			}
 		}
+
+		return this;
 	};
 
 	/**

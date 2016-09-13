@@ -1,10 +1,10 @@
 /**
- * @name	Type
+ * @name Type
  * @package core.project.form
- * @desc	表单数据内容类型
- * @type	枚举
+ * @desc 表单数据内容类型
+ * @type 枚举
  * 
- * @date	2016年9月2日 16:25:11
+ * @date 2016年9月2日 16:25:11
  */
 
 core.project.form.Type = {
@@ -16,6 +16,7 @@ core.project.form.Type = {
 	LABEL : "label",
 	TEXTAREA : "textarea",
 	EASYUI : {
+		SWITCHBUTTON : "switchbutton",
 		COMBO : "combo",
 		COMBOBOX : "combobox",
 		DATEBOX : "datebox",
