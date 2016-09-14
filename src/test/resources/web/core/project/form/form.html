@@ -26,10 +26,15 @@
 
 <script type="text/javascript">
 	$(function() {
-		new core.project.form.Form("form").isGroup(true).groupContent([ {
+
+		var form = new core.project.form.Form("form").isGroup(true).groupContent([ {
 			id : "group1",
 			text : "这是分组1",
 			data : [ [ {
+				label : "switchbutton",
+				type : core.project.form.Type.EASYUI.SWITCHBUTTON,
+				id : "switchbutton"
+			}, {
 				label : "combo",
 				type : core.project.form.Type.EASYUI.COMBO,
 				id : "combo"
@@ -45,11 +50,11 @@
 						value : "Java"
 					} ]
 				}
-			}, {
+			} ], [ {
 				label : "datebox",
 				type : core.project.form.Type.EASYUI.DATEBOX,
 				id : "datebox"
-			} ], [ {
+			}, {
 				label : "datetimebox",
 				type : core.project.form.Type.EASYUI.DATETIMEBOX,
 				id : "datetimebox"

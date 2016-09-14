@@ -1,10 +1,10 @@
 /**
  * @name	Form
- * @package core.project.form
+ * @package core.project.from
  * @desc	表单
  * @type	类
  * 
- * @date	2016年9月2日 16:25:11
+ * @date	2016年9月14日 11:28:53
  */
 
 core.project.form.Form = (function() {
@@ -21,6 +21,27 @@ core.project.form.Form = (function() {
 		case core.project.form.Type.A:
 
 			return new core.html.element.viewer.A(data.id).append(data.value);
+		case core.project.form.Type.EASYUI.SWITCHBUTTON:
+
+			// 获取easyui配置
+			var easyui = data.easyui ? data.easyui : {};
+
+			// 返回输入框
+			return new core.html.element.viewer.Input(data.id).load(function(_this) {
+
+				// 调用easyui选择按钮模板
+				var switchbutton = new core.html.easyui.button.SwitchButton(_this.id());
+				// 遍历参数
+				for (attr in easyui) {
+					// 设置对应参数
+					switchbutton[attr] && switchbutton[attr](easyui[attr]);
+				}
+				// 初始化
+				switchbutton.init();
+
+				// 回收引用
+				easyui = null;
+			});
 		case core.project.form.Type.EASYUI.COMBO:
 
 			// 获取easyui配置
@@ -324,13 +345,16 @@ core.project.form.Form = (function() {
 	 * 构造函数
 	 * 
 	 * @param id
+	 *            ID
 	 */
 	var Constructor = function(id) {
 
-		/**
-		 * 表单对象
-		 */
-		var form = new core.html.element.viewer.Form(id);
+		// 多继承
+		// 调用父类构造
+		core.project.form.Form.superClass.constructor.call(this, id);
+		// 调用EasyUI表单框构造
+		core.html.easyui.form.Form.call(this, id);
+
 		/**
 		 * 表单内容
 		 */
@@ -339,14 +363,6 @@ core.project.form.Form = (function() {
 		 * 是否分组
 		 */
 		var isGroup = false;
-
-		/**
-		 * 获取表单对象
-		 */
-		this.form = function() {
-
-			return form;
-		};
 
 		/**
 		 * 获取/设置表单内容
@@ -397,22 +413,22 @@ core.project.form.Form = (function() {
 				return this;
 			}
 		};
-	};
+	}
+	// 继承HTML表单元素
+	core.lang.Class.extend(Constructor, core.html.element.viewer.Form);
 
 	/**
 	 * 表单初始化
 	 */
 	Constructor.prototype.init = function() {
 
-		// 获取表单对象
-		var form = this.form();
+		// 清空表单内容
+		this.clear();
+
 		// 获取表单内容
 		var content = this.groupContent();
 		// 获取是否分组
 		var isGroup = this.isGroup();
-
-		// 清空表单内容
-		form.clear();
 
 		// 遍历表单内容
 		for (var i = 0, length = content.length; i < length; i++) {
@@ -427,36 +443,46 @@ core.project.form.Form = (function() {
 
 				// 创建分组对象,并添加分组描述信息,并添加表格对象,并添加至表单对象
 				new core.html.element.viewer.Fieldset().append(
-						new core.html.element.viewer.Legend().append(groupContent.text)).append(table).appendTo(form);
+						new core.html.element.viewer.Legend().append(groupContent.text)).append(table).appendTo(this);
 			} else {
 
 				// 将表格对象添加至表单对象中
-				table.appendTo(form);
+				table.appendTo(this);
 			}
 
-			// 获取本组行内容
-			var trContent = groupContent.data;
-			// 遍历本组行内容
-			for (var i = 0, length = trContent.length; i < length; i++) {
+			// 获取本组行数据
+			var trData = groupContent.data;
+			// 遍历本组行数据
+			for (var i = 0, length = trData.length; i < length; i++) {
 
 				// 创建行对象,并添加至表格对象中
 				var tr = new core.html.element.viewer.Tr().appendTo(table);
 
-				// 获取单元格内容
-				var tdContent = trContent[i];
-				// 遍历单元格内容
-				for (var j = 0, jLength = tdContent.length; j < jLength; j++) {
+				// 获取本行内容
+				var trContent = trData[i];
+				// 遍历本行内容
+				for (var j = 0, jLength = trContent.length; j < jLength; j++) {
 
-					// 每个单元格的数据
-					var tdData = tdContent[j];
+					// 每个单元格内容
+					var tdContent = trContent[j];
 
 					// 创建标签单元格对象,并设置样式,并添加标签对象,并添加至行对象中
 					new core.html.element.viewer.Td().style("text-align:right;").rowspan(
-							tdData.rowspan ? tdData.rowspan : 1).append(
-							new core.html.element.viewer.Label().append(tdData.label + ":")).appendTo(tr);
+							tdContent.rowspan ? tdContent.rowspan : 1).append(
+							new core.html.element.viewer.Label().append(tdContent.label + ":")).appendTo(tr);
 					// 创建数据单元格对象
-					new core.html.element.viewer.Td().colspan(tdData.colspan ? tdData.colspan : 1).rowspan(
-							tdData.rowspan ? tdData.rowspan : 1).append(dealTdData(tdData)).appendTo(tr);
+					var td = new core.html.element.viewer.Td();
+					// 处理列站位,行站位
+					td.colspan(tdContent.colspan ? tdContent.colspan : 1).rowspan(
+							tdContent.rowspan ? tdContent.rowspan : 1);
+					// 前
+					tdContent.before && td.append(tdContent.before);
+					// td
+					td.append(dealTdData(tdContent));
+					// 后
+					tdContent.after && td.append(tdContent.after);
+					// 添加至
+					td.appendTo(tr);
 				}
 			}
 		}
@@ -464,22 +490,5 @@ core.project.form.Form = (function() {
 		return this;
 	};
 
-	/**
-	 * 显示表单
-	 */
-	Constructor.prototype.show = function() {
-
-		this.form().show();
-	};
-
-	/**
-	 * 隐藏表单
-	 */
-	Constructor.prototype.hide = function() {
-
-		this.form().hide();
-	};
-
-	// 返回构造函数
 	return Constructor;
 })();
