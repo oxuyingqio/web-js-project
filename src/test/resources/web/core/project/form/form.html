@@ -9,6 +9,7 @@
 
 </head>
 <body>
+	<div id="formDiv"></div>
 </body>
 
 <script type="text/javascript" src="/~/core/resource/jquery-3.1.0/jquery-3.1.0.js"></script>
@@ -27,83 +28,95 @@
 <script type="text/javascript">
 	$(function() {
 
-		var form = new core.project.form.Form("form").isGroup(true).groupContent([ {
-			id : "group1",
-			text : "这是分组1",
-			data : [ [ {
-				label : "switchbutton",
-				type : core.project.form.Type.EASYUI.SWITCHBUTTON,
-				id : "switchbutton"
-			}, {
-				label : "combo",
-				type : core.project.form.Type.EASYUI.COMBO,
-				id : "combo"
-			}, {
-				label : "combobox",
-				type : core.project.form.Type.EASYUI.COMBOBOX,
-				id : "combobox",
-				easyui : {
-					valueField : "label",
-					textField : "value",
-					data : [ {
-						label : "java",
-						value : "Java"
-					} ]
-				}
-			} ], [ {
-				label : "datebox",
-				type : core.project.form.Type.EASYUI.DATEBOX,
-				id : "datebox"
-			}, {
-				label : "datetimebox",
-				type : core.project.form.Type.EASYUI.DATETIMEBOX,
-				id : "datetimebox"
-			}, {
-				label : "datetimespinner",
-				type : core.project.form.Type.EASYUI.DATETIMESPINNER,
-				id : "datetimespinner"
-			} ], [ {
-				label : "filebox",
-				type : core.project.form.Type.EASYUI.FILEBOX,
-				id : "filebox"
-			}, {
-				label : "numberbox",
-				type : core.project.form.Type.EASYUI.NUMBERBOX,
-				id : "numberbox"
-			}, {
-				label : "numberspinner",
-				type : core.project.form.Type.EASYUI.NUMBERSPINNER,
-				id : "numberspinner"
-			} ], [ {
-				label : "passwordbox",
-				type : core.project.form.Type.EASYUI.PASSWORDBOX,
-				id : "passwordbox"
-			}, {
-				label : "slider",
-				type : core.project.form.Type.EASYUI.SLIDER,
-				id : "slider"
-			}, {
-				label : "spinner",
-				type : core.project.form.Type.EASYUI.SPINNER,
-				id : "spinner"
-			} ], [ {
-				label : "textbox",
-				type : core.project.form.Type.EASYUI.TEXTBOX,
-				id : "textbox"
-			}, {
-				label : "timespinner",
-				type : core.project.form.Type.EASYUI.TIMESPINNER,
-				id : "timespinner"
-			}, {
-				label : "validatebox",
-				type : core.project.form.Type.EASYUI.VALIDATEBOX,
-				id : "validatebox",
-				easyui : {
-					required : true,
-					validType : "email"
-				}
-			} ] ]
-		} ]).init().show();
+		new core.project.form.Form("formDiv").height("500px").toolbar([ {
+			text : "测试",
+			iconCls : 'icon-add',
+			handler : function() {
+				alert('add')
+			}
+		}, "-", {
+			iconCls : 'icon-edit',
+			handler : function() {
+				alert('edit')
+			}
+		} ]).init();
+		// 		var form = new core.project.form.Form("form").isGroup(true).groupContent([ {
+		// 			id : "group1",
+		// 			text : "这是分组1",
+		// 			data : [ [ {
+		// 				label : "switchbutton",
+		// 				type : core.project.form.Type.EASYUI.SWITCHBUTTON,
+		// 				id : "switchbutton"
+		// 			}, {
+		// 				label : "combo",
+		// 				type : core.project.form.Type.EASYUI.COMBO,
+		// 				id : "combo"
+		// 			}, {
+		// 				label : "combobox",
+		// 				type : core.project.form.Type.EASYUI.COMBOBOX,
+		// 				id : "combobox",
+		// 				easyui : {
+		// 					valueField : "label",
+		// 					textField : "value",
+		// 					data : [ {
+		// 						label : "java",
+		// 						value : "Java"
+		// 					} ]
+		// 				}
+		// 			} ], [ {
+		// 				label : "datebox",
+		// 				type : core.project.form.Type.EASYUI.DATEBOX,
+		// 				id : "datebox"
+		// 			}, {
+		// 				label : "datetimebox",
+		// 				type : core.project.form.Type.EASYUI.DATETIMEBOX,
+		// 				id : "datetimebox"
+		// 			}, {
+		// 				label : "datetimespinner",
+		// 				type : core.project.form.Type.EASYUI.DATETIMESPINNER,
+		// 				id : "datetimespinner"
+		// 			} ], [ {
+		// 				label : "filebox",
+		// 				type : core.project.form.Type.EASYUI.FILEBOX,
+		// 				id : "filebox"
+		// 			}, {
+		// 				label : "numberbox",
+		// 				type : core.project.form.Type.EASYUI.NUMBERBOX,
+		// 				id : "numberbox"
+		// 			}, {
+		// 				label : "numberspinner",
+		// 				type : core.project.form.Type.EASYUI.NUMBERSPINNER,
+		// 				id : "numberspinner"
+		// 			} ], [ {
+		// 				label : "passwordbox",
+		// 				type : core.project.form.Type.EASYUI.PASSWORDBOX,
+		// 				id : "passwordbox"
+		// 			}, {
+		// 				label : "slider",
+		// 				type : core.project.form.Type.EASYUI.SLIDER,
+		// 				id : "slider"
+		// 			}, {
+		// 				label : "spinner",
+		// 				type : core.project.form.Type.EASYUI.SPINNER,
+		// 				id : "spinner"
+		// 			} ], [ {
+		// 				label : "textbox",
+		// 				type : core.project.form.Type.EASYUI.TEXTBOX,
+		// 				id : "textbox"
+		// 			}, {
+		// 				label : "timespinner",
+		// 				type : core.project.form.Type.EASYUI.TIMESPINNER,
+		// 				id : "timespinner"
+		// 			}, {
+		// 				label : "validatebox",
+		// 				type : core.project.form.Type.EASYUI.VALIDATEBOX,
+		// 				id : "validatebox",
+		// 				easyui : {
+		// 					required : true,
+		// 					validType : "email"
+		// 				}
+		// 			} ] ]
+		// 		} ]).init().show();
 	});
 </script>
 

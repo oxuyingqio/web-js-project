@@ -17,8 +17,8 @@
 <script type="text/javascript" src="/~/core/resource/jquery-easyui-1.5/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="/~/core/resource/jquery-easyui-1.5/locale/easyui-lang-zh_CN.js"></script>
 
-<script type="text/javascript" src="/~/core/release/core.min.js"></script>
-<script type="text/javascript" src="/~/core/release/easyui.min.js"></script>
+<script type="text/javascript" src="/~/core/release/core.js"></script>
+<script type="text/javascript" src="/~/core/release/easyui.js"></script>
 
 <script type="text/javascript" src="/~/core/package.js"></script>
 
@@ -26,9 +26,8 @@
 
 <script type="text/javascript">
 	$(function() {
-		var dataGrid = new core.project.datagrid.DataGrid("datagrid");
-
-		dataGrid.columns([ [ {
+		var datagrid = new core.project.datagrid.DataGrid("datagrid").height("500px").url(
+				"http://localhost:8080/~/core/project/datagrid/dataGrid.json").columns([ [ {
 			field : 'itemid',
 			title : 'Item ID',
 			rowspan : 2,
@@ -63,13 +62,9 @@
 			field : 'status',
 			title : 'Status',
 			width : 60
-		} ] ]);
-		dataGrid.url("http://localhost:8080/~/core/project/datagrid/dataGrid.json");
-		dataGrid.onSelect(function(index, row) {
+		} ] ]).onSelect(function(index, row) {
 			alert(index + "===" + dataGrid.getRowIndex(row));
-		});
-		dataGrid.height("500px");
-		dataGrid.createDataGrid();
+		}).createDataGrid();
 	});
 </script>
 

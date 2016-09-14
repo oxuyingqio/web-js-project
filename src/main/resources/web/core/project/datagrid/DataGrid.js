@@ -130,6 +130,7 @@ core.project.datagrid.DataGrid = (function() {
 			orderBy : "[]"
 		}, this.queryParams()));
 
+		console.log(this.init)
 		return this.init();
 	};
 
