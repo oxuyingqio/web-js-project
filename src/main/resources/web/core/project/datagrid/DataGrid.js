@@ -4,7 +4,7 @@
  * @desc	数据列表
  * @type	类型
  * 
- * @constructor	core.project.datagrid.DataGrid(String id)
+ * @constructor core.project.datagrid.DataGrid(String id)
  * 
  * @extend	core.html.easyui.datagrid.DataGrid
  * 
@@ -120,7 +120,7 @@ core.project.datagrid.DataGrid = (function() {
 	 * 
 	 * @returns
 	 */
-	Constructor.prototype.createDataGrid = function() {
+	Constructor.prototype.project = function() {
 
 		// 添加指定参数
 		this.queryParams($.extend({
@@ -130,7 +130,6 @@ core.project.datagrid.DataGrid = (function() {
 			orderBy : "[]"
 		}, this.queryParams()));
 
-		console.log(this.init)
 		return this.init();
 	};
 

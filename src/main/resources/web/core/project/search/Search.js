@@ -329,7 +329,7 @@ core.project.search.Search = (function() {
 	 * 
 	 * @param config
 	 */
-	Constructor.prototype.init = function(config) {
+	Constructor.prototype.project = function(config) {
 
 		// 备份this
 		var search = this;
