@@ -9,12 +9,9 @@
 
 core.project.form.Type = {
 
-	A : "a",
-	BUTTON : "button",
-	DIV : "div",
-	INPUT : "input",
-	LABEL : "label",
-	TEXTAREA : "textarea",
+	INPUT : {
+		RADIO : "radio",
+	},
 	EASYUI : {
 		SWITCHBUTTON : "switchbutton",
 		COMBO : "combo",
