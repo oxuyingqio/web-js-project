@@ -510,7 +510,7 @@ core.project.form.Form = (function() {
 			var groupData = data[i];
 
 			// 创建表格对象
-			var table = new core.html.element.viewer.Table(groupData.id).style("width:100%");
+			var table = new core.html.element.viewer.Table(groupData.id).style("width:100%;font-size:12px;");
 			// 处理是否分组
 			if (isGroup) {
 
