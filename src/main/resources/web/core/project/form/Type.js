@@ -1,6 +1,6 @@
 /**
  * @name	Type
- * @package	core.project.form
+ * @package core.project.form
  * @desc	表单数据内容类型
  * @type	枚举
  * 
@@ -29,6 +29,7 @@ core.project.form.Type = {
 		SLIDER : "slider",
 		SPINNER : "spinner",
 		TEXTBOX : "textbox",
+		TEXTAREA : "textarea",
 		TIMESPINNER : "timespinner",
 		VALIDATEBOX : "validatebox"
 	}

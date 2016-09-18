@@ -1,10 +1,10 @@
 /**
- * @name	Form
+ * @name Form
  * @package core.project.form
- * @desc	表单
- * @type	类
+ * @desc 表单
+ * @type 类
  * 
- * @date	2016年9月18日 10:39:32
+ * @date 2016年9月18日 10:39:32
  */
 
 core.project.form.Form = (function() {
@@ -305,6 +305,28 @@ core.project.form.Form = (function() {
 						}
 						// 初始化
 						textbox.init();
+
+						// 回收引用
+						easyui = null;
+					});
+		case core.project.form.Type.EASYUI.TEXTAREA:
+
+			// 获取easyui配置
+			var easyui = data.easyui ? data.easyui : {};
+
+			// 返回输入框
+			return new core.html.element.viewer.Input(data.id).name(data.name ? data.name : data.id).load(
+					function(_this) {
+
+						// 调用easyui文本区模板
+						var textarea = new core.html.easyui.form.Textarea(_this.id());
+						// 遍历参数
+						for (attr in easyui) {
+							// 设置对应参数
+							textarea[attr] && textarea[attr](easyui[attr]);
+						}
+						// 初始化
+						textarea.init();
 
 						// 回收引用
 						easyui = null;
