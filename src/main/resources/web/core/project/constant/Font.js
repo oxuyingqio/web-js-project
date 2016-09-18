@@ -13,6 +13,8 @@ var Font = function() {
 		remove : "移除",
 		confirm : "确认",
 		cancel : "取消",
+		search : "搜索",
+		reset : "重置",
 		back : "后退",
 		print : "打印"
 	};

@@ -28,6 +28,8 @@ var Font = function() {
 		remove : "移除",
 		confirm : "确认",
 		cancel : "取消",
+		search : "搜索",
+		reset : "重置",
 		back : "后退",
 		print : "打印"
 	};
@@ -1094,7 +1096,7 @@ core.project.search.Search = (function() {
 				// 初始化
 				startdatebox.init();
 			}));
-			td.append("&nbsp;至&nbsp;");
+			td.append("&nbsp;-&nbsp;");
 			td.append(new core.html.element.viewer.Input("end" + config.id).load(function(_this) {
 
 				// 调用easyui日期框模板
@@ -1147,7 +1149,7 @@ core.project.search.Search = (function() {
 				// 初始化
 				startdatetimebox.init();
 			}));
-			td.append("&nbsp;至&nbsp;");
+			td.append("&nbsp;-&nbsp;");
 			td.append(new core.html.element.viewer.Input("end" + config.id).load(function(_this) {
 
 				// 调用easyui日期时间框模板
@@ -1200,7 +1202,7 @@ core.project.search.Search = (function() {
 				// 初始化
 				startnumberbox.init();
 			}));
-			td.append("&nbsp;至&nbsp;");
+			td.append("&nbsp;-&nbsp;");
 			td.append(new core.html.element.viewer.Input("end" + config.id).load(function(_this) {
 
 				// 调用easyui数字框模板
@@ -1388,7 +1390,7 @@ core.project.search.Search = (function() {
 				new core.html.element.viewer.A().load(function(_this) {
 
 					var linkbutton = new core.html.easyui.button.LinkButton(_this.id());
-					linkbutton.text("搜索");
+					linkbutton.text(Font.search);
 					linkbutton.onClick(function() {
 						search.searchEvent()();
 					});
@@ -1398,7 +1400,7 @@ core.project.search.Search = (function() {
 				new core.html.element.viewer.A().load(function(_this) {
 
 					var linkbutton = new core.html.easyui.button.LinkButton(_this.id());
-					linkbutton.text("重置");
+					linkbutton.text(Font.reset);
 					linkbutton.onClick(function() {
 
 						var fields = search.getFields();
