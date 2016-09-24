@@ -349,12 +349,12 @@ core.project.datagrid.DataGrid = (function() {
 	return Constructor;
 })();
 /**
- * @name Form
+ * @name	Form
  * @package core.project.form
- * @desc 表单
- * @type 类
+ * @desc	表单
+ * @type	类
  * 
- * @date 2016年9月18日 10:39:32
+ * @date	2016年9月18日 10:39:32
  */
 
 core.project.form.Form = (function() {
@@ -875,7 +875,8 @@ core.project.form.Form = (function() {
 			var groupData = data[i];
 
 			// 创建表格对象
-			var table = new core.html.element.viewer.Table(groupData.id).style("width:100%;font-size:12px;");
+			var table = new core.html.element.viewer.Table(groupData.id).style("border-spacing:5px;font-size:12px;")
+					.align("center");
 			// 处理是否分组
 			if (isGroup) {
 
