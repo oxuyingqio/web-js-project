@@ -362,22 +362,37 @@ core.project.form.Form = (function() {
 	/**
 	 * 处理单元格数据
 	 * 
-	 * @param data
+	 * @param tdData
 	 */
-	function dealTdData(data) {
+	function dealTdData(tdData) {
 
 		// 判断类型
-		switch (data.type) {
-		case core.project.form.Type.A:
+		switch (tdData.type) {
+		case core.project.form.Type.INPUT.RADIO:
 
-			return new core.html.element.viewer.A(data.id).append(data.value);
+			// 创建块对象
+			var div = new core.html.element.viewer.Div(tdData.id);
+
+			// 获取数据
+			var data = tdData.data;
+			// 遍历数据
+			for (var i = 0; i < data.length; i++) {
+
+				// 单选
+				new core.html.element.viewer.Input(tdData.id + i).type("radio").name(
+						tdData.name ? tdData.name : tdData.id).value(data[i].value).appendTo(div);
+				// 标签
+				new core.html.element.viewer.Label().forAttr(tdData.id + i).append(data[i].text).appendTo(div);
+			}
+
+			return div;
 		case core.project.form.Type.EASYUI.SWITCHBUTTON:
 
 			// 获取easyui配置
-			var easyui = data.easyui ? data.easyui : {};
+			var easyui = tdData.easyui ? tdData.easyui : {};
 
 			// 返回输入框
-			return new core.html.element.viewer.Input(data.id).name(data.name ? data.name : data.id).load(
+			return new core.html.element.viewer.Input(tdData.id).name(tdData.name ? tdData.name : tdData.id).load(
 					function(_this) {
 
 						// 调用easyui选择按钮模板
@@ -396,10 +411,10 @@ core.project.form.Form = (function() {
 		case core.project.form.Type.EASYUI.COMBO:
 
 			// 获取easyui配置
-			var easyui = data.easyui ? data.easyui : {};
+			var easyui = tdData.easyui ? tdData.easyui : {};
 
 			// 返回输入框
-			return new core.html.element.viewer.Input(data.id).name(data.name ? data.name : data.id).load(
+			return new core.html.element.viewer.Input(tdData.id).name(tdData.name ? tdData.name : tdData.id).load(
 					function(_this) {
 
 						// 调用easyui下拉框模板
@@ -418,10 +433,10 @@ core.project.form.Form = (function() {
 		case core.project.form.Type.EASYUI.COMBOBOX:
 
 			// 获取easyui配置
-			var easyui = data.easyui ? data.easyui : {};
+			var easyui = tdData.easyui ? tdData.easyui : {};
 
 			// 返回输入框
-			return new core.html.element.viewer.Input(data.id).name(data.name ? data.name : data.id).load(
+			return new core.html.element.viewer.Input(tdData.id).name(tdData.name ? tdData.name : tdData.id).load(
 					function(_this) {
 
 						// 调用easyui下拉列表框模板
@@ -440,10 +455,10 @@ core.project.form.Form = (function() {
 		case core.project.form.Type.EASYUI.DATEBOX:
 
 			// 获取easyui配置
-			var easyui = data.easyui ? data.easyui : {};
+			var easyui = tdData.easyui ? tdData.easyui : {};
 
 			// 返回输入框
-			return new core.html.element.viewer.Input(data.id).name(data.name ? data.name : data.id).load(
+			return new core.html.element.viewer.Input(tdData.id).name(tdData.name ? tdData.name : tdData.id).load(
 					function(_this) {
 
 						// 调用easyui日期框模板
@@ -462,10 +477,10 @@ core.project.form.Form = (function() {
 		case core.project.form.Type.EASYUI.DATETIMEBOX:
 
 			// 获取easyui配置
-			var easyui = data.easyui ? data.easyui : {};
+			var easyui = tdData.easyui ? tdData.easyui : {};
 
 			// 返回输入框
-			return new core.html.element.viewer.Input(data.id).name(data.name ? data.name : data.id).load(
+			return new core.html.element.viewer.Input(tdData.id).name(tdData.name ? tdData.name : tdData.id).load(
 					function(_this) {
 
 						// 调用easyui日期时间框模板
@@ -484,10 +499,10 @@ core.project.form.Form = (function() {
 		case core.project.form.Type.EASYUI.DATETIMESPINNER:
 
 			// 获取easyui配置
-			var easyui = data.easyui ? data.easyui : {};
+			var easyui = tdData.easyui ? tdData.easyui : {};
 
 			// 返回输入框
-			return new core.html.element.viewer.Input(data.id).name(data.name ? data.name : data.id).load(
+			return new core.html.element.viewer.Input(tdData.id).name(tdData.name ? tdData.name : tdData.id).load(
 					function(_this) {
 
 						// 调用easyui日期时间微调框模板
@@ -506,10 +521,10 @@ core.project.form.Form = (function() {
 		case core.project.form.Type.EASYUI.FILEBOX:
 
 			// 获取easyui配置
-			var easyui = data.easyui ? data.easyui : {};
+			var easyui = tdData.easyui ? tdData.easyui : {};
 
 			// 返回输入框
-			return new core.html.element.viewer.Input(data.id).name(data.name ? data.name : data.id).load(
+			return new core.html.element.viewer.Input(tdData.id).name(tdData.name ? tdData.name : tdData.id).load(
 					function(_this) {
 
 						// 调用easyui文件框模板
@@ -528,10 +543,10 @@ core.project.form.Form = (function() {
 		case core.project.form.Type.EASYUI.NUMBERBOX:
 
 			// 获取easyui配置
-			var easyui = data.easyui ? data.easyui : {};
+			var easyui = tdData.easyui ? tdData.easyui : {};
 
 			// 返回输入框
-			return new core.html.element.viewer.Input(data.id).name(data.name ? data.name : data.id).load(
+			return new core.html.element.viewer.Input(tdData.id).name(tdData.name ? tdData.name : tdData.id).load(
 					function(_this) {
 
 						// 调用easyui数字框模板
@@ -550,10 +565,10 @@ core.project.form.Form = (function() {
 		case core.project.form.Type.EASYUI.NUMBERSPINNER:
 
 			// 获取easyui配置
-			var easyui = data.easyui ? data.easyui : {};
+			var easyui = tdData.easyui ? tdData.easyui : {};
 
 			// 返回输入框
-			return new core.html.element.viewer.Input(data.id).name(data.name ? data.name : data.id).load(
+			return new core.html.element.viewer.Input(tdData.id).name(tdData.name ? tdData.name : tdData.id).load(
 					function(_this) {
 
 						// 调用easyui数字微调框模板
@@ -572,10 +587,10 @@ core.project.form.Form = (function() {
 		case core.project.form.Type.EASYUI.PASSWORDBOX:
 
 			// 获取easyui配置
-			var easyui = data.easyui ? data.easyui : {};
+			var easyui = tdData.easyui ? tdData.easyui : {};
 
 			// 返回输入框
-			return new core.html.element.viewer.Input(data.id).name(data.name ? data.name : data.id).load(
+			return new core.html.element.viewer.Input(tdData.id).name(tdData.name ? tdData.name : tdData.id).load(
 					function(_this) {
 
 						// 调用easyui密码框模板
@@ -596,10 +611,10 @@ core.project.form.Form = (function() {
 		case core.project.form.Type.EASYUI.SLIDER:
 
 			// 获取easyui配置
-			var easyui = data.easyui ? data.easyui : {};
+			var easyui = tdData.easyui ? tdData.easyui : {};
 
 			// 返回输入框
-			return new core.html.element.viewer.Input(data.id).name(data.name ? data.name : data.id).load(
+			return new core.html.element.viewer.Input(tdData.id).name(tdData.name ? tdData.name : tdData.id).load(
 					function(_this) {
 
 						// 调用easyui拖动条模板
@@ -618,10 +633,10 @@ core.project.form.Form = (function() {
 		case core.project.form.Type.EASYUI.SPINNER:
 
 			// 获取easyui配置
-			var easyui = data.easyui ? data.easyui : {};
+			var easyui = tdData.easyui ? tdData.easyui : {};
 
 			// 返回输入框
-			return new core.html.element.viewer.Input(data.id).name(data.name ? data.name : data.id).load(
+			return new core.html.element.viewer.Input(tdData.id).name(tdData.name ? tdData.name : tdData.id).load(
 					function(_this) {
 
 						// 调用easyui微调框模板
@@ -640,10 +655,10 @@ core.project.form.Form = (function() {
 		case core.project.form.Type.EASYUI.TEXTBOX:
 
 			// 获取easyui配置
-			var easyui = data.easyui ? data.easyui : {};
+			var easyui = tdData.easyui ? tdData.easyui : {};
 
 			// 返回输入框
-			return new core.html.element.viewer.Input(data.id).name(data.name ? data.name : data.id).load(
+			return new core.html.element.viewer.Input(tdData.id).name(tdData.name ? tdData.name : tdData.id).load(
 					function(_this) {
 
 						// 调用easyui文本框模板
@@ -662,10 +677,10 @@ core.project.form.Form = (function() {
 		case core.project.form.Type.EASYUI.TEXTAREA:
 
 			// 获取easyui配置
-			var easyui = data.easyui ? data.easyui : {};
+			var easyui = tdData.easyui ? tdData.easyui : {};
 
 			// 返回输入框
-			return new core.html.element.viewer.Input(data.id).name(data.name ? data.name : data.id).load(
+			return new core.html.element.viewer.Input(tdData.id).name(tdData.name ? tdData.name : tdData.id).load(
 					function(_this) {
 
 						// 调用easyui文本区模板
@@ -684,10 +699,10 @@ core.project.form.Form = (function() {
 		case core.project.form.Type.EASYUI.TIMESPINNER:
 
 			// 获取easyui配置
-			var easyui = data.easyui ? data.easyui : {};
+			var easyui = tdData.easyui ? tdData.easyui : {};
 
 			// 返回输入框
-			return new core.html.element.viewer.Input(data.id).name(data.name ? data.name : data.id).load(
+			return new core.html.element.viewer.Input(tdData.id).name(tdData.name ? tdData.name : tdData.id).load(
 					function(_this) {
 
 						// 调用easyui时间微调框模板
@@ -706,10 +721,10 @@ core.project.form.Form = (function() {
 		case core.project.form.Type.EASYUI.VALIDATEBOX:
 
 			// 获取easyui配置
-			var easyui = data.easyui ? data.easyui : {};
+			var easyui = tdData.easyui ? tdData.easyui : {};
 
 			// 返回输入框
-			return new core.html.element.viewer.Input(data.id).name(data.name ? data.name : data.id).load(
+			return new core.html.element.viewer.Input(tdData.id).name(tdData.name ? tdData.name : tdData.id).load(
 					function(_this) {
 
 						// 调用easyui验证框模板
@@ -926,12 +941,9 @@ core.project.form.Form = (function() {
 
 core.project.form.Type = {
 
-	A : "a",
-	BUTTON : "button",
-	DIV : "div",
-	INPUT : "input",
-	LABEL : "label",
-	TEXTAREA : "textarea",
+	INPUT : {
+		RADIO : "radio",
+	},
 	EASYUI : {
 		SWITCHBUTTON : "switchbutton",
 		COMBO : "combo",

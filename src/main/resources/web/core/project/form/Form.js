@@ -20,13 +20,19 @@ core.project.form.Form = (function() {
 		switch (tdData.type) {
 		case core.project.form.Type.INPUT.RADIO:
 
+			// 创建块对象
 			var div = new core.html.element.viewer.Div(tdData.id);
+
+			// 获取数据
 			var data = tdData.data;
+			// 遍历数据
 			for (var i = 0; i < data.length; i++) {
 
+				// 单选
 				new core.html.element.viewer.Input(tdData.id + i).type("radio").name(
 						tdData.name ? tdData.name : tdData.id).value(data[i].value).appendTo(div);
-				new core.html.element.viewer.Label(data[i].text).forAttr(tdData.id + i).appendTo(div);
+				// 标签
+				new core.html.element.viewer.Label().forAttr(tdData.id + i).append(data[i].text).appendTo(div);
 			}
 
 			return div;
