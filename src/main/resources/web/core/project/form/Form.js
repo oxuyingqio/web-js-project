@@ -508,7 +508,7 @@ core.project.form.Form = (function() {
 	Constructor.prototype.project = function() {
 
 		// 创建表单对象
-		var form = new core.html.element.viewer.Form(this.formId()).style("padding-top:10px;");
+		var form = new core.html.element.viewer.Form(this.formId()).style("padding-top:15px;");
 		// 添加表单HTML
 		this.content(form.convertHtml());
 		// 初始化dialog
