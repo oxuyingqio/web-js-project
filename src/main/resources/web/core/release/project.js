@@ -349,12 +349,12 @@ core.project.datagrid.DataGrid = (function() {
 	return Constructor;
 })();
 /**
- * @name	Form
+ * @name Form
  * @package core.project.form
- * @desc	表单
- * @type	类
+ * @desc 表单
+ * @type 类
  * 
- * @date	2016年9月18日 10:39:32
+ * @date 2016年9月18日 10:39:32
  */
 
 core.project.form.Form = (function() {
@@ -905,23 +905,32 @@ core.project.form.Form = (function() {
 					// 每个单元格内容
 					var tdContent = trContent[j];
 
-					// 创建标签单元格对象,并设置样式,并添加标签对象,并添加至行对象中
-					new core.html.element.viewer.Td().style("text-align:right;").rowspan(
-							tdContent.rowspan ? tdContent.rowspan : 1).append(
-							new core.html.element.viewer.Label().append(tdContent.label + ":")).appendTo(tr);
-					// 创建数据单元格对象
-					var td = new core.html.element.viewer.Td();
-					// 处理列站位,行站位
-					td.colspan(tdContent.colspan ? tdContent.colspan : 1).rowspan(
-							tdContent.rowspan ? tdContent.rowspan : 1);
-					// 前
-					tdContent.before && td.append(tdContent.before);
-					// td
-					td.append(dealTdData(tdContent));
-					// 后
-					tdContent.after && td.append(tdContent.after);
-					// 添加至
-					td.appendTo(tr);
+					// 隐藏域特殊处理
+					if (tdContent.type === core.project.form.Type.INPUT.HIDDEN) {
+
+						// 隐藏输入框
+						new core.html.element.viewer.Input(tdContent.id).type("hidden").name(
+								tdContent.name ? tdContent.name : tdContent.id).appendTo(form);
+					} else {
+
+						// 创建标签单元格对象,并设置样式,并添加标签对象,并添加至行对象中
+						new core.html.element.viewer.Td().style("text-align:right;").rowspan(
+								tdContent.rowspan ? tdContent.rowspan : 1).append(
+								new core.html.element.viewer.Label().append(tdContent.label + ":")).appendTo(tr);
+						// 创建数据单元格对象
+						var td = new core.html.element.viewer.Td();
+						// 处理列站位,行站位
+						td.colspan(tdContent.colspan ? tdContent.colspan : 1).rowspan(
+								tdContent.rowspan ? tdContent.rowspan : 1);
+						// 前
+						tdContent.before && td.append(tdContent.before);
+						// td
+						td.append(dealTdData(tdContent));
+						// 后
+						tdContent.after && td.append(tdContent.after);
+						// 添加至
+						td.appendTo(tr);
+					}
 				}
 			}
 		}
