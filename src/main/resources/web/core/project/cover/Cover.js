@@ -68,7 +68,7 @@ core.project.cover.Cover = (function() {
 	Constructor.prototype.append = function(html) {
 
 		this.div().append(html);
-		
+
 		return this;
 	};
 
@@ -80,7 +80,7 @@ core.project.cover.Cover = (function() {
 	Constructor.prototype.show = function() {
 
 		this.div().show();
-		
+
 		return this;
 	};
 
@@ -92,7 +92,7 @@ core.project.cover.Cover = (function() {
 	Constructor.prototype.hide = function() {
 
 		this.div().hide();
-		
+
 		return this;
 	};
 

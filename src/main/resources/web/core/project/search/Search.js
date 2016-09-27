@@ -1,10 +1,10 @@
 /**
- * @name Search
- * @package core.project.search
- * @desc 搜索
- * @type 类
+ * @name	Search
+ * @package	core.project.search
+ * @desc	搜索
+ * @type	类
  * 
- * @date 2016年9月7日 15:52:52
+ * @date	2016年9月7日 15:52:52
  */
 
 core.project.search.Search = (function() {
