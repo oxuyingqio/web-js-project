@@ -115,7 +115,7 @@ core.project.cover.Cover = (function() {
 	Constructor.prototype.append = function(html) {
 
 		this.div().append(html);
-		
+
 		return this;
 	};
 
@@ -127,7 +127,7 @@ core.project.cover.Cover = (function() {
 	Constructor.prototype.show = function() {
 
 		this.div().show();
-		
+
 		return this;
 	};
 
@@ -139,7 +139,7 @@ core.project.cover.Cover = (function() {
 	Constructor.prototype.hide = function() {
 
 		this.div().hide();
-		
+
 		return this;
 	};
 
@@ -349,12 +349,12 @@ core.project.datagrid.DataGrid = (function() {
 	return Constructor;
 })();
 /**
- * @name Form
+ * @name	Form
  * @package core.project.form
- * @desc 表单
- * @type 类
+ * @desc	表单
+ * @type	类
  * 
- * @date 2016年9月18日 10:39:32
+ * @date	2016年9月18日 10:39:32
  */
 
 core.project.form.Form = (function() {
@@ -938,6 +938,97 @@ core.project.form.Form = (function() {
 		return this;
 	};
 
+	/**
+	 * 表单提交
+	 * 
+	 * @param options
+	 * @returns
+	 */
+	Constructor.prototype.submit = function(options) {
+
+		return $("#" + this.formId()).form("submit", options);
+	};
+
+	/**
+	 * 加载数据
+	 * 
+	 * @param data
+	 * @returns
+	 */
+	Constructor.prototype.load = function(data) {
+
+		return $("#" + this.formId()).form("load", data);
+	};
+
+	/**
+	 * 清空表单
+	 * 
+	 * @returns
+	 */
+	Constructor.prototype.clear = function() {
+
+		return $("#" + this.formId()).form("clear");
+	};
+
+	/**
+	 * 重置表单
+	 * 
+	 * @returns
+	 */
+	Constructor.prototype.reset = function() {
+
+		return $("#" + this.formId()).form("reset");
+	};
+
+	/**
+	 * 验证表单
+	 * 
+	 * @returns
+	 */
+	Constructor.prototype.validate = function() {
+
+		return $("#" + this.formId()).form("validate");
+	};
+
+	/**
+	 * 启用表单验证
+	 * 
+	 * @returns
+	 */
+	Constructor.prototype.enableValidation = function() {
+
+		return $("#" + this.formId()).form("enableValidation");
+	};
+
+	/**
+	 * 禁用表单验证
+	 * 
+	 * @returns
+	 */
+	Constructor.prototype.disableValidation = function() {
+
+		return $("#" + this.formId()).form("disableValidation");
+	};
+
+	/**
+	 * 重置表单验证
+	 * 
+	 * @returns
+	 */
+	Constructor.prototype.resetValidation = function() {
+
+		return $("#" + this.formId()).form("resetValidation");
+	};
+
+	/**
+	 * 
+	 * @returns
+	 */
+	Constructor.prototype.resetDirty = function() {
+
+		return $("#" + this.formId()).form("resetDirty");
+	};
+
 	return Constructor;
 })();
 /**
@@ -1059,12 +1150,12 @@ core.project.search.QueryMode = {
 	ISNOTNULL : "isNotNull"
 };
 /**
- * @name Search
- * @package core.project.search
- * @desc 搜索
- * @type 类
+ * @name	Search
+ * @package	core.project.search
+ * @desc	搜索
+ * @type	类
  * 
- * @date 2016年9月7日 15:52:52
+ * @date	2016年9月7日 15:52:52
  */
 
 core.project.search.Search = (function() {
