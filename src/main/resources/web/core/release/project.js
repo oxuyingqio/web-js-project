@@ -1043,7 +1043,7 @@ core.project.form.Form = (function() {
 core.project.form.Type = {
 
 	INPUT : {
-		RADIO : "radio",
+		RADIO : "radio"
 	},
 	EASYUI : {
 		SWITCHBUTTON : "switchbutton",
