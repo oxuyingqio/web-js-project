@@ -1,10 +1,10 @@
 /**
- * @name	Form
+ * @name Form
  * @package core.project.form
- * @desc	表单
- * @type	类
+ * @desc 表单
+ * @type 类
  * 
- * @date	2016年9月18日 10:39:32
+ * @date 2016年9月18日 10:39:32
  */
 
 core.project.form.Form = (function() {
@@ -560,7 +560,8 @@ core.project.form.Form = (function() {
 
 						// 隐藏输入框
 						new core.html.element.viewer.Input(tdContent.id).type("hidden").name(
-								tdContent.name ? tdContent.name : tdContent.id).appendTo(form);
+								tdContent.name ? tdContent.name : tdContent.id).value(
+								tdContent.value ? "" : tdContent.value).appendTo(form);
 					} else {
 
 						// 创建标签单元格对象,并设置样式,并添加标签对象,并添加至行对象中
