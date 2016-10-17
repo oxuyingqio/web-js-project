@@ -18,6 +18,12 @@ core.project.form.Form = (function() {
 
 		// 判断类型
 		switch (tdData.type) {
+		case core.project.form.Type.HTML.A:
+
+			return new core.html.element.viewer.A(tdData.id).append(tdData.value);
+		case core.project.form.Type.HTML.LABEL:
+
+			return new core.html.element.viewer.LABEL(tdData.id).append(tdData.value);
 		case core.project.form.Type.INPUT.RADIO:
 
 			// 创建块对象

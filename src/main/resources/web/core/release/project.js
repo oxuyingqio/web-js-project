@@ -368,6 +368,12 @@ core.project.form.Form = (function() {
 
 		// 判断类型
 		switch (tdData.type) {
+		case core.project.form.Type.HTML.A:
+
+			return new core.html.element.viewer.A(tdData.id).append(tdData.value);
+		case core.project.form.Type.HTML.LABEL:
+
+			return new core.html.element.viewer.LABEL(tdData.id).append(tdData.value);
 		case core.project.form.Type.INPUT.RADIO:
 
 			// 创建块对象
@@ -1034,7 +1040,7 @@ core.project.form.Form = (function() {
 })();
 /**
  * @name	Type
- * @package core.project.form
+ * @package	core.project.form
  * @desc	表单数据内容类型
  * @type	枚举
  * 
@@ -1043,6 +1049,10 @@ core.project.form.Form = (function() {
 
 core.project.form.Type = {
 
+	HTML : {
+		A : "a",
+		LABEL : "label"
+	},
 	INPUT : {
 		RADIO : "radio"
 	},
@@ -1064,7 +1074,7 @@ core.project.form.Type = {
 		TIMESPINNER : "timespinner",
 		VALIDATEBOX : "validatebox"
 	}
-}
+};
 /**
  * @name	DataType
  * @package core.project.search

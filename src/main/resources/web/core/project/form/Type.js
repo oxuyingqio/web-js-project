@@ -1,6 +1,6 @@
 /**
  * @name	Type
- * @package core.project.form
+ * @package	core.project.form
  * @desc	表单数据内容类型
  * @type	枚举
  * 
@@ -9,6 +9,10 @@
 
 core.project.form.Type = {
 
+	HTML : {
+		A : "a",
+		LABEL : "label"
+	},
 	INPUT : {
 		RADIO : "radio"
 	},
@@ -30,4 +34,4 @@ core.project.form.Type = {
 		TIMESPINNER : "timespinner",
 		VALIDATEBOX : "validatebox"
 	}
-}
+};
