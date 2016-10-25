@@ -34,7 +34,7 @@ core.project.form.Form = (function() {
 		// 行添加单元格,单元格添加Label
 		tr.append(new core.html.element.viewer.Td().style(config.tdStyle ? config.tdStyle : "").colspan(
 				config.colspan ? config.colspan : 1).rowspan(config.rowspan ? config.rowspan : 1).append(
-				new core.html.element.viewer.LABEL(config.id).append(config.value)));
+				new core.html.element.viewer.Label(config.id).append(config.value)));
 	}
 
 	/**
@@ -48,7 +48,7 @@ core.project.form.Form = (function() {
 		// 行添加单元格,单元格添加Div
 		tr.append(new core.html.element.viewer.Td().style(config.tdStyle ? config.tdStyle : "").colspan(
 				config.colspan ? config.colspan : 1).rowspan(config.rowspan ? config.rowspan : 1).append(
-				new core.html.element.viewer.DIV(config.id)));
+				new core.html.element.viewer.Div(config.id)));
 	}
 
 	/**
@@ -91,6 +91,9 @@ core.project.form.Form = (function() {
 
 		// 后元素
 		td.append(config.after ? config.after : "");
+
+		// 行添加单元格
+		tr.append(td);
 	}
 
 	/**
@@ -443,6 +446,9 @@ core.project.form.Form = (function() {
 
 		// 后元素
 		td.append(config.after ? config.after : "");
+
+		// 行添加单元格
+		tr.append(td);
 	}
 
 	/**
@@ -608,11 +614,11 @@ core.project.form.Form = (function() {
 					var tdData = trData[n];
 
 					// 依据单元格数据类型,处理
-					switch (tdData.config) {
+					switch (tdData.type) {
 					case core.project.form.Type.A:
 						dealA(tr, tdData);
 						break;
-					case core.project.form.Type.Label:
+					case core.project.form.Type.LABEL:
 						dealLabel(tr, tdData);
 						break;
 					case core.project.form.Type.DIV:
