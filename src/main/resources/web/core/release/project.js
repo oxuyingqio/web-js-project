@@ -370,7 +370,9 @@ core.project.form.Form = (function() {
 		// 行添加单元格,单元格添加A
 		tr.append(new core.html.element.viewer.Td().style(config.tdStyle ? config.tdStyle : "").colspan(
 				config.colspan ? config.colspan : 1).rowspan(config.rowspan ? config.rowspan : 1).append(
-				new core.html.element.viewer.A(config.id).append(config.value)));
+				config.before ? config.before : "").append(
+				new core.html.element.viewer.A(config.id).append(config.value))
+				.append(config.after ? config.after : ""));
 	}
 
 	/**
@@ -384,7 +386,7 @@ core.project.form.Form = (function() {
 		// 行添加单元格,单元格添加Label
 		tr.append(new core.html.element.viewer.Td().style(config.tdStyle ? config.tdStyle : "").colspan(
 				config.colspan ? config.colspan : 1).rowspan(config.rowspan ? config.rowspan : 1).append(
-				new core.html.element.viewer.Label(config.id).append(config.value)));
+				new core.html.element.viewer.Label(config.id).append(config.text)));
 	}
 
 	/**
@@ -409,41 +411,50 @@ core.project.form.Form = (function() {
 	 */
 	function dealInput(tr, config) {
 
-		// 行添加单元格,单元格添加Label
-		tr.append(new core.html.element.viewer.Td().style("text-align:right;").rowspan(
-				config.rowspan ? config.rowspan : 1).append(
-				new core.html.element.viewer.Label().append(config.label + ":")));
+		// 隐藏域特殊处理
+		if (config.type === core.project.form.Type.INPUT.HIDDEN) {
 
-		// 创建输入框单元格
-		var td = new core.html.element.viewer.Td().colspan(config.colspan ? config.colspan : 1).rowspan(
-				config.rowspan ? config.rowspan : 1);
-		// 前元素
-		td.append(config.before ? config.before : "");
+			// 添加隐藏域
+			tr.append(new core.html.element.viewer.Input(config.id).type("hidden").name(
+					config.name ? config.name : config.id).value(config.value ? "" : config.value));
+		} else {
 
-		// 判断输入框类型
-		switch (config.type) {
-		case core.project.form.Type.INPUT.RADIO:
+			// 行添加单元格,单元格添加Label
+			tr.append(new core.html.element.viewer.Td().style("text-align:right;").rowspan(
+					config.rowspan ? config.rowspan : 1).append(
+					new core.html.element.viewer.Label().append(config.label + ":")));
 
-			// 获取数据
-			var data = config.data;
-			// 遍历数据
-			for (var i = 0; i < data.length; i++) {
+			// 创建输入框单元格
+			var td = new core.html.element.viewer.Td().colspan(config.colspan ? config.colspan : 1).rowspan(
+					config.rowspan ? config.rowspan : 1);
+			// 前元素
+			td.append(config.before ? config.before : "");
 
-				// 添加单选
-				td.append(new core.html.element.viewer.Input(config.id + i).type("radio").name(
-						config.name ? config.name : config.id).value(data[i].value));
-				// 添加标签
-				td.append(new core.html.element.viewer.Label().forAttr(config.id + i).append(data[i].text));
+			// 判断输入框类型
+			switch (config.type) {
+			case core.project.form.Type.INPUT.RADIO:
+
+				// 获取数据
+				var data = config.data;
+				// 遍历数据
+				for (var i = 0; i < data.length; i++) {
+
+					// 添加单选
+					td.append(new core.html.element.viewer.Input(config.id + i).type("radio").name(
+							config.name ? config.name : config.id).value(data[i].value));
+					// 添加标签
+					td.append(new core.html.element.viewer.Label().forAttr(config.id + i).append(data[i].text));
+				}
+
+				break;
 			}
 
-			break;
+			// 后元素
+			td.append(config.after ? config.after : "");
+
+			// 行添加单元格
+			tr.append(td);
 		}
-
-		// 后元素
-		td.append(config.after ? config.after : "");
-
-		// 行添加单元格
-		tr.append(td);
 	}
 
 	/**
@@ -974,6 +985,7 @@ core.project.form.Form = (function() {
 					case core.project.form.Type.DIV:
 						dealDiv(tr, tdData);
 						break;
+					case core.project.form.Type.INPUT.HIDDEN:
 					case core.project.form.Type.INPUT.RADIO:
 						dealInput(tr, tdData);
 						break;
@@ -1097,12 +1109,12 @@ core.project.form.Form = (function() {
 	return Constructor;
 })();
 /**
- * @name	Type
- * @package	core.project.form
- * @desc	表单数据内容类型
- * @type	枚举
+ * @name Type
+ * @package core.project.form
+ * @desc 表单数据内容类型
+ * @type 枚举
  * 
- * @date	2016年9月2日 16:25:11
+ * @date 2016年9月2日 16:25:11
  */
 
 core.project.form.Type = {
@@ -1111,6 +1123,7 @@ core.project.form.Type = {
 	LABEL : "label",
 	DIV : "div",
 	INPUT : {
+		HIDDEN : "hidden",
 		RADIO : "radio"
 	},
 	EASYUI : {
