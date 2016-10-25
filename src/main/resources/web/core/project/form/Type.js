@@ -9,10 +9,9 @@
 
 core.project.form.Type = {
 
-	HTML : {
-		A : "a",
-		LABEL : "label"
-	},
+	A : "a",
+	LABEL : "label",
+	DIV : "div",
 	INPUT : {
 		RADIO : "radio"
 	},
