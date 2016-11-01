@@ -425,8 +425,8 @@ core.project.form.Form = (function() {
 					new core.html.element.viewer.Label().append(config.label + ":")));
 
 			// 创建输入框单元格
-			var td = new core.html.element.viewer.Td().colspan(config.colspan ? config.colspan : 1).rowspan(
-					config.rowspan ? config.rowspan : 1);
+			var td = new core.html.element.viewer.Td().style("white-space:nowrap;").colspan(
+					config.colspan ? config.colspan : 1).rowspan(config.rowspan ? config.rowspan : 1);
 			// 前元素
 			td.append(config.before ? config.before : "");
 
@@ -471,8 +471,8 @@ core.project.form.Form = (function() {
 				new core.html.element.viewer.Label().append(config.label + ":")));
 
 		// 创建输入框单元格
-		var td = new core.html.element.viewer.Td().colspan(config.colspan ? config.colspan : 1).rowspan(
-				config.rowspan ? config.rowspan : 1);
+		var td = new core.html.element.viewer.Td().style("white-space:nowrap;").colspan(
+				config.colspan ? config.colspan : 1).rowspan(config.rowspan ? config.rowspan : 1);
 		// 前元素
 		td.append(config.before ? config.before : "");
 
