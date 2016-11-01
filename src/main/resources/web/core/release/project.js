@@ -368,11 +368,11 @@ core.project.form.Form = (function() {
 	function dealA(tr, config) {
 
 		// 行添加单元格,单元格添加A
-		tr.append(new core.html.element.viewer.Td().style(config.tdStyle ? config.tdStyle : "").colspan(
-				config.colspan ? config.colspan : 1).rowspan(config.rowspan ? config.rowspan : 1).append(
-				config.before ? config.before : "").append(
-				new core.html.element.viewer.A(config.id).append(config.value))
-				.append(config.after ? config.after : ""));
+		tr.append(new core.html.element.viewer.Td().style(config.tdStyle ? config.tdStyle : "white-space:nowrap;")
+				.colspan(config.colspan ? config.colspan : 1).rowspan(config.rowspan ? config.rowspan : 1).append(
+						config.before ? config.before : "").append(
+						new core.html.element.viewer.A(config.id).append(config.value)).append(
+						config.after ? config.after : ""));
 	}
 
 	/**
@@ -384,9 +384,9 @@ core.project.form.Form = (function() {
 	function dealLabel(tr, config) {
 
 		// 行添加单元格,单元格添加Label
-		tr.append(new core.html.element.viewer.Td().style(config.tdStyle ? config.tdStyle : "").colspan(
-				config.colspan ? config.colspan : 1).rowspan(config.rowspan ? config.rowspan : 1).append(
-				new core.html.element.viewer.Label(config.id).append(config.text)));
+		tr.append(new core.html.element.viewer.Td().style(config.tdStyle ? config.tdStyle : "white-space:nowrap;")
+				.colspan(config.colspan ? config.colspan : 1).rowspan(config.rowspan ? config.rowspan : 1).append(
+						new core.html.element.viewer.Label(config.id).append(config.text)));
 	}
 
 	/**
@@ -420,7 +420,7 @@ core.project.form.Form = (function() {
 		} else {
 
 			// 行添加单元格,单元格添加Label
-			tr.append(new core.html.element.viewer.Td().style("text-align:right;").rowspan(
+			tr.append(new core.html.element.viewer.Td().style("white-space:nowrap;text-align:right;").rowspan(
 					config.rowspan ? config.rowspan : 1).append(
 					new core.html.element.viewer.Label().append(config.label + ":")));
 
@@ -466,7 +466,7 @@ core.project.form.Form = (function() {
 	function dealEasyUI(tr, config) {
 
 		// 行添加单元格,单元格添加Label
-		tr.append(new core.html.element.viewer.Td().style("text-align:right;").rowspan(
+		tr.append(new core.html.element.viewer.Td().style("white-space:nowrap;text-align:right;").rowspan(
 				config.rowspan ? config.rowspan : 1).append(
 				new core.html.element.viewer.Label().append(config.label + ":")));
 
