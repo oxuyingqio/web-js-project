@@ -1,10 +1,10 @@
 /**
- * @name Form
+ * @name	Form
  * @package core.project.form
- * @desc 表单
- * @type 类
+ * @desc	表单
+ * @type	类
  * 
- * @date 2016年9月18日 10:39:32
+ * @date	2016年9月18日 10:39:32
  */
 
 core.project.form.Form = (function() {
@@ -19,10 +19,8 @@ core.project.form.Form = (function() {
 
 		// 行添加单元格,单元格添加A
 		tr.append(new core.html.element.viewer.Td().style(config.tdStyle ? config.tdStyle : "white-space:nowrap;")
-				.colspan(config.colspan ? config.colspan : 1).rowspan(config.rowspan ? config.rowspan : 1).append(
-						config.before ? config.before : "").append(
-						new core.html.element.viewer.A(config.id).append(config.value)).append(
-						config.after ? config.after : ""));
+				.colspan(config.colspan).rowspan(config.rowspan).append(config.before).append(
+						new core.html.element.viewer.A(config.id).append(config.value)).append(config.after));
 	}
 
 	/**
@@ -35,8 +33,8 @@ core.project.form.Form = (function() {
 
 		// 行添加单元格,单元格添加Label
 		tr.append(new core.html.element.viewer.Td().style(config.tdStyle ? config.tdStyle : "white-space:nowrap;")
-				.colspan(config.colspan ? config.colspan : 1).rowspan(config.rowspan ? config.rowspan : 1).append(
-						new core.html.element.viewer.Label(config.id).append(config.text)));
+				.colspan(config.colspan).rowspan(config.rowspan).append(config.before).append(
+						new core.html.element.viewer.Label(config.id).append(config.text)).append(config.after));
 	}
 
 	/**
@@ -48,9 +46,9 @@ core.project.form.Form = (function() {
 	function dealDiv(tr, config) {
 
 		// 行添加单元格,单元格添加Div
-		tr.append(new core.html.element.viewer.Td().style(config.tdStyle ? config.tdStyle : "").colspan(
-				config.colspan ? config.colspan : 1).rowspan(config.rowspan ? config.rowspan : 1).append(
-				new core.html.element.viewer.Div(config.id)));
+		tr.append(new core.html.element.viewer.Td().style(config.tdStyle).colspan(config.colspan).rowspan(
+				config.rowspan).append(config.before).append(
+				new core.html.element.viewer.Div(config.id).append(config.content)).append(config.after));
 	}
 
 	/**
@@ -66,19 +64,18 @@ core.project.form.Form = (function() {
 
 			// 添加隐藏域
 			tr.append(new core.html.element.viewer.Input(config.id).type("hidden").name(
-					config.name ? config.name : config.id).value(config.value ? "" : config.value));
+					config.name ? config.name : config.id).value(config.value));
 		} else {
 
 			// 行添加单元格,单元格添加Label
 			tr.append(new core.html.element.viewer.Td().style("white-space:nowrap;text-align:right;").rowspan(
-					config.rowspan ? config.rowspan : 1).append(
-					new core.html.element.viewer.Label().append(config.label + ":")));
+					config.rowspan).append(new core.html.element.viewer.Label().append(config.label + ":")));
 
 			// 创建输入框单元格
-			var td = new core.html.element.viewer.Td().style("white-space:nowrap;").colspan(
-					config.colspan ? config.colspan : 1).rowspan(config.rowspan ? config.rowspan : 1);
+			var td = new core.html.element.viewer.Td().style("white-space:nowrap;").colspan(config.colspan).rowspan(
+					config.rowspan);
 			// 前元素
-			td.append(config.before ? config.before : "");
+			td.append(config.before);
 
 			// 判断输入框类型
 			switch (config.type) {
@@ -100,7 +97,7 @@ core.project.form.Form = (function() {
 			}
 
 			// 后元素
-			td.append(config.after ? config.after : "");
+			td.append(config.after);
 
 			// 行添加单元格
 			tr.append(td);
@@ -117,14 +114,13 @@ core.project.form.Form = (function() {
 
 		// 行添加单元格,单元格添加Label
 		tr.append(new core.html.element.viewer.Td().style("white-space:nowrap;text-align:right;").rowspan(
-				config.rowspan ? config.rowspan : 1).append(
-				new core.html.element.viewer.Label().append(config.label + ":")));
+				config.rowspan).append(new core.html.element.viewer.Label().append(config.label + ":")));
 
 		// 创建输入框单元格
-		var td = new core.html.element.viewer.Td().style("white-space:nowrap;").colspan(
-				config.colspan ? config.colspan : 1).rowspan(config.rowspan ? config.rowspan : 1);
+		var td = new core.html.element.viewer.Td().style("white-space:nowrap;").colspan(config.colspan).rowspan(
+				config.rowspan);
 		// 前元素
-		td.append(config.before ? config.before : "");
+		td.append(config.before);
 
 		// 创建输入框对象
 		var input = new core.html.element.viewer.Input(config.id).name(config.name ? config.name : config.id);
@@ -456,7 +452,7 @@ core.project.form.Form = (function() {
 		}
 
 		// 后元素
-		td.append(config.after ? config.after : "");
+		td.append(config.after);
 
 		// 行添加单元格
 		tr.append(td);

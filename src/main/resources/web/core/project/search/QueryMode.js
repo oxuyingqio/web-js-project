@@ -6,6 +6,7 @@
  * 
  * @date	2016年9月5日 15:12:38
  */
+
 core.project.search.QueryMode = {
 
 	/**

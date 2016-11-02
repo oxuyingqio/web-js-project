@@ -65,9 +65,9 @@ core.project.cover.Cover = (function() {
 	 * @param html
 	 * @returns {core.project.cover.Cover}
 	 */
-	Constructor.prototype.append = function(html) {
+	Constructor.prototype.content = function(html) {
 
-		this.div().append(html);
+		this.div().clear().append(html);
 
 		return this;
 	};

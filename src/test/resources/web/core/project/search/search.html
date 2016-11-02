@@ -11,7 +11,7 @@
 <body>
 </body>
 
-<script type="text/javascript" src="/~/core/resource/jquery-3.1.0/jquery-3.1.0.js"></script>
+<script type="text/javascript" src="/~/core/resource/jquery-3.1.1/jquery-3.1.1.js"></script>
 
 <script type="text/javascript" src="/~/core/resource/jquery-easyui-1.5/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="/~/core/resource/jquery-easyui-1.5/locale/easyui-lang-zh_CN.js"></script>
@@ -21,6 +21,8 @@
 
 <script type="text/javascript" src="/~/core/package.js"></script>
 
+<script type="text/javascript" src="/~/core/project/constant/Font.js"></script>
+
 <script type="text/javascript" src="/~/core/project/search/Search.js"></script>
 <script type="text/javascript" src="/~/core/project/search/Type.js"></script>
 <script type="text/javascript" src="/~/core/project/search/DataType.js"></script>
@@ -28,12 +30,10 @@
 
 <script type="text/javascript">
 	$(function() {
-		var search = new core.project.search.Search("search");
-		search.searchEvent(function() {
+		var search = new core.project.search.Search("search").searchEvent(function() {
 			console.log(search.getJson())
 			console.log(search.getSql())
-		});
-		search.init([ [ {
+		}).project([ [ {
 			label : "combobox",
 			id : "combobox",
 			field : "combobox",
@@ -59,8 +59,7 @@
 			id : "textbox",
 			field : "textbox",
 			type : core.project.search.Type.EASYUI.TEXTBOX
-		} ] ]);
-		search.show();
+		} ] ]).show();
 	});
 </script>
 

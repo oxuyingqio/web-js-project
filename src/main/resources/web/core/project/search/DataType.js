@@ -6,6 +6,7 @@
  * 
  * @date	2016年9月5日 15:20:07
  */
+
 core.project.search.DataType = {
 
 	BYTE : "byte",
