@@ -92,8 +92,8 @@ core.project.cover.Cover = (function() {
 		style.push("margin: 0px;");
 		style.push("padding: 0px;");
 		style.push("background: #F8F8F8;");
-		style.push("filter: alpha(opacity=70);");
-		style.push("opacity: 0.7;");
+		style.push("filter: alpha(opacity=85);");
+		style.push("opacity: 0.85;");
 		/**
 		 * 遮盖层
 		 */
