@@ -28,15 +28,16 @@ core.project.cover.Cover = (function() {
 		 * 遮盖层样式
 		 */
 		var style = [];
-		style.push("width : 100%;");
-		style.push("height : 100%;");
-		style.push("margin : 0px;");
-		style.push("padding : 0px;");
-		style.push("position : absolute;");
-		style.push("background : #F8F8F8;");
-		style.push("filter : alpha(opacity=70);");
-		style.push("opacity : 0.7;");
-		style.push("z-index : 99999;");
+		style.push("position: absolute;");
+		style.push("width: 100%;");
+		style.push("height: 100%;");
+		style.push("top: 0px;")
+		style.push("z-index: 99999;");
+		style.push("margin: 0px;");
+		style.push("padding: 0px;");
+		style.push("background: #F8F8F8;");
+		style.push("filter: alpha(opacity=70);");
+		style.push("opacity: 0.7;");
 		/**
 		 * 遮盖层
 		 */
