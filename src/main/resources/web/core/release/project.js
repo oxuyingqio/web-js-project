@@ -84,8 +84,8 @@ core.project.cover.Cover = (function() {
 		 * 遮盖层样式
 		 */
 		var style = [];
-		style.push("width : 99%;");
-		style.push("height : 98%;");
+		style.push("width : 100%;");
+		style.push("height : 100%;");
 		style.push("margin : 0px;");
 		style.push("padding : 0px;");
 		style.push("position : absolute;");
