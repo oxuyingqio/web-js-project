@@ -1,10 +1,10 @@
 /**
- * @name	Font
+ * @name Font
  * @package core.project.constant
- * @desc	语言
- * @type	枚举
+ * @desc 语言
+ * @type 枚举
  * 
- * @date	2016年11月2日 09:53:40
+ * @date 2016年11月2日 09:53:40
  */
 core.project.constant.Font = function() {
 
@@ -26,7 +26,9 @@ core.project.constant.Font = function() {
 			search : "搜索",
 			reset : "重置",
 			back : "后退",
-			print : "打印"
+			print : "打印",
+			download : "下载",
+			upload : "上传"
 		};
 	} else if (language.toLowerCase().indexOf("en") >= 0) {
 		return {};
