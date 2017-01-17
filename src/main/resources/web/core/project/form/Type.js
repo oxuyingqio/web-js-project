@@ -29,6 +29,7 @@ core.project.form.Type = {
 		PASSWORDBOX : "passwordbox",
 		SLIDER : "slider",
 		SPINNER : "spinner",
+		TAGBOX : "tagbox",
 		TEXTBOX : "textbox",
 		TEXTAREA : "textarea",
 		TIMESPINNER : "timespinner",

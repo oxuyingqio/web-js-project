@@ -369,6 +369,26 @@ core.project.form.Form = (function() {
 			}));
 
 			break;
+		case core.project.form.Type.EASYUI.TAGBOX:
+
+			// 添加输入框
+			td.append(input.load(function(_this) {
+
+				// 调用easyui标签模板
+				var tagbox = new core.html.easyui.form.TagBox(_this.id());
+				// 遍历参数
+				for (attr in easyui) {
+					// 设置对应参数
+					tagbox[attr] && tagbox[attr](easyui[attr]);
+				}
+				// 初始化
+				tagbox.init();
+
+				// 回收引用
+				easyui = null;
+			}));
+
+			break;
 		case core.project.form.Type.EASYUI.TEXTBOX:
 
 			// 添加输入框

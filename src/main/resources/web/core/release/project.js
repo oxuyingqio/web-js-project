@@ -731,6 +731,26 @@ core.project.form.Form = (function() {
 			}));
 
 			break;
+		case core.project.form.Type.EASYUI.TAGBOX:
+
+			// 添加输入框
+			td.append(input.load(function(_this) {
+
+				// 调用easyui标签模板
+				var tagbox = new core.html.easyui.form.TagBox(_this.id());
+				// 遍历参数
+				for (attr in easyui) {
+					// 设置对应参数
+					tagbox[attr] && tagbox[attr](easyui[attr]);
+				}
+				// 初始化
+				tagbox.init();
+
+				// 回收引用
+				easyui = null;
+			}));
+
+			break;
 		case core.project.form.Type.EASYUI.TEXTBOX:
 
 			// 添加输入框
@@ -1147,6 +1167,7 @@ core.project.form.Type = {
 		PASSWORDBOX : "passwordbox",
 		SLIDER : "slider",
 		SPINNER : "spinner",
+		TAGBOX : "tagbox",
 		TEXTBOX : "textbox",
 		TEXTAREA : "textarea",
 		TIMESPINNER : "timespinner",
@@ -1281,8 +1302,7 @@ core.project.search.Search = (function() {
 			td.append(new core.html.element.viewer.Input(config.id).load(function(_this) {
 
 				// 调用easyui下拉列表框模板
-				combobox = new core.html.easyui.form.TagBox(_this.id());
-				combobox.hasDownArrow(true)
+				combobox = new core.html.easyui.form.ComboBox(_this.id());
 				// 遍历参数
 				for (attr in easyui) {
 					// 设置对应参数
@@ -1455,6 +1475,42 @@ core.project.search.Search = (function() {
 				clear : function() {
 					startnumberbox.setValue("");
 					endnumberbox.setValue("");
+				}
+			});
+
+			break;
+		case core.project.search.Type.EASYUI.TAGBOX:
+
+			// easyui标签框
+			var tagbox;
+
+			// 添加输入框,配置EasyUI
+			td.append(new core.html.element.viewer.Input(config.id).load(function(_this) {
+
+				// 调用easyui标签框模板
+				tagbox = new core.html.easyui.form.TagBox(_this.id());
+				// 遍历参数
+				for (attr in easyui) {
+					// 设置对应参数
+					tagbox[attr] && tagbox[attr](easyui[attr]);
+				}
+				// 初始化
+				tagbox.init();
+			}));
+
+			// 添加字段
+			search.addField({
+				field : config.field,
+				dataType : config.dataType ? config.dataType : core.project.search.DataType.STRING,
+				queryMode : config.queryMode ? config.queryMode : core.project.search.QueryMode.EQ,
+				min : function() {
+					return tagbox.getValue();
+				},
+				max : function() {
+					return null;
+				},
+				clear : function() {
+					tagbox.setValue("");
 				}
 			});
 
@@ -1810,6 +1866,7 @@ core.project.search.Type = {
 		DATEBOX : "datebox",
 		DATETIMEBOX : "datetimebox",
 		NUMBERBOX : "numberbox",
+		TAGBOX : "tagbox",
 		TEXTBOX : "textbox"
 	}
 }
