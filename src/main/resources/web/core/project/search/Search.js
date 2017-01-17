@@ -39,7 +39,8 @@ core.project.search.Search = (function() {
 			td.append(new core.html.element.viewer.Input(config.id).load(function(_this) {
 
 				// 调用easyui下拉列表框模板
-				combobox = new core.html.easyui.form.ComboBox(_this.id());
+				combobox = new core.html.easyui.form.TagBox(_this.id());
+				combobox.hasDownArrow(true)
 				// 遍历参数
 				for (attr in easyui) {
 					// 设置对应参数

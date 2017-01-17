@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <title></title>
 
-<link rel="stylesheet" type="text/css" href="/~/core/resource/jquery-easyui-1.5/themes/default/easyui.css">
-<link rel="stylesheet" type="text/css" href="/~/core/resource/jquery-easyui-1.5/themes/icon.css">
+<link rel="stylesheet" type="text/css" href="/~/core/resource/jquery-easyui-themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="/~/core/resource/jquery-easyui-themes/icon.css">
 
 </head>
 <body>
@@ -13,8 +13,8 @@
 
 <script type="text/javascript" src="/~/core/resource/jquery-3.1.1/jquery-3.1.1.js"></script>
 
-<script type="text/javascript" src="/~/core/resource/jquery-easyui-1.5/jquery.easyui.min.js"></script>
-<script type="text/javascript" src="/~/core/resource/jquery-easyui-1.5/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="/~/core/resource/jquery-easyui-1.5.1/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="/~/core/resource/jquery-easyui-1.5.1/locale/easyui-lang-zh_CN.js"></script>
 
 <script type="text/javascript" src="/~/core/release/core.js"></script>
 <script type="text/javascript" src="/~/core/release/easyui.js"></script>
@@ -37,7 +37,13 @@
 			label : "combobox",
 			id : "combobox",
 			field : "combobox",
-			type : core.project.search.Type.EASYUI.COMBOBOX
+			type : core.project.search.Type.EASYUI.COMBOBOX,
+			easyui : {
+				hasDownArrow : true,
+				url : "http://localhost:8080/~/core/html/easyui/form/combobox.json",
+				valueField : "id",
+				textField : "text"
+			}
 		}, {
 			label : "datebox",
 			id : "datebox",
