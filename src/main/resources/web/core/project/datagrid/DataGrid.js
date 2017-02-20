@@ -1,14 +1,14 @@
 /**
- * @name	DataGrid
+ * @name DataGrid
  * @package core.project.datagrid
- * @desc	数据列表
- * @type	类型
+ * @desc 数据列表
+ * @type 类型
  * 
  * @constructor core.project.datagrid.DataGrid(String id)
  * 
- * @extend	core.html.easyui.datagrid.DataGrid
+ * @extend core.html.easyui.datagrid.DataGrid
  * 
- * @date	2016年9月1日 16:02:05
+ * @date 2016年9月1日 16:02:05
  */
 
 core.project.datagrid.DataGrid = (function() {
@@ -39,6 +39,8 @@ core.project.datagrid.DataGrid = (function() {
 
 		// 调用父类构造
 		core.project.datagrid.DataGrid.superClass.constructor.call(this, id);
+		// 缓存
+		this.cache(false);
 		// 各行变色
 		this.striped(true);
 		// 页脚工具栏
@@ -52,6 +54,10 @@ core.project.datagrid.DataGrid = (function() {
 		 * 属性
 		 */
 		/**
+		 * 数据URL
+		 */
+		var url = $.fn.datagrid.defaults.url;
+		/**
 		 * 权限过滤
 		 */
 		var rightsFilter = true;
@@ -63,6 +69,28 @@ core.project.datagrid.DataGrid = (function() {
 		 * SQL参数
 		 */
 		var sqlParam = "";
+
+		/**
+		 * 重构获取/设置数据URL
+		 * 
+		 * @param url
+		 */
+		this.url = function() {
+
+			switch (arguments.length) {
+			case 0:
+				return url;
+			default:
+				var raw = arguments[0];
+				if (raw.indexOf("?") >= 0) {
+					url = raw + "&TimeStamp=" + new Date().getTime();
+				} else {
+					url = raw + "?TimeStamp=" + new Date().getTime();
+				}
+
+				return this;
+			}
+		};
 
 		/**
 		 * 获取/设置权限过滤
