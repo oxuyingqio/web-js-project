@@ -39,8 +39,6 @@ core.project.datagrid.DataGrid = (function() {
 
 		// 调用父类构造
 		core.project.datagrid.DataGrid.superClass.constructor.call(this, id);
-		// 缓存
-		this.cache(false);
 		// 各行变色
 		this.striped(true);
 		// 页脚工具栏
@@ -54,10 +52,6 @@ core.project.datagrid.DataGrid = (function() {
 		 * 属性
 		 */
 		/**
-		 * 数据URL
-		 */
-		var url = $.fn.datagrid.defaults.url;
-		/**
 		 * 权限过滤
 		 */
 		var rightsFilter = true;
@@ -69,28 +63,6 @@ core.project.datagrid.DataGrid = (function() {
 		 * SQL参数
 		 */
 		var sqlParam = "";
-
-		/**
-		 * 重构获取/设置数据URL
-		 * 
-		 * @param url
-		 */
-		this.url = function() {
-
-			switch (arguments.length) {
-			case 0:
-				return url;
-			default:
-				var raw = arguments[0];
-				if (raw.indexOf("?") >= 0) {
-					url = raw + "&TimeStamp=" + new Date().getTime();
-				} else {
-					url = raw + "?TimeStamp=" + new Date().getTime();
-				}
-
-				return this;
-			}
-		};
 
 		/**
 		 * 获取/设置权限过滤
@@ -155,7 +127,8 @@ core.project.datagrid.DataGrid = (function() {
 			rightsFilter : this.rightsFilter(),
 			params : JSON.stringify(this.jsonParam()),
 			whereSql : this.sqlParam(),
-			orderBy : "[]"
+			orderBy : "[]",
+			TimeStamp : new Date().getTime()
 		}, this.queryParams()));
 
 		return this.init();
@@ -176,7 +149,8 @@ core.project.datagrid.DataGrid = (function() {
 			rightsFilter : this.rightsFilter(),
 			params : object2JsonStr(jsonParam),
 			whereSql : sqlParam,
-			orderBy : object2JsonStr(orderParam)
+			orderBy : object2JsonStr(orderParam),
+			TimeStamp : new Date().getTime()
 		}
 
 		if (typeof (_otherParam) === "object") {
@@ -201,7 +175,8 @@ core.project.datagrid.DataGrid = (function() {
 			rightsFilter : this.rightsFilter(),
 			params : object2JsonStr(jsonParam),
 			whereSql : sqlParam,
-			orderBy : object2JsonStr(orderParam)
+			orderBy : object2JsonStr(orderParam),
+			TimeStamp : new Date().getTime()
 		}
 
 		if (typeof (_otherParam) === "object") {
