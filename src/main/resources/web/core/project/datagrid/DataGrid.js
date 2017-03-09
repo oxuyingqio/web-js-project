@@ -131,19 +131,8 @@ core.project.datagrid.DataGrid = (function() {
 			TimeStamp : new Date().getTime()
 		}, this.queryParams()));
 
-		// 实例化datagrid
-		var datagrid = this.init();
-
-		// 页脚刷新使用重载后的reload方法,同时返回false,禁用原始refresh方法
-		$(this.getPager()).pagination({
-			onBeforeRefresh : function(pageNumber, pageSize) {
-				datagrid.reload();
-				return false;
-			}
-		});
-
 		// 返回初始化后的datagrid
-		return datagrid;
+		return this.init();
 	};
 
 	/**
