@@ -4,7 +4,7 @@
  * @desc	表单
  * @type	类
  * 
- * @date	2016年9月18日 10:39:32
+ * @date	2017年6月14日 15:16:35
  */
 
 core.project.form.Form = (function() {
@@ -593,7 +593,8 @@ core.project.form.Form = (function() {
 	Constructor.prototype.project = function() {
 
 		// 创建表单对象
-		var form = new core.html.element.viewer.Form(this.formId()).style("padding-top:15px;").method("post");
+		var form = new core.html.element.viewer.Form(this.formId()).style("padding-top:15px;").method("post").enctype(
+				"multipart/form-data");
 		// 添加表单HTML
 		this.content(form.convertHtml());
 		// 初始化dialog

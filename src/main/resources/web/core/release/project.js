@@ -173,16 +173,16 @@ core.project.cover.Cover = (function() {
 	};
 })();
 /**
- * @name	DataGrid
+ * @name DataGrid
  * @package core.project.datagrid
- * @desc	数据列表
- * @type	类型
+ * @desc 数据列表
+ * @type 类型
  * 
  * @constructor core.project.datagrid.DataGrid(String id)
  * 
- * @extend	core.html.easyui.datagrid.DataGrid
+ * @extend core.html.easyui.datagrid.DataGrid
  * 
- * @date	2016年9月1日 16:02:05
+ * @date 2016年9月1日 16:02:05
  */
 
 core.project.datagrid.DataGrid = (function() {
@@ -301,9 +301,11 @@ core.project.datagrid.DataGrid = (function() {
 			rightsFilter : this.rightsFilter(),
 			params : JSON.stringify(this.jsonParam()),
 			whereSql : this.sqlParam(),
-			orderBy : "[]"
+			orderBy : "[]",
+			TimeStamp : new Date().getTime()
 		}, this.queryParams()));
 
+		// 返回初始化后的datagrid
 		return this.init();
 	};
 
@@ -322,7 +324,8 @@ core.project.datagrid.DataGrid = (function() {
 			rightsFilter : this.rightsFilter(),
 			params : object2JsonStr(jsonParam),
 			whereSql : sqlParam,
-			orderBy : object2JsonStr(orderParam)
+			orderBy : object2JsonStr(orderParam),
+			TimeStamp : new Date().getTime()
 		}
 
 		if (typeof (_otherParam) === "object") {
@@ -347,7 +350,8 @@ core.project.datagrid.DataGrid = (function() {
 			rightsFilter : this.rightsFilter(),
 			params : object2JsonStr(jsonParam),
 			whereSql : sqlParam,
-			orderBy : object2JsonStr(orderParam)
+			orderBy : object2JsonStr(orderParam),
+			TimeStamp : new Date().getTime()
 		}
 
 		if (typeof (_otherParam) === "object") {
@@ -366,7 +370,7 @@ core.project.datagrid.DataGrid = (function() {
  * @desc	表单
  * @type	类
  * 
- * @date	2016年9月18日 10:39:32
+ * @date	2017年6月14日 15:16:35
  */
 
 core.project.form.Form = (function() {
@@ -955,7 +959,8 @@ core.project.form.Form = (function() {
 	Constructor.prototype.project = function() {
 
 		// 创建表单对象
-		var form = new core.html.element.viewer.Form(this.formId()).style("padding-top:15px;");
+		var form = new core.html.element.viewer.Form(this.formId()).style("padding-top:15px;").method("post").enctype(
+				"multipart/form-data");
 		// 添加表单HTML
 		this.content(form.convertHtml());
 		// 初始化dialog
