@@ -403,21 +403,21 @@ core.project.search.Search = (function() {
 						"&nbsp;").append(
 						new core.html.element.viewer.A().load(function(_this) {
 
-							new core.html.easyui.button.LinkButton(_this.id()).text(core.project.constant.Font.search)
-									.onClick(function() {
-										search.searchEvent()();
-									}).init();
+							new core.html.easyui.button.LinkButton(_this.id()).width("80px").text(
+									"搜&nbsp;&nbsp;&nbsp;索").onClick(function() {
+								search.searchEvent()();
+							}).init();
 
 						})).append("&nbsp;").append(
 						new core.html.element.viewer.A().load(function(_this) {
 
-							new core.html.easyui.button.LinkButton(_this.id()).text(core.project.constant.Font.reset)
-									.onClick(function() {
-										var fields = search.getFields();
-										for (var j = 0; j < fields.length; j++) {
-											fields[j].clear();
-										}
-									}).init();
+							new core.html.easyui.button.LinkButton(_this.id()).width("80px").text(
+									"重&nbsp;&nbsp;&nbsp;置").onClick(function() {
+								var fields = search.getFields();
+								for (var j = 0; j < fields.length; j++) {
+									fields[j].clear();
+								}
+							}).init();
 
 						})));
 			}
