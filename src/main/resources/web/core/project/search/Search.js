@@ -19,12 +19,13 @@ core.project.search.Search = (function() {
 	function dealEasyUI(search, tr, config) {
 
 		// 添加标签单元格
-		tr.append(new core.html.element.viewer.Td().colspan(config.colspan === undefined ? 1 : config.colspan).rowspan(
-				config.rowspan === undefined ? 1 : config.rowspan).append(
-				new core.html.element.viewer.Label().append(config.label + ":")));
+		tr.append(new core.html.element.viewer.Td().append(new core.html.element.viewer.Label().append(config.label
+				+ ":")));
 
 		// 添加搜索框单元格
-		var td = new core.html.element.viewer.Td().style("word-break:keep-all; white-space:nowrap;");
+		var td = new core.html.element.viewer.Td().style("word-break:keep-all; white-space:nowrap;").colspan(
+				config.colspan === undefined ? 1 : config.colspan).rowspan(
+				config.rowspan === undefined ? 1 : config.rowspan);
 
 		// 获取easyui配置
 		var easyui = config.easyui ? config.easyui : {};
