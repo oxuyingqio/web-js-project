@@ -28,7 +28,11 @@ core.project.constant.Font = function() {
 			back : "后退",
 			print : "打印",
 			download : "下载",
-			upload : "上传"
+			upload : "上传",
+			yes : "是",
+			no : "否",
+			success : "成功",
+			failure : "失败"
 		};
 	} else if (language.toLowerCase().indexOf("en") >= 0) {
 		return {};
