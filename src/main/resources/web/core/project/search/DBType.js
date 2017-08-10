@@ -1,9 +1,4 @@
 /**
- * 数据库类型
- */
-core.project.search.CurrentDBType = core.project.search.DBType.ORACLE;
-
-/**
  * @name	DBType
  * @package core.project.search
  * @desc	数据库类型
@@ -17,3 +12,8 @@ core.project.search.DBType = {
 	ORACLE : "oracle",
 	MYSQL : "mysql"
 };
+
+/**
+ * 数据库类型
+ */
+core.project.search.CurrentDBType = core.project.search.DBType.ORACLE;

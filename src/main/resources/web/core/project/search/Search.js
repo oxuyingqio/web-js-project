@@ -1,10 +1,10 @@
 /**
- * @name Search
+ * @name	Search
  * @package core.project.search
- * @desc 搜索
- * @type 类
+ * @desc	搜索
+ * @type	类
  * 
- * @date 2017年8月10日 14:23:40
+ * @date	2017年8月10日 14:52:16
  */
 
 core.project.search.Search = (function() {
@@ -589,11 +589,11 @@ core.project.search.Search = (function() {
 					if (core.project.search.CurrentDBType === core.project.search.DBType.ORACLE
 							&& field.dataType === core.project.search.DataType.DATE) {
 
-						sql.push(" >=to_date('" + max + "', 'yyyy-mm-dd') ");
+						sql.push(" >=to_date('" + min + "', 'yyyy-mm-dd') ");
 					} else if (core.project.search.CurrentDBType === core.project.search.DBType.ORACLE
 							&& field.dataType === core.project.search.DataType.DATETIME) {
 
-						sql.push(" >=to_date('" + max + "', 'yyyy-mm-dd hh24:mi:ss') ");
+						sql.push(" >=to_date('" + min + "', 'yyyy-mm-dd hh24:mi:ss') ");
 					} else {
 
 						sql.push(" >='" + min + "' ");
@@ -609,7 +609,7 @@ core.project.search.Search = (function() {
 						sql.push(" between to_date('" + min + "', 'yyyy-mm-dd') and to_date('" + max
 								+ "', 'yyyy-mm-dd') ");
 					} else if (core.project.search.CurrentDBType === core.project.search.DBType.ORACLE
-							&& field.dataType === core.project.search.DataType.DATE) {
+							&& field.dataType === core.project.search.DataType.DATETIME) {
 
 						sql.push(" between to_date('" + min + "', 'yyyy-mm-dd hh24:mi:ss') and to_date('" + max
 								+ "', 'yyyy-mm-dd hh24:mi:ss') ");

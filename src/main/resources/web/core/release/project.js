@@ -50,7 +50,11 @@ core.project.constant.Font = function() {
 			back : "后退",
 			print : "打印",
 			download : "下载",
-			upload : "上传"
+			upload : "上传",
+			yes : "是",
+			no : "否",
+			success : "成功",
+			failure : "失败"
 		};
 	} else if (language.toLowerCase().indexOf("en") >= 0) {
 		return {};
@@ -1203,6 +1207,25 @@ core.project.search.DataType = {
 	DATETIME : "datetime"
 };
 /**
+ * @name	DBType
+ * @package core.project.search
+ * @desc	数据库类型
+ * @type	枚举
+ * 
+ * @date	2017年8月10日 14:21:52
+ */
+
+core.project.search.DBType = {
+
+	ORACLE : "oracle",
+	MYSQL : "mysql"
+};
+
+/**
+ * 数据库类型
+ */
+core.project.search.CurrentDBType = core.project.search.DBType.ORACLE;
+/**
  * @name	QueryMode
  * @package core.project.search
  * @desc	查询模式
@@ -1267,12 +1290,12 @@ core.project.search.QueryMode = {
 	ISNOTNULL : "isNotNull"
 };
 /**
- * @name Search
+ * @name	Search
  * @package core.project.search
- * @desc 搜索
- * @type 类
+ * @desc	搜索
+ * @type	类
  * 
- * @date 2016年9月7日 15:52:52
+ * @date	2017年8月10日 14:52:16
  */
 
 core.project.search.Search = (function() {
@@ -1291,7 +1314,9 @@ core.project.search.Search = (function() {
 				+ ":")));
 
 		// 添加搜索框单元格
-		var td = new core.html.element.viewer.Td().style("word-break:keep-all; white-space:nowrap;");
+		var td = new core.html.element.viewer.Td().style("word-break:keep-all; white-space:nowrap;").colspan(
+				config.colspan === undefined ? 1 : config.colspan).rowspan(
+				config.rowspan === undefined ? 1 : config.rowspan);
 
 		// 获取easyui配置
 		var easyui = config.easyui ? config.easyui : {};
@@ -1671,21 +1696,21 @@ core.project.search.Search = (function() {
 						"&nbsp;").append(
 						new core.html.element.viewer.A().load(function(_this) {
 
-							new core.html.easyui.button.LinkButton(_this.id()).text(core.project.constant.Font.search)
-									.onClick(function() {
-										search.searchEvent()();
-									}).init();
+							new core.html.easyui.button.LinkButton(_this.id()).width("80px").text(
+									"搜&nbsp;&nbsp;&nbsp;索").onClick(function() {
+								search.searchEvent()();
+							}).init();
 
 						})).append("&nbsp;").append(
 						new core.html.element.viewer.A().load(function(_this) {
 
-							new core.html.easyui.button.LinkButton(_this.id()).text(core.project.constant.Font.reset)
-									.onClick(function() {
-										var fields = search.getFields();
-										for (var j = 0; j < fields.length; j++) {
-											fields[j].clear();
-										}
-									}).init();
+							new core.html.easyui.button.LinkButton(_this.id()).width("80px").text(
+									"重&nbsp;&nbsp;&nbsp;置").onClick(function() {
+								var fields = search.getFields();
+								for (var j = 0; j < fields.length; j++) {
+									fields[j].clear();
+								}
+							}).init();
 
 						})));
 			}
@@ -1810,7 +1835,7 @@ core.project.search.Search = (function() {
 			// 最大值
 			var max = field.max();
 
-			// 最大值为空
+			// 最大值为空,即单框条件
 			if (max === null) {
 
 				// 最小值不为空
@@ -1834,17 +1859,55 @@ core.project.search.Search = (function() {
 
 					sql.push(" and ");
 					sql.push(field.field);
-					sql.push(" <='" + max + "' ");
+
+					if (core.project.search.CurrentDBType === core.project.search.DBType.ORACLE
+							&& field.dataType === core.project.search.DataType.DATE) {
+
+						sql.push(" <=to_date('" + max + "', 'yyyy-mm-dd') ");
+					} else if (core.project.search.CurrentDBType === core.project.search.DBType.ORACLE
+							&& field.dataType === core.project.search.DataType.DATETIME) {
+
+						sql.push(" <=to_date('" + max + "', 'yyyy-mm-dd hh24:mi:ss') ");
+					} else {
+
+						sql.push(" <='" + max + "' ");
+					}
 				} else if (min !== "" && max === "") {
 
 					sql.push(" and ");
 					sql.push(field.field);
-					sql.push(" >='" + min + "' ");
+
+					if (core.project.search.CurrentDBType === core.project.search.DBType.ORACLE
+							&& field.dataType === core.project.search.DataType.DATE) {
+
+						sql.push(" >=to_date('" + min + "', 'yyyy-mm-dd') ");
+					} else if (core.project.search.CurrentDBType === core.project.search.DBType.ORACLE
+							&& field.dataType === core.project.search.DataType.DATETIME) {
+
+						sql.push(" >=to_date('" + min + "', 'yyyy-mm-dd hh24:mi:ss') ");
+					} else {
+
+						sql.push(" >='" + min + "' ");
+					}
 				} else if (min !== "" && max !== "") {
 
 					sql.push(" and ");
 					sql.push(field.field);
-					sql.push(" between '" + min + "' and '" + max + "' ");
+
+					if (core.project.search.CurrentDBType === core.project.search.DBType.ORACLE
+							&& field.dataType === core.project.search.DataType.DATE) {
+
+						sql.push(" between to_date('" + min + "', 'yyyy-mm-dd') and to_date('" + max
+								+ "', 'yyyy-mm-dd') ");
+					} else if (core.project.search.CurrentDBType === core.project.search.DBType.ORACLE
+							&& field.dataType === core.project.search.DataType.DATETIME) {
+
+						sql.push(" between to_date('" + min + "', 'yyyy-mm-dd hh24:mi:ss') and to_date('" + max
+								+ "', 'yyyy-mm-dd hh24:mi:ss') ");
+					} else {
+
+						sql.push(" between '" + min + "' and '" + max + "' ");
+					}
 				}
 			}
 		}
