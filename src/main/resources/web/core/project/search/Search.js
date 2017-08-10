@@ -4,7 +4,7 @@
  * @desc 搜索
  * @type 类
  * 
- * @date 2016年9月7日 15:52:52
+ * @date 2017年8月10日 14:23:40
  */
 
 core.project.search.Search = (function() {
@@ -544,7 +544,7 @@ core.project.search.Search = (function() {
 			// 最大值
 			var max = field.max();
 
-			// 最大值为空
+			// 最大值为空,即单框条件
 			if (max === null) {
 
 				// 最小值不为空
@@ -568,17 +568,55 @@ core.project.search.Search = (function() {
 
 					sql.push(" and ");
 					sql.push(field.field);
-					sql.push(" <='" + max + "' ");
+
+					if (core.project.search.CurrentDBType === core.project.search.DBType.ORACLE
+							&& field.dataType === core.project.search.DataType.DATE) {
+
+						sql.push(" <=to_date('" + max + "', 'yyyy-mm-dd') ");
+					} else if (core.project.search.CurrentDBType === core.project.search.DBType.ORACLE
+							&& field.dataType === core.project.search.DataType.DATETIME) {
+
+						sql.push(" <=to_date('" + max + "', 'yyyy-mm-dd hh24:mi:ss') ");
+					} else {
+
+						sql.push(" <='" + max + "' ");
+					}
 				} else if (min !== "" && max === "") {
 
 					sql.push(" and ");
 					sql.push(field.field);
-					sql.push(" >='" + min + "' ");
+
+					if (core.project.search.CurrentDBType === core.project.search.DBType.ORACLE
+							&& field.dataType === core.project.search.DataType.DATE) {
+
+						sql.push(" >=to_date('" + max + "', 'yyyy-mm-dd') ");
+					} else if (core.project.search.CurrentDBType === core.project.search.DBType.ORACLE
+							&& field.dataType === core.project.search.DataType.DATETIME) {
+
+						sql.push(" >=to_date('" + max + "', 'yyyy-mm-dd hh24:mi:ss') ");
+					} else {
+
+						sql.push(" >='" + min + "' ");
+					}
 				} else if (min !== "" && max !== "") {
 
 					sql.push(" and ");
 					sql.push(field.field);
-					sql.push(" between '" + min + "' and '" + max + "' ");
+
+					if (core.project.search.CurrentDBType === core.project.search.DBType.ORACLE
+							&& field.dataType === core.project.search.DataType.DATE) {
+
+						sql.push(" between to_date('" + min + "', 'yyyy-mm-dd') and to_date('" + max
+								+ "', 'yyyy-mm-dd') ");
+					} else if (core.project.search.CurrentDBType === core.project.search.DBType.ORACLE
+							&& field.dataType === core.project.search.DataType.DATE) {
+
+						sql.push(" between to_date('" + min + "', 'yyyy-mm-dd hh24:mi:ss') and to_date('" + max
+								+ "', 'yyyy-mm-dd hh24:mi:ss') ");
+					} else {
+
+						sql.push(" between '" + min + "' and '" + max + "' ");
+					}
 				}
 			}
 		}
