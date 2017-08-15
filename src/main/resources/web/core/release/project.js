@@ -369,12 +369,12 @@ core.project.datagrid.DataGrid = (function() {
 	return Constructor;
 })();
 /**
- * @name	Form
+ * @name Form
  * @package core.project.form
- * @desc	表单
- * @type	类
+ * @desc 表单
+ * @type 类
  * 
- * @date	2017年6月14日 15:16:35
+ * @date 2017年8月15日 15:25:48
  */
 
 core.project.form.Form = (function() {
@@ -458,6 +458,21 @@ core.project.form.Form = (function() {
 
 					// 添加单选
 					td.append(new core.html.element.viewer.Input(config.id + i).type("radio").name(
+							config.name ? config.name : config.id).value(data[i].value));
+					// 添加标签
+					td.append(new core.html.element.viewer.Label().forAttr(config.id + i).append(data[i].text));
+				}
+
+				break;
+			case core.project.form.Type.INPUT.CHECKBOX:
+
+				// 获取数据
+				var data = config.data;
+				// 遍历数据
+				for (var i = 0; i < data.length; i++) {
+
+					// 添加单选
+					td.append(new core.html.element.viewer.Input(config.id + i).type("checkbox").name(
 							config.name ? config.name : config.id).value(data[i].value));
 					// 添加标签
 					td.append(new core.html.element.viewer.Label().forAttr(config.id + i).append(data[i].text));
@@ -1161,7 +1176,8 @@ core.project.form.Type = {
 	DIV : "div",
 	INPUT : {
 		HIDDEN : "hidden",
-		RADIO : "radio"
+		RADIO : "radio",
+		CHECKBOX : "checkbox"
 	},
 	EASYUI : {
 		SWITCHBUTTON : "switchbutton",

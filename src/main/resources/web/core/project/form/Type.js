@@ -14,7 +14,8 @@ core.project.form.Type = {
 	DIV : "div",
 	INPUT : {
 		HIDDEN : "hidden",
-		RADIO : "radio"
+		RADIO : "radio",
+		CHECKBOX : "checkbox"
 	},
 	EASYUI : {
 		SWITCHBUTTON : "switchbutton",
