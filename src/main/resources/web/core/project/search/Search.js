@@ -1,10 +1,10 @@
 /**
- * @name	Search
+ * @name Search
  * @package core.project.search
- * @desc	搜索
- * @type	类
+ * @desc 搜索
+ * @type 类
  * 
- * @date	2017年8月10日 14:52:16
+ * @date 2017年8月10日 14:52:16
  */
 
 core.project.search.Search = (function() {
@@ -401,27 +401,27 @@ core.project.search.Search = (function() {
 			if (i === 0) {
 
 				// 添加按钮
-				tr.append(new core.html.element.viewer.Td().style("word-break:keep-all;white-space:nowrap;").append(
-						"&nbsp;").append(
-						new core.html.element.viewer.A().load(function(_this) {
+				tr.append(new core.html.element.viewer.Td().style("word-break:keep-all;white-space:nowrap;").colspan(2)
+						.append("&nbsp;").append(
+								new core.html.element.viewer.A().load(function(_this) {
 
-							new core.html.easyui.button.LinkButton(_this.id()).width("80px").text(
-									"搜&nbsp;&nbsp;&nbsp;索").onClick(function() {
-								search.searchEvent()();
-							}).init();
+									new core.html.easyui.button.LinkButton(_this.id()).width("80px").text(
+											"搜&nbsp;&nbsp;&nbsp;索").onClick(function() {
+										search.searchEvent()();
+									}).init();
 
-						})).append("&nbsp;").append(
-						new core.html.element.viewer.A().load(function(_this) {
+								})).append("&nbsp;").append(
+								new core.html.element.viewer.A().load(function(_this) {
 
-							new core.html.easyui.button.LinkButton(_this.id()).width("80px").text(
-									"重&nbsp;&nbsp;&nbsp;置").onClick(function() {
-								var fields = search.getFields();
-								for (var j = 0; j < fields.length; j++) {
-									fields[j].clear();
-								}
-							}).init();
+									new core.html.easyui.button.LinkButton(_this.id()).width("80px").text(
+											"重&nbsp;&nbsp;&nbsp;置").onClick(function() {
+										var fields = search.getFields();
+										for (var j = 0; j < fields.length; j++) {
+											fields[j].clear();
+										}
+									}).init();
 
-						})));
+								})));
 			}
 		}
 
