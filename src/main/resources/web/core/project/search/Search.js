@@ -19,8 +19,8 @@ core.project.search.Search = (function() {
 	function dealEasyUI(search, tr, config) {
 
 		// 添加标签单元格
-		tr.append(new core.html.element.viewer.Td().append(new core.html.element.viewer.Label().append(config.label
-				+ ":")));
+		tr.append(new core.html.element.viewer.Td().style("word-break:keep-all; white-space:nowrap;").append(
+				new core.html.element.viewer.Label().append(config.label + ":")));
 
 		// 添加搜索框单元格
 		var td = new core.html.element.viewer.Td().style("word-break:keep-all; white-space:nowrap;").colspan(
