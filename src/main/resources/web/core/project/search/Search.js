@@ -559,6 +559,12 @@ core.project.search.Search = (function() {
 					case core.project.search.QueryMode.LIKE:
 						sql.push(" like '%" + min + "%' ");
 						break;
+					case core.project.search.QueryMode.ISNULL:
+						sql.push(" is null ");
+						break;
+					case core.project.search.QueryMode.ISNOTNULL:
+						sql.push(" is not null ");
+						break;
 					}
 				}
 			} else {
