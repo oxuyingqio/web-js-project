@@ -1,10 +1,10 @@
 /**
- * @name Search
+ * @name	Search
  * @package core.project.search
- * @desc 搜索
- * @type 类
+ * @desc	搜索
+ * @type	类
  * 
- * @date 2017年8月10日 14:52:16
+ * @date	2018年2月24日 11:42:05
  */
 
 core.project.search.Search = (function() {
@@ -560,10 +560,14 @@ core.project.search.Search = (function() {
 						sql.push(" like '%" + min + "%' ");
 						break;
 					case core.project.search.QueryMode.ISNULL:
-						sql.push(" is null ");
+						sql.push(" is ");
+						sql.push(min === "true" ? "" : " not ");
+						sql.push(" null ");
 						break;
 					case core.project.search.QueryMode.ISNOTNULL:
-						sql.push(" is not null ");
+						sql.push(" is ");
+						sql.push(min === "true" ? " not " : "");
+						sql.push(" null ");
 						break;
 					}
 				}
