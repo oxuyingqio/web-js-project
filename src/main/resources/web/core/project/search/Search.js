@@ -4,7 +4,7 @@
  * @desc	搜索
  * @type	类
  * 
- * @date	2018年2月24日 11:42:05
+ * @date	2018年3月8日 11:19:25
  */
 
 core.project.search.Search = (function() {
@@ -556,8 +556,31 @@ core.project.search.Search = (function() {
 					case core.project.search.QueryMode.EQ:
 						sql.push(" ='" + min + "' ");
 						break;
+					case core.project.search.QueryMode.NE:
+						sql.push(" <>'" + min + "' ");
+						break;
+					case core.project.search.QueryMode.GE:
+						sql.push(" >='" + min + "' ");
+						break;
+					case core.project.search.QueryMode.LE:
+						sql.push(" <='" + min + "' ");
+						break;
+					case core.project.search.QueryMode.GT:
+						sql.push(" >'" + min + "' ");
+						break;
+					case core.project.search.QueryMode.LT:
+						sql.push(" <'" + min + "' ");
+						break;
 					case core.project.search.QueryMode.LIKE:
 						sql.push(" like '%" + min + "%' ");
+						break;
+					case core.project.search.QueryMode.ISEMPTY:
+						sql.push(min === "true" ? " = " : " <> ");
+						sql.push(" '' ");
+						break;
+					case core.project.search.QueryMode.ISNOTEMPTY:
+						sql.push(min === "true" ? " <> " : " = ");
+						sql.push(" '' ");
 						break;
 					case core.project.search.QueryMode.ISNULL:
 						sql.push(" is ");
