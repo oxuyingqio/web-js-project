@@ -1,14 +1,14 @@
 /**
- * @name DataGrid
+ * @name	DataGrid
  * @package core.project.datagrid
- * @desc 数据列表
- * @type 类型
+ * @desc	数据列表
+ * @type	类型
  * 
  * @constructor core.project.datagrid.DataGrid(String id)
  * 
- * @extend core.html.easyui.datagrid.DataGrid
+ * @extend	core.html.easyui.datagrid.DataGrid
  * 
- * @date 2016年9月1日 16:02:05
+ * @date	2018年3月21日 13:39:58
  */
 
 core.project.datagrid.DataGrid = (function() {
@@ -154,7 +154,7 @@ core.project.datagrid.DataGrid = (function() {
 			TimeStamp : new Date().getTime()
 		}
 
-		if (typeof (_otherParam) === "object") {
+		if (typeof (otherParam) === "object") {
 			param = $.extend(param, otherParam);
 		}
 
@@ -180,7 +180,7 @@ core.project.datagrid.DataGrid = (function() {
 			TimeStamp : new Date().getTime()
 		}
 
-		if (typeof (_otherParam) === "object") {
+		if (typeof (otherParam) === "object") {
 			param = $.extend(param, otherParam);
 		}
 
