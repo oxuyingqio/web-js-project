@@ -14,8 +14,8 @@
 
 <script type="text/javascript" src="/~/core/resource/jquery-3.1.1/jquery-3.1.1.js"></script>
 
-<script type="text/javascript" src="/~/core/resource/jquery-easyui-1.5.1/jquery.easyui.min.js"></script>
-<script type="text/javascript" src="/~/core/resource/jquery-easyui-1.5.1/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="/~/core/resource/jquery-easyui-1.5.4.5/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="/~/core/resource/jquery-easyui-1.5.4.5/locale/easyui-lang-zh_CN.js"></script>
 
 <script type="text/javascript" src="/~/core/release/core.js"></script>
 <script type="text/javascript" src="/~/core/release/easyui.js"></script>
@@ -63,7 +63,8 @@
 			title : 'Status',
 			width : 60
 		} ] ]).onSelect(function(index, row) {
-			alert(index + "===" + dataGrid.getRowIndex(row));
+			
+			alert(index + "===" + datagrid.getRowIndex(row));
 		}).project();
 	});
 </script>

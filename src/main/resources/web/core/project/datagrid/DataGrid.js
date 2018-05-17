@@ -4,57 +4,49 @@
  * @desc	数据列表
  * @type	类型
  * 
- * @constructor core.project.datagrid.DataGrid(String id)
+ * @constructor core.project.datagrid.DataGrid(string id/object jQuery)
  * 
  * @extend	core.html.easyui.datagrid.DataGrid
  * 
- * @date	2018年3月21日 13:39:58
+ * @date	2018年5月11日 10:46:43
  */
-
 core.project.datagrid.DataGrid = (function() {
 
 	/**
-	 * 对象转字符串
+	 * 对象转JSON字符串
 	 * 
-	 * @param object{Object}
-	 * @returns {String}
+	 * @param object{object}
+	 * @returns {string}
 	 */
-	function object2JsonStr(object) {
+	function object2JSONStr(object) {
 
 		if (typeof (object) == "object")
+
 			return JSON.stringify(object);
 		else if (object == "")
+
 			return "[]";
 		else
+
 			return object;
 	}
 
 	/**
 	 * 构造函数
-	 * 
-	 * @param id{String}
-	 *            ID
 	 */
-	var Constructor = function(id) {
+	var Constructor = function() {
 
 		// 调用父类构造
-		core.project.datagrid.DataGrid.superClass.constructor.call(this, id);
-		// 各行变色
+		core.project.datagrid.DataGrid.superClass.constructor.call(this, arguments[0]);
+		// 默认参数修改
 		this.striped(true);
-		// 页脚工具栏
 		this.pagination(true);
-		// 行号
 		this.rownumbers(true);
-		// 单选
 		this.singleSelect(true);
 
 		/**
 		 * 属性
 		 */
-		/**
-		 * 权限过滤
-		 */
-		var rightsFilter = true;
 		/**
 		 * Json参数
 		 */
@@ -65,25 +57,10 @@ core.project.datagrid.DataGrid = (function() {
 		var sqlParam = "";
 
 		/**
-		 * 获取/设置权限过滤
-		 * 
-		 * @param rightsFilter
-		 */
-		this.rightsFilter = function() {
-
-			switch (arguments.length) {
-			case 0:
-				return rightsFilter;
-			default:
-				rightsFilter = arguments[0];
-				return this;
-			}
-		};
-
-		/**
 		 * 获取/设置Json参数
 		 * 
-		 * @param jsonParam
+		 * @param jsonParam{array}
+		 * @returns {array/core.project.datagrid.DataGrid}
 		 */
 		this.jsonParam = function() {
 
@@ -99,7 +76,8 @@ core.project.datagrid.DataGrid = (function() {
 		/**
 		 * 获取/设置SQL参数
 		 * 
-		 * @param sqlParam
+		 * @param sqlParam{string}
+		 * @returns {string/core.project.datagrid.DataGrid}
 		 */
 		this.sqlParam = function() {
 
@@ -112,7 +90,7 @@ core.project.datagrid.DataGrid = (function() {
 			}
 		};
 	};
-	// 继承EaysUI 数据列表模板
+	// 继承父类
 	core.lang.Class.extend(Constructor, core.html.easyui.datagrid.DataGrid);
 
 	/**
@@ -124,10 +102,8 @@ core.project.datagrid.DataGrid = (function() {
 
 		// 添加指定参数
 		this.queryParams($.extend({
-			rightsFilter : this.rightsFilter(),
-			params : JSON.stringify(this.jsonParam()),
+			params : object2JSONStr(this.jsonParam()),
 			whereSql : this.sqlParam(),
-			orderBy : "[]",
 			TimeStamp : new Date().getTime()
 		}, this.queryParams()));
 
@@ -140,25 +116,25 @@ core.project.datagrid.DataGrid = (function() {
 	 * 
 	 * @param jsonParam
 	 * @param sqlParam
-	 * @param orderParam
+	 * @param deprecated
+	 *            废弃不用参数
 	 * @param otherParam
 	 * @returns
 	 */
-	Constructor.prototype.load = function(jsonParam, sqlParam, orderParam, otherParam) {
+	Constructor.prototype.load = function(jsonParam, sqlParam, deprecated, otherParam) {
 
 		var param = {
-			rightsFilter : this.rightsFilter(),
-			params : object2JsonStr(jsonParam),
+			params : object2JSONStr(jsonParam),
 			whereSql : sqlParam,
-			orderBy : object2JsonStr(orderParam),
 			TimeStamp : new Date().getTime()
 		}
 
 		if (typeof (otherParam) === "object") {
+
 			param = $.extend(param, otherParam);
 		}
 
-		return $("#" + this.id()).datagrid("load", param);
+		return this.$jQuery().datagrid("load", param);
 	};
 
 	/**
@@ -166,25 +142,25 @@ core.project.datagrid.DataGrid = (function() {
 	 * 
 	 * @param jsonParam
 	 * @param sqlParam
-	 * @param orderParam
+	 * @param deprecated
+	 *            废弃不用参数
 	 * @param otherParam
 	 * @returns
 	 */
-	Constructor.prototype.reload = function(jsonParam, sqlParam, orderParam, otherParam) {
+	Constructor.prototype.reload = function(jsonParam, sqlParam, deprecated, otherParam) {
 
 		var param = {
-			rightsFilter : this.rightsFilter(),
-			params : object2JsonStr(jsonParam),
+			params : object2JSONStr(jsonParam),
 			whereSql : sqlParam,
-			orderBy : object2JsonStr(orderParam),
 			TimeStamp : new Date().getTime()
 		}
 
 		if (typeof (otherParam) === "object") {
+
 			param = $.extend(param, otherParam);
 		}
 
-		return $("#" + this.id()).datagrid("reload", param);
+		return this.$jQuery().datagrid("reload", param);
 	};
 
 	// 返回构造函数

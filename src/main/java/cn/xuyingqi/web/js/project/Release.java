@@ -17,7 +17,7 @@ import cn.xuyingqi.util.util.FileUtils;
 public class Release {
 
 	// 日志
-	private static Logger logger = Logger.getLogger(Release.class);
+	private static final Logger LOGGER = Logger.getLogger(Release.class);
 
 	/**
 	 * 生成JS发布文件
@@ -38,17 +38,20 @@ public class Release {
 
 		// 若生成文件存在,则先删除
 		if (coreFile.exists()) {
+			
 			coreFile.delete();
 		}
 
 		// 循环遍历路径集合
-		for (int i = 0; i < packagePaths.length; i++) {
+		for (int i = 0, length = packagePaths.length; i < length; i++) {
 
+			LOGGER.debug("进度:" + (i + 1) + "/" + length);
+			
 			FileUtils.recursionFile(new File(projectPath + jsCommonPath + packagePaths[i]),
 					new HandleSpecifyFormatFile(fileType, new CopyFileContent2SpecifiedFile(coreFile)));
 		}
 
-		logger.debug("操作结束");
+		LOGGER.debug("操作结束");
 	}
 
 	public static void main(String[] args) {

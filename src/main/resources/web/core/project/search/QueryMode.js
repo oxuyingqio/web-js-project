@@ -4,9 +4,8 @@
  * @desc	查询模式
  * @type	枚举
  * 
- * @date	2016年9月5日 15:12:38
+ * @date	2018年5月16日 14:02:24
  */
-
 core.project.search.QueryMode = {
 
 	/**
@@ -45,6 +44,14 @@ core.project.search.QueryMode = {
 	 * 类似
 	 */
 	LIKE : "like",
+	/**
+	 * 起始位类似
+	 */
+	LIKESTART : "likeStart",
+	/**
+	 * 结束位类似
+	 */
+	LIKEEND : "likeEnd",
 	/**
 	 * 是“”
 	 */

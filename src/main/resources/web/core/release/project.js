@@ -21,12 +21,12 @@ core.project = {
 	search : {}
 };
 /**
- * @name Font
+ * @name	Font
  * @package core.project.constant
- * @desc 语言
- * @type 枚举
+ * @desc	语言
+ * @type	枚举
  * 
- * @date 2016年11月2日 09:53:40
+ * @date	2016年11月2日 09:53:40
  */
 core.project.constant.Font = function() {
 
@@ -36,6 +36,7 @@ core.project.constant.Font = function() {
 		language = navigator.browserLanguage;
 
 	if (language.toLowerCase().indexOf("zh") >= 0) {
+		
 		return {
 			add : "增加",
 			edit : "编辑",
@@ -57,6 +58,7 @@ core.project.constant.Font = function() {
 			failure : "失败"
 		};
 	} else if (language.toLowerCase().indexOf("en") >= 0) {
+		
 		return {};
 	}
 }();
@@ -71,9 +73,8 @@ core.project.constant.Font = function() {
  * 			core.project.cover.Cover			show()					显示遮盖层
  * 			core.project.cover.Cover			hide()					隐藏遮盖层
  *  
- * @date	2016年9月3日 09:36:45
+ * @date	2018年5月11日 10:34:39
  */
-
 core.project.cover.Cover = (function() {
 
 	/**
@@ -103,12 +104,13 @@ core.project.cover.Cover = (function() {
 		/**
 		 * 遮盖层
 		 */
-		var div = new core.html.element.viewer.Div().style(style.join(""));
+		var div = new core.html.element.viewer.Div().style(style.join(" ")).init();
 
 		/**
 		 * 获取/设置遮盖层
 		 * 
-		 * @param div
+		 * @param div{object}
+		 * @returns {object/core.project.cover.Cover}
 		 */
 		this.div = function() {
 
@@ -125,12 +127,12 @@ core.project.cover.Cover = (function() {
 	/**
 	 * 添加HTML信息
 	 * 
-	 * @param html
+	 * @param html{string}
 	 * @returns {core.project.cover.Cover}
 	 */
 	Constructor.prototype.content = function(html) {
 
-		this.div().clear().append(html);
+		this.div().$jQuery().html(html);
 
 		return this;
 	};
@@ -142,7 +144,7 @@ core.project.cover.Cover = (function() {
 	 */
 	Constructor.prototype.show = function() {
 
-		this.div().show();
+		this.div().$jQuery().show();
 
 		return this;
 	};
@@ -154,7 +156,7 @@ core.project.cover.Cover = (function() {
 	 */
 	Constructor.prototype.hide = function() {
 
-		this.div().hide();
+		this.div().$jQuery().hide();
 
 		return this;
 	};
@@ -169,6 +171,7 @@ core.project.cover.Cover = (function() {
 		getInstance : function() {
 
 			if (!cover) {
+				
 				cover = new Constructor();
 			}
 
@@ -177,62 +180,54 @@ core.project.cover.Cover = (function() {
 	};
 })();
 /**
- * @name DataGrid
+ * @name	DataGrid
  * @package core.project.datagrid
- * @desc 数据列表
- * @type 类型
+ * @desc	数据列表
+ * @type	类型
  * 
- * @constructor core.project.datagrid.DataGrid(String id)
+ * @constructor core.project.datagrid.DataGrid(string id/object jQuery)
  * 
- * @extend core.html.easyui.datagrid.DataGrid
+ * @extend	core.html.easyui.datagrid.DataGrid
  * 
- * @date 2016年9月1日 16:02:05
+ * @date	2018年5月11日 10:46:43
  */
-
 core.project.datagrid.DataGrid = (function() {
 
 	/**
-	 * 对象转字符串
+	 * 对象转JSON字符串
 	 * 
-	 * @param object{Object}
-	 * @returns {String}
+	 * @param object{object}
+	 * @returns {string}
 	 */
-	function object2JsonStr(object) {
+	function object2JSONStr(object) {
 
 		if (typeof (object) == "object")
+
 			return JSON.stringify(object);
 		else if (object == "")
+
 			return "[]";
 		else
+
 			return object;
 	}
 
 	/**
 	 * 构造函数
-	 * 
-	 * @param id{String}
-	 *            ID
 	 */
-	var Constructor = function(id) {
+	var Constructor = function() {
 
 		// 调用父类构造
-		core.project.datagrid.DataGrid.superClass.constructor.call(this, id);
-		// 各行变色
+		core.project.datagrid.DataGrid.superClass.constructor.call(this, arguments[0]);
+		// 默认参数修改
 		this.striped(true);
-		// 页脚工具栏
 		this.pagination(true);
-		// 行号
 		this.rownumbers(true);
-		// 单选
 		this.singleSelect(true);
 
 		/**
 		 * 属性
 		 */
-		/**
-		 * 权限过滤
-		 */
-		var rightsFilter = true;
 		/**
 		 * Json参数
 		 */
@@ -243,25 +238,10 @@ core.project.datagrid.DataGrid = (function() {
 		var sqlParam = "";
 
 		/**
-		 * 获取/设置权限过滤
-		 * 
-		 * @param rightsFilter
-		 */
-		this.rightsFilter = function() {
-
-			switch (arguments.length) {
-			case 0:
-				return rightsFilter;
-			default:
-				rightsFilter = arguments[0];
-				return this;
-			}
-		};
-
-		/**
 		 * 获取/设置Json参数
 		 * 
-		 * @param jsonParam
+		 * @param jsonParam{array}
+		 * @returns {array/core.project.datagrid.DataGrid}
 		 */
 		this.jsonParam = function() {
 
@@ -277,7 +257,8 @@ core.project.datagrid.DataGrid = (function() {
 		/**
 		 * 获取/设置SQL参数
 		 * 
-		 * @param sqlParam
+		 * @param sqlParam{string}
+		 * @returns {string/core.project.datagrid.DataGrid}
 		 */
 		this.sqlParam = function() {
 
@@ -290,7 +271,7 @@ core.project.datagrid.DataGrid = (function() {
 			}
 		};
 	};
-	// 继承EaysUI 数据列表模板
+	// 继承父类
 	core.lang.Class.extend(Constructor, core.html.easyui.datagrid.DataGrid);
 
 	/**
@@ -302,10 +283,8 @@ core.project.datagrid.DataGrid = (function() {
 
 		// 添加指定参数
 		this.queryParams($.extend({
-			rightsFilter : this.rightsFilter(),
-			params : JSON.stringify(this.jsonParam()),
+			params : object2JSONStr(this.jsonParam()),
 			whereSql : this.sqlParam(),
-			orderBy : "[]",
 			TimeStamp : new Date().getTime()
 		}, this.queryParams()));
 
@@ -318,25 +297,25 @@ core.project.datagrid.DataGrid = (function() {
 	 * 
 	 * @param jsonParam
 	 * @param sqlParam
-	 * @param orderParam
+	 * @param deprecated
+	 *            废弃不用参数
 	 * @param otherParam
 	 * @returns
 	 */
-	Constructor.prototype.load = function(jsonParam, sqlParam, orderParam, otherParam) {
+	Constructor.prototype.load = function(jsonParam, sqlParam, deprecated, otherParam) {
 
 		var param = {
-			rightsFilter : this.rightsFilter(),
-			params : object2JsonStr(jsonParam),
+			params : object2JSONStr(jsonParam),
 			whereSql : sqlParam,
-			orderBy : object2JsonStr(orderParam),
 			TimeStamp : new Date().getTime()
 		}
 
-		if (typeof (_otherParam) === "object") {
+		if (typeof (otherParam) === "object") {
+
 			param = $.extend(param, otherParam);
 		}
 
-		return $("#" + this.id()).datagrid("load", param);
+		return this.$jQuery().datagrid("load", param);
 	};
 
 	/**
@@ -344,53 +323,120 @@ core.project.datagrid.DataGrid = (function() {
 	 * 
 	 * @param jsonParam
 	 * @param sqlParam
-	 * @param orderParam
+	 * @param deprecated
+	 *            废弃不用参数
 	 * @param otherParam
 	 * @returns
 	 */
-	Constructor.prototype.reload = function(jsonParam, sqlParam, orderParam, otherParam) {
+	Constructor.prototype.reload = function(jsonParam, sqlParam, deprecated, otherParam) {
 
 		var param = {
-			rightsFilter : this.rightsFilter(),
-			params : object2JsonStr(jsonParam),
+			params : object2JSONStr(jsonParam),
 			whereSql : sqlParam,
-			orderBy : object2JsonStr(orderParam),
 			TimeStamp : new Date().getTime()
 		}
 
-		if (typeof (_otherParam) === "object") {
+		if (typeof (otherParam) === "object") {
+
 			param = $.extend(param, otherParam);
 		}
 
-		return $("#" + this.id()).datagrid("reload", param);
+		return this.$jQuery().datagrid("reload", param);
 	};
 
 	// 返回构造函数
 	return Constructor;
 })();
 /**
- * @name Form
+ * @name	Form
  * @package core.project.form
- * @desc 表单
- * @type 类
+ * @desc	表单
+ * @type	类
  * 
- * @date 2017年8月15日 15:25:48
+ * @date	2018年5月11日 14:47:27
  */
-
 core.project.form.Form = (function() {
+
+	/**
+	 * 处理组内表格行数据
+	 * 
+	 * @param tr
+	 * @param trData
+	 * @returns
+	 */
+	function dealTableTrData(tr, trData) {
+
+		// 遍历表格行的格数据
+		for (var i = 0, length = trData.length; i < length; i++) {
+
+			// 格数据
+			var tdData = trData[i];
+
+			// 判断是否存在label属性
+			if (tdData.label) {
+
+				// 创建添加label
+				tr.append(new core.html.element.viewer.Td().style("white-space:nowrap;text-align:right;").append(
+						new core.html.element.viewer.Label().append(tdData.label + ":")));
+			}
+
+			// 依据单元格数据类型,处理
+			switch (tdData.type) {
+			case core.project.form.Type.A:
+				dealA(tr, tdData);
+				break;
+			case core.project.form.Type.LABEL:
+				dealLabel(tr, tdData);
+				break;
+			case core.project.form.Type.DIV:
+				dealDiv(tr, tdData);
+				break;
+			case core.project.form.Type.INPUT.HIDDEN:
+			case core.project.form.Type.INPUT.RADIO:
+			case core.project.form.Type.INPUT.CHECKBOX:
+				dealInput(tr, tdData);
+				break;
+			case core.project.form.Type.EASYUI.SWITCHBUTTON:
+			case core.project.form.Type.EASYUI.CALENDAR:
+			case core.project.form.Type.EASYUI.COMBO:
+			case core.project.form.Type.EASYUI.COMBOBOX:
+			case core.project.form.Type.EASYUI.COMBOGRID:
+			case core.project.form.Type.EASYUI.COMBOTREE:
+			case core.project.form.Type.EASYUI.COMBOTREEGRID:
+			case core.project.form.Type.EASYUI.DATEBOX:
+			case core.project.form.Type.EASYUI.DATETIMEBOX:
+			case core.project.form.Type.EASYUI.DATETIMESPINNER:
+			case core.project.form.Type.EASYUI.FILEBOX:
+			case core.project.form.Type.EASYUI.MASKEDBOX:
+			case core.project.form.Type.EASYUI.NUMBERBOX:
+			case core.project.form.Type.EASYUI.NUMBERSPINNER:
+			case core.project.form.Type.EASYUI.PASSWORDBOX:
+			case core.project.form.Type.EASYUI.SLIDER:
+			case core.project.form.Type.EASYUI.SPINNER:
+			case core.project.form.Type.EASYUI.TAGBOX:
+			case core.project.form.Type.EASYUI.TEXTAREA:
+			case core.project.form.Type.EASYUI.TEXTBOX:
+			case core.project.form.Type.EASYUI.TIMESPINNER:
+			case core.project.form.Type.EASYUI.VALIDATEBOX:
+				dealEasyUIInput(tr, tdData);
+				break;
+			}
+		}
+	}
 
 	/**
 	 * 处理A
 	 * 
 	 * @param tr
 	 * @param config
+	 * @returns
 	 */
 	function dealA(tr, config) {
 
 		// 行添加单元格,单元格添加A
 		tr.append(new core.html.element.viewer.Td().style(config.tdStyle ? config.tdStyle : "white-space:nowrap;")
 				.colspan(config.colspan).rowspan(config.rowspan).append(config.before).append(
-						new core.html.element.viewer.A(config.id).append(config.value)).append(config.after));
+						new core.html.element.viewer.A(config.id).append(config.text)).append(config.after));
 	}
 
 	/**
@@ -398,6 +444,7 @@ core.project.form.Form = (function() {
 	 * 
 	 * @param tr
 	 * @param config
+	 * @returns
 	 */
 	function dealLabel(tr, config) {
 
@@ -412,6 +459,7 @@ core.project.form.Form = (function() {
 	 * 
 	 * @param tr
 	 * @param config
+	 * @returns
 	 */
 	function dealDiv(tr, config) {
 
@@ -426,6 +474,7 @@ core.project.form.Form = (function() {
 	 * 
 	 * @param tr
 	 * @param config
+	 * @returns
 	 */
 	function dealInput(tr, config) {
 
@@ -437,15 +486,9 @@ core.project.form.Form = (function() {
 					config.name ? config.name : config.id).value(config.value));
 		} else {
 
-			// 行添加单元格,单元格添加Label
-			tr.append(new core.html.element.viewer.Td().style("white-space:nowrap;text-align:right;").rowspan(
-					config.rowspan).append(new core.html.element.viewer.Label().append(config.label + ":")));
-
 			// 创建输入框单元格
-			var td = new core.html.element.viewer.Td().style("white-space:nowrap;").colspan(config.colspan).rowspan(
-					config.rowspan);
-			// 前元素
-			td.append(config.before);
+			var td = new core.html.element.viewer.Td().style(config.tdStyle ? config.tdStyle : "white-space:nowrap;")
+					.colspan(config.colspan).rowspan(config.rowspan).append(config.before);
 
 			// 判断输入框类型
 			switch (config.type) {
@@ -494,18 +537,13 @@ core.project.form.Form = (function() {
 	 * 
 	 * @param tr
 	 * @param config
+	 * @returns
 	 */
-	function dealEasyUI(tr, config) {
-
-		// 行添加单元格,单元格添加Label
-		tr.append(new core.html.element.viewer.Td().style("white-space:nowrap;text-align:right;").rowspan(
-				config.rowspan).append(new core.html.element.viewer.Label().append(config.label + ":")));
+	function dealEasyUIInput(tr, config) {
 
 		// 创建输入框单元格
-		var td = new core.html.element.viewer.Td().style("white-space:nowrap;").colspan(config.colspan).rowspan(
-				config.rowspan);
-		// 前元素
-		td.append(config.before);
+		var td = new core.html.element.viewer.Td().style(config.tdStyle ? config.tdStyle : "white-space:nowrap;")
+				.colspan(config.colspan).rowspan(config.rowspan).append(config.before);
 
 		// 创建输入框对象
 		var input = new core.html.element.viewer.Input(config.id).name(config.name ? config.name : config.id);
@@ -517,12 +555,12 @@ core.project.form.Form = (function() {
 		case core.project.form.Type.EASYUI.SWITCHBUTTON:
 
 			// 添加输入框
-			td.append(input.load(function(_this) {
+			td.append(input.onInit(function(_this) {
 
 				// 调用easyui选择按钮模板
-				var switchbutton = new core.html.easyui.button.SwitchButton(_this.id());
+				var switchbutton = new core.html.easyui.button.SwitchButton(_this.$jQuery());
 				// 遍历参数
-				for (attr in easyui) {
+				for ( var attr in easyui) {
 					// 设置对应参数
 					switchbutton[attr] && switchbutton[attr](easyui[attr]);
 				}
@@ -534,15 +572,35 @@ core.project.form.Form = (function() {
 			}));
 
 			break;
+		case core.project.form.Type.EASYUI.CALENDAR:
+
+			// 添加输入框
+			td.append(input.onInit(function(_this) {
+
+				// 调用easyui选择按钮模板
+				var calendar = new core.html.easyui.form.Calendar(_this.$jQuery());
+				// 遍历参数
+				for ( var attr in easyui) {
+					// 设置对应参数
+					calendar[attr] && calendar[attr](easyui[attr]);
+				}
+				// 初始化
+				calendar.init();
+
+				// 回收引用
+				easyui = null;
+			}));
+
+			break;
 		case core.project.form.Type.EASYUI.COMBO:
 
 			// 添加输入框
-			td.append(input.load(function(_this) {
+			td.append(input.onInit(function(_this) {
 
 				// 调用easyui下拉框模板
-				var combo = new core.html.easyui.form.Combo(_this.id());
+				var combo = new core.html.easyui.form.Combo(_this.$jQuery());
 				// 遍历参数
-				for (attr in easyui) {
+				for ( var attr in easyui) {
 					// 设置对应参数
 					combo[attr] && combo[attr](easyui[attr]);
 				}
@@ -557,12 +615,12 @@ core.project.form.Form = (function() {
 		case core.project.form.Type.EASYUI.COMBOBOX:
 
 			// 添加输入框
-			td.append(input.load(function(_this) {
+			td.append(input.onInit(function(_this) {
 
 				// 调用easyui下拉列表框模板
-				var combobox = new core.html.easyui.form.ComboBox(_this.id());
+				var combobox = new core.html.easyui.form.ComboBox(_this.$jQuery());
 				// 遍历参数
-				for (attr in easyui) {
+				for ( var attr in easyui) {
 					// 设置对应参数
 					combobox[attr] && combobox[attr](easyui[attr]);
 				}
@@ -574,15 +632,75 @@ core.project.form.Form = (function() {
 			}));
 
 			break;
+		case core.project.form.Type.EASYUI.COMBOGRID:
+
+			// 添加输入框
+			td.append(input.onInit(function(_this) {
+
+				// 调用easyui下拉列表框模板
+				var combogrid = new core.html.easyui.form.ComboGrid(_this.$jQuery());
+				// 遍历参数
+				for ( var attr in easyui) {
+					// 设置对应参数
+					combogrid[attr] && combogrid[attr](easyui[attr]);
+				}
+				// 初始化
+				combogrid.init();
+
+				// 回收引用
+				easyui = null;
+			}));
+
+			break;
+		case core.project.form.Type.EASYUI.COMBOTREE:
+
+			// 添加输入框
+			td.append(input.onInit(function(_this) {
+
+				// 调用easyui下拉列表框模板
+				var combotree = new core.html.easyui.form.ComboTree(_this.$jQuery());
+				// 遍历参数
+				for ( var attr in easyui) {
+					// 设置对应参数
+					combotree[attr] && combotree[attr](easyui[attr]);
+				}
+				// 初始化
+				combotree.init();
+
+				// 回收引用
+				easyui = null;
+			}));
+
+			break;
+		case core.project.form.Type.EASYUI.COMBOTREEGRID:
+
+			// 添加输入框
+			td.append(input.onInit(function(_this) {
+
+				// 调用easyui下拉列表框模板
+				var combotreegrid = new core.html.easyui.form.ComboTreeGrid(_this.$jQuery());
+				// 遍历参数
+				for ( var attr in easyui) {
+					// 设置对应参数
+					combotreegrid[attr] && combotreegrid[attr](easyui[attr]);
+				}
+				// 初始化
+				combotreegrid.init();
+
+				// 回收引用
+				easyui = null;
+			}));
+
+			break;
 		case core.project.form.Type.EASYUI.DATEBOX:
 
 			// 添加输入框
-			td.append(input.load(function(_this) {
+			td.append(input.onInit(function(_this) {
 
 				// 调用easyui日期框模板
-				var datebox = new core.html.easyui.form.DateBox(_this.id());
+				var datebox = new core.html.easyui.form.DateBox(_this.$jQuery());
 				// 遍历参数
-				for (attr in easyui) {
+				for ( var attr in easyui) {
 					// 设置对应参数
 					datebox[attr] && datebox[attr](easyui[attr]);
 				}
@@ -597,12 +715,12 @@ core.project.form.Form = (function() {
 		case core.project.form.Type.EASYUI.DATETIMEBOX:
 
 			// 添加输入框
-			td.append(input.load(function(_this) {
+			td.append(input.onInit(function(_this) {
 
 				// 调用easyui日期时间框模板
-				var datetimebox = new core.html.easyui.form.DateTimeBox(_this.id());
+				var datetimebox = new core.html.easyui.form.DateTimeBox(_this.$jQuery());
 				// 遍历参数
-				for (attr in easyui) {
+				for ( var attr in easyui) {
 					// 设置对应参数
 					datetimebox[attr] && datetimebox[attr](easyui[attr]);
 				}
@@ -617,12 +735,12 @@ core.project.form.Form = (function() {
 		case core.project.form.Type.EASYUI.DATETIMESPINNER:
 
 			// 添加输入框
-			td.append(input.load(function(_this) {
+			td.append(input.onInit(function(_this) {
 
 				// 调用easyui日期时间微调框模板
-				var datetimespinner = new core.html.easyui.form.DateTimeSpinner(_this.id());
+				var datetimespinner = new core.html.easyui.form.DateTimeSpinner(_this.$jQuery());
 				// 遍历参数
-				for (attr in easyui) {
+				for ( var attr in easyui) {
 					// 设置对应参数
 					datetimespinner[attr] && datetimespinner[attr](easyui[attr]);
 				}
@@ -637,12 +755,12 @@ core.project.form.Form = (function() {
 		case core.project.form.Type.EASYUI.FILEBOX:
 
 			// 添加输入框
-			td.append(input.load(function(_this) {
+			td.append(input.onInit(function(_this) {
 
 				// 调用easyui文件框模板
-				var filebox = new core.html.easyui.form.FileBox(_this.id());
+				var filebox = new core.html.easyui.form.FileBox(_this.$jQuery());
 				// 遍历参数
-				for (attr in easyui) {
+				for ( var attr in easyui) {
 					// 设置对应参数
 					filebox[attr] && filebox[attr](easyui[attr]);
 				}
@@ -654,15 +772,35 @@ core.project.form.Form = (function() {
 			}));
 
 			break;
+		case core.project.form.Type.EASYUI.MASKEDBOX:
+
+			// 添加输入框
+			td.append(input.onInit(function(_this) {
+
+				// 调用easyui文件框模板
+				var maskedbox = new core.html.easyui.form.MaskedBox(_this.$jQuery());
+				// 遍历参数
+				for ( var attr in easyui) {
+					// 设置对应参数
+					maskedbox[attr] && maskedbox[attr](easyui[attr]);
+				}
+				// 初始化
+				maskedbox.init();
+
+				// 回收引用
+				easyui = null;
+			}));
+
+			break;
 		case core.project.form.Type.EASYUI.NUMBERBOX:
 
 			// 添加输入框
-			td.append(input.load(function(_this) {
+			td.append(input.onInit(function(_this) {
 
 				// 调用easyui数字框模板
-				var numberbox = new core.html.easyui.form.NumberBox(_this.id());
+				var numberbox = new core.html.easyui.form.NumberBox(_this.$jQuery());
 				// 遍历参数
-				for (attr in easyui) {
+				for ( var attr in easyui) {
 					// 设置对应参数
 					numberbox[attr] && numberbox[attr](easyui[attr]);
 				}
@@ -677,12 +815,12 @@ core.project.form.Form = (function() {
 		case core.project.form.Type.EASYUI.NUMBERSPINNER:
 
 			// 添加输入框
-			td.append(input.load(function(_this) {
+			td.append(input.onInit(function(_this) {
 
 				// 调用easyui数字微调框模板
-				var numberspinner = new core.html.easyui.form.NumberSpinner(_this.id());
+				var numberspinner = new core.html.easyui.form.NumberSpinner(_this.$jQuery());
 				// 遍历参数
-				for (attr in easyui) {
+				for ( var attr in easyui) {
 					// 设置对应参数
 					numberspinner[attr] && numberspinner[attr](easyui[attr]);
 				}
@@ -697,12 +835,12 @@ core.project.form.Form = (function() {
 		case core.project.form.Type.EASYUI.PASSWORDBOX:
 
 			// 添加输入框
-			td.append(input.load(function(_this) {
+			td.append(input.onInit(function(_this) {
 
 				// 调用easyui密码框模板
-				var passwordbox = new core.html.easyui.form.PasswordBox(_this.id());
+				var passwordbox = new core.html.easyui.form.PasswordBox(_this.$jQuery());
 				// 遍历参数
-				for (attr in easyui) {
+				for ( var attr in easyui) {
 					// 设置对应参数
 					passwordbox[attr] && passwordbox[attr](easyui[attr]);
 				}
@@ -717,12 +855,12 @@ core.project.form.Form = (function() {
 		case core.project.form.Type.EASYUI.SLIDER:
 
 			// 添加输入框
-			td.append(input.load(function(_this) {
+			td.append(input.onInit(function(_this) {
 
 				// 调用easyui拖动条模板
-				var slider = new core.html.easyui.form.Slider(_this.id());
+				var slider = new core.html.easyui.form.Slider(_this.$jQuery());
 				// 遍历参数
-				for (attr in easyui) {
+				for ( var attr in easyui) {
 					// 设置对应参数
 					slider[attr] && slider[attr](easyui[attr]);
 				}
@@ -737,12 +875,12 @@ core.project.form.Form = (function() {
 		case core.project.form.Type.EASYUI.SPINNER:
 
 			// 添加输入框
-			td.append(input.load(function(_this) {
+			td.append(input.onInit(function(_this) {
 
 				// 调用easyui微调框模板
-				var spinner = new core.html.easyui.form.Spinner(_this.id());
+				var spinner = new core.html.easyui.form.Spinner(_this.$jQuery());
 				// 遍历参数
-				for (attr in easyui) {
+				for ( var attr in easyui) {
 					// 设置对应参数
 					spinner[attr] && spinner[attr](easyui[attr]);
 				}
@@ -757,12 +895,12 @@ core.project.form.Form = (function() {
 		case core.project.form.Type.EASYUI.TAGBOX:
 
 			// 添加输入框
-			td.append(input.load(function(_this) {
+			td.append(input.onInit(function(_this) {
 
 				// 调用easyui标签模板
-				var tagbox = new core.html.easyui.form.TagBox(_this.id());
+				var tagbox = new core.html.easyui.form.TagBox(_this.$jQuery());
 				// 遍历参数
-				for (attr in easyui) {
+				for ( var attr in easyui) {
 					// 设置对应参数
 					tagbox[attr] && tagbox[attr](easyui[attr]);
 				}
@@ -774,35 +912,15 @@ core.project.form.Form = (function() {
 			}));
 
 			break;
-		case core.project.form.Type.EASYUI.TEXTBOX:
-
-			// 添加输入框
-			td.append(input.load(function(_this) {
-
-				// 调用easyui文本框模板
-				var textbox = new core.html.easyui.form.TextBox(_this.id());
-				// 遍历参数
-				for (attr in easyui) {
-					// 设置对应参数
-					textbox[attr] && textbox[attr](easyui[attr]);
-				}
-				// 初始化
-				textbox.init();
-
-				// 回收引用
-				easyui = null;
-			}));
-
-			break;
 		case core.project.form.Type.EASYUI.TEXTAREA:
 
 			// 添加输入框
-			td.append(input.load(function(_this) {
+			td.append(input.onInit(function(_this) {
 
 				// 调用easyui文本区模板
-				var textarea = new core.html.easyui.form.Textarea(_this.id());
+				var textarea = new core.html.easyui.form.Textarea(_this.$jQuery());
 				// 遍历参数
-				for (attr in easyui) {
+				for ( var attr in easyui) {
 					// 设置对应参数
 					textarea[attr] && textarea[attr](easyui[attr]);
 				}
@@ -814,15 +932,35 @@ core.project.form.Form = (function() {
 			}));
 
 			break;
+		case core.project.form.Type.EASYUI.TEXTBOX:
+
+			// 添加输入框
+			td.append(input.onInit(function(_this) {
+
+				// 调用easyui文本框模板
+				var textbox = new core.html.easyui.form.TextBox(_this.$jQuery());
+				// 遍历参数
+				for ( var attr in easyui) {
+					// 设置对应参数
+					textbox[attr] && textbox[attr](easyui[attr]);
+				}
+				// 初始化
+				textbox.init();
+
+				// 回收引用
+				easyui = null;
+			}));
+
+			break;
 		case core.project.form.Type.EASYUI.TIMESPINNER:
 
 			// 添加输入框
-			td.append(input.load(function(_this) {
+			td.append(input.onInit(function(_this) {
 
 				// 调用easyui时间微调框模板
-				var timespinner = new core.html.easyui.form.TimeSpinner(_this.id());
+				var timespinner = new core.html.easyui.form.TimeSpinner(_this.$jQuery());
 				// 遍历参数
-				for (attr in easyui) {
+				for ( var attr in easyui) {
 					// 设置对应参数
 					timespinner[attr] && timespinner[attr](easyui[attr]);
 				}
@@ -837,12 +975,12 @@ core.project.form.Form = (function() {
 		case core.project.form.Type.EASYUI.VALIDATEBOX:
 
 			// 添加输入框
-			td.append(input.load(function(_this) {
+			td.append(input.onInit(function(_this) {
 
 				// 调用easyui验证框模板
-				var validatebox = new core.html.easyui.form.ValidateBox(_this.id());
+				var validatebox = new core.html.easyui.form.ValidateBox(_this.$jQuery());
 				// 遍历参数
-				for (attr in easyui) {
+				for ( var attr in easyui) {
 					// 设置对应参数
 					validatebox[attr] && validatebox[attr](easyui[attr]);
 				}
@@ -865,29 +1003,19 @@ core.project.form.Form = (function() {
 
 	/**
 	 * 构造函数
-	 * 
-	 * @param id{String}
-	 *            ID
 	 */
-	var Constructor = function(id) {
+	var Constructor = function() {
 
 		// 调用父类构造
-		core.project.form.Form.superClass.constructor.call(this, id);
-		// 标题
+		core.project.form.Form.superClass.constructor.call(this, arguments[0]);
+		// 默认参数修改
 		this.title(null);
-		// 宽
 		this.width("100%");
-		// 左偏移
 		this.left("0px");
-		// 上偏移
 		this.top("0px");
-		// 边框
 		this.border(false);
-		// 关闭按钮
 		this.closable(false);
-		// 可拖动
 		this.draggable(false);
-		// 阴影
 		this.shadow(false);
 
 		/**
@@ -895,7 +1023,7 @@ core.project.form.Form = (function() {
 		 */
 		var formId;
 		/**
-		 * 表单内容
+		 * 表单数据
 		 */
 		var data = [];
 		/**
@@ -906,7 +1034,8 @@ core.project.form.Form = (function() {
 		/**
 		 * 获取/设置表单ID
 		 * 
-		 * @param formId
+		 * @param formId{string}
+		 * @returns {string/core.project.form.Form}
 		 */
 		this.formId = function() {
 
@@ -920,9 +1049,10 @@ core.project.form.Form = (function() {
 		};
 
 		/**
-		 * 获取/设置表单内容
+		 * 获取/设置表单数据
 		 * 
-		 * @param data
+		 * @param data{array}
+		 * @returns {array/core.project.form.Form}
 		 */
 		this.data = function() {
 
@@ -938,9 +1068,10 @@ core.project.form.Form = (function() {
 		};
 
 		/**
-		 * 获取/设置分组表单内容
+		 * 获取/设置表单数据
 		 * 
-		 * @param groupData
+		 * @param groupData{array}
+		 * @returns {array/core.project.form.Form}
 		 */
 		this.groupData = function() {
 
@@ -956,7 +1087,8 @@ core.project.form.Form = (function() {
 		/**
 		 * 获取/设置是否分组
 		 * 
-		 * @param isGroup
+		 * @param isGroup{boolean}
+		 * @returns {boolean/core.project.form.Form}
 		 */
 		this.isGroup = function() {
 
@@ -969,11 +1101,13 @@ core.project.form.Form = (function() {
 			}
 		};
 	};
-	// 继承EaysUI 弹出框模板
+	// 继承父类
 	core.lang.Class.extend(Constructor, core.html.easyui.window.Dialog);
 
 	/**
 	 * 表单初始化
+	 * 
+	 * @returns {core.project.form.Form}
 	 */
 	Constructor.prototype.project = function() {
 
@@ -982,23 +1116,23 @@ core.project.form.Form = (function() {
 				"multipart/form-data");
 		// 添加表单HTML
 		this.content(form.convertHtml());
-		// 初始化dialog
+		// 初始化Dialog
 		this.init();
 
 		// 获取是否分组
 		var isGroup = this.isGroup();
-		// 获取表单内容
+		// 获取表单数据
 		var data = this.groupData();
-		// 遍历表单内容
+		// 遍历表单数据
 		for (var i = 0, length = data.length; i < length; i++) {
 
-			// 获取本组内容
+			// 获取本组数据
 			var groupData = data[i];
 
 			// 创建组内表格对象
 			var table = new core.html.element.viewer.Table(groupData.id).style("border-spacing:5px;font-size:12px;")
 					.align("center");
-			// 依据是否分组,处理表格对象
+			// 依据是否分组,判断是否创建组描述
 			if (isGroup) {
 
 				// 创建分组对象,并添加分组描述信息,并添加表格对象,并添加至表单对象
@@ -1010,57 +1144,13 @@ core.project.form.Form = (function() {
 				table.appendTo(form);
 			}
 
-			// 获取表格数据
+			// 获取组内表格数据
 			var tableData = groupData.data;
-			// 遍历表格数据
-			for (var m = 0, mLength = tableData.length; m < mLength; m++) {
+			// 遍历组内表格数据
+			for (var j = 0, jLength = tableData.length; j < jLength; j++) {
 
-				// 创建行对象,并添加至表格对象中
-				var tr = new core.html.element.viewer.Tr().appendTo(table);
-
-				// 获取行数据
-				var trData = tableData[m];
-				// 遍历行数据
-				for (var n = 0, nLength = trData.length; n < nLength; n++) {
-
-					// 单元格数据
-					var tdData = trData[n];
-
-					// 依据单元格数据类型,处理
-					switch (tdData.type) {
-					case core.project.form.Type.A:
-						dealA(tr, tdData);
-						break;
-					case core.project.form.Type.LABEL:
-						dealLabel(tr, tdData);
-						break;
-					case core.project.form.Type.DIV:
-						dealDiv(tr, tdData);
-						break;
-					case core.project.form.Type.INPUT.HIDDEN:
-					case core.project.form.Type.INPUT.RADIO:
-						dealInput(tr, tdData);
-						break;
-					case core.project.form.Type.EASYUI.SWITCHBUTTON:
-					case core.project.form.Type.EASYUI.COMBO:
-					case core.project.form.Type.EASYUI.COMBOBOX:
-					case core.project.form.Type.EASYUI.DATEBOX:
-					case core.project.form.Type.EASYUI.DATETIMEBOX:
-					case core.project.form.Type.EASYUI.DATETIMESPINNER:
-					case core.project.form.Type.EASYUI.FILEBOX:
-					case core.project.form.Type.EASYUI.NUMBERBOX:
-					case core.project.form.Type.EASYUI.NUMBERSPINNER:
-					case core.project.form.Type.EASYUI.PASSWORDBOX:
-					case core.project.form.Type.EASYUI.SLIDER:
-					case core.project.form.Type.EASYUI.SPINNER:
-					case core.project.form.Type.EASYUI.TEXTBOX:
-					case core.project.form.Type.EASYUI.TEXTAREA:
-					case core.project.form.Type.EASYUI.TIMESPINNER:
-					case core.project.form.Type.EASYUI.VALIDATEBOX:
-						dealEasyUI(tr, tdData);
-						break;
-					}
-				}
+				// 处理组内表格行数据
+				dealTableTrData(new core.html.element.viewer.Tr().appendTo(table), tableData[j]);
 			}
 		}
 
@@ -1068,25 +1158,35 @@ core.project.form.Form = (function() {
 	};
 
 	/**
+	 * 获取表单jQuery对象
+	 * 
+	 * @returns {object}
+	 */
+	Constructor.prototype.$formjQuery = function() {
+
+		return $("#" + this.formId());
+	};
+
+	/**
 	 * 表单提交
 	 * 
-	 * @param options
+	 * @param options{object}
 	 * @returns
 	 */
 	Constructor.prototype.submit = function(options) {
 
-		return $("#" + this.formId()).form("submit", options);
+		return this.$formjQuery().form("submit", options);
 	};
 
 	/**
 	 * 加载数据
 	 * 
-	 * @param data
+	 * @param data{object}
 	 * @returns
 	 */
 	Constructor.prototype.load = function(data) {
 
-		return $("#" + this.formId()).form("load", data);
+		return this.$formjQuery().form("load", data);
 	};
 
 	/**
@@ -1096,7 +1196,7 @@ core.project.form.Form = (function() {
 	 */
 	Constructor.prototype.clear = function() {
 
-		return $("#" + this.formId()).form("clear");
+		return this.$formjQuery().form("clear");
 	};
 
 	/**
@@ -1106,7 +1206,7 @@ core.project.form.Form = (function() {
 	 */
 	Constructor.prototype.reset = function() {
 
-		return $("#" + this.formId()).form("reset");
+		return this.$formjQuery().form("reset");
 	};
 
 	/**
@@ -1116,7 +1216,7 @@ core.project.form.Form = (function() {
 	 */
 	Constructor.prototype.validate = function() {
 
-		return $("#" + this.formId()).form("validate");
+		return this.$formjQuery().form("validate");
 	};
 
 	/**
@@ -1126,7 +1226,7 @@ core.project.form.Form = (function() {
 	 */
 	Constructor.prototype.enableValidation = function() {
 
-		return $("#" + this.formId()).form("enableValidation");
+		return this.$formjQuery().form("enableValidation");
 	};
 
 	/**
@@ -1136,7 +1236,7 @@ core.project.form.Form = (function() {
 	 */
 	Constructor.prototype.disableValidation = function() {
 
-		return $("#" + this.formId()).form("disableValidation");
+		return this.$formjQuery().form("disableValidation");
 	};
 
 	/**
@@ -1146,7 +1246,7 @@ core.project.form.Form = (function() {
 	 */
 	Constructor.prototype.resetValidation = function() {
 
-		return $("#" + this.formId()).form("resetValidation");
+		return this.$formjQuery().form("resetValidation");
 	};
 
 	/**
@@ -1155,20 +1255,19 @@ core.project.form.Form = (function() {
 	 */
 	Constructor.prototype.resetDirty = function() {
 
-		return $("#" + this.formId()).form("resetDirty");
+		return this.$formjQuery().form("resetDirty");
 	};
 
 	return Constructor;
 })();
 /**
- * @name Type
+ * @name	Type
  * @package core.project.form
- * @desc 表单数据内容类型
- * @type 枚举
+ * @desc	表单数据内容类型
+ * @type	枚举
  * 
- * @date 2016年9月2日 16:25:11
+ * @date	2016年9月2日 16:25:11
  */
-
 core.project.form.Type = {
 
 	A : "a",
@@ -1181,20 +1280,26 @@ core.project.form.Type = {
 	},
 	EASYUI : {
 		SWITCHBUTTON : "switchbutton",
+
+		CALENDAR : "calendar",
 		COMBO : "combo",
 		COMBOBOX : "combobox",
+		COMBOGRID : "combogrid",
+		COMBOTREE : "combotree",
+		COMBOTREEGRID : "combotreegrid",
 		DATEBOX : "datebox",
 		DATETIMEBOX : "datetimebox",
 		DATETIMESPINNER : "datetimespinner",
 		FILEBOX : "filebox",
+		MASKEDBOX : "maskedbox",
 		NUMBERBOX : "numberbox",
 		NUMBERSPINNER : "numberspinner",
 		PASSWORDBOX : "passwordbox",
 		SLIDER : "slider",
 		SPINNER : "spinner",
 		TAGBOX : "tagbox",
-		TEXTBOX : "textbox",
 		TEXTAREA : "textarea",
+		TEXTBOX : "textbox",
 		TIMESPINNER : "timespinner",
 		VALIDATEBOX : "validatebox"
 	}
@@ -1207,20 +1312,23 @@ core.project.form.Type = {
  * 
  * @date	2016年9月5日 15:20:07
  */
-
 core.project.search.DataType = {
 
 	BYTE : "byte",
 	SHOT : "shot",
 	INT : "int",
 	LONG : "long",
+	
 	FLOAT : "float",
 	DOUBLE : "double",
+	
 	CHAR : "char",
-	BOOLEAN : "boolean",
 	STRING : "string",
+	
 	DATE : "date",
-	DATETIME : "datetime"
+	DATETIME : "datetime",
+	
+	BOOLEAN : "boolean"
 };
 /**
  * @name	DBType
@@ -1230,7 +1338,6 @@ core.project.search.DataType = {
  * 
  * @date	2017年8月10日 14:21:52
  */
-
 core.project.search.DBType = {
 
 	ORACLE : "oracle",
@@ -1238,7 +1345,7 @@ core.project.search.DBType = {
 };
 
 /**
- * 数据库类型
+ * 当前数据库类型
  */
 core.project.search.CurrentDBType = core.project.search.DBType.ORACLE;
 /**
@@ -1247,9 +1354,8 @@ core.project.search.CurrentDBType = core.project.search.DBType.ORACLE;
  * @desc	查询模式
  * @type	枚举
  * 
- * @date	2016年9月5日 15:12:38
+ * @date	2018年5月16日 14:02:24
  */
-
 core.project.search.QueryMode = {
 
 	/**
@@ -1289,6 +1395,14 @@ core.project.search.QueryMode = {
 	 */
 	LIKE : "like",
 	/**
+	 * 起始位类似
+	 */
+	LIKESTART : "likeStart",
+	/**
+	 * 结束位类似
+	 */
+	LIKEEND : "likeEnd",
+	/**
 	 * 是“”
 	 */
 	ISEMPTY : "isEmpty",
@@ -1311,65 +1425,178 @@ core.project.search.QueryMode = {
  * @desc	搜索
  * @type	类
  * 
- * @date	2017年8月10日 14:52:16
+ * @date	2018年5月17日 10:18:40
  */
-
 core.project.search.Search = (function() {
 
 	/**
-	 * 处理EasyUI
+	 * 处理表格行数据
+	 * 
+	 * @param search
+	 * @param tr
+	 * @param trData
+	 * @returns
+	 */
+	function dealTableTrData(search, tr, trData) {
+
+		// 遍历行配置
+		for (var i = 0, length = trData.length; i < length; i++) {
+
+			// 获取单元格配置
+			var tdData = trData[i];
+
+			// 判断是否存在label属性
+			if (tdData.label) {
+
+				// 创建添加label
+				tr.append(new core.html.element.viewer.Td().style("word-break:keep-all; white-space:nowrap;").append(
+						new core.html.element.viewer.Label().append(tdData.label + ":")));
+			}
+
+			// 依据类型处理配置
+			switch (tdData.type) {
+			case core.project.search.Type.EASYUI.SWITCHBUTTON:
+
+			case core.project.search.Type.EASYUI.COMBOBOX:
+			case core.project.search.Type.EASYUI.DATEBOX:
+			case core.project.search.Type.EASYUI.DATETIMEBOX:
+			case core.project.search.Type.EASYUI.NUMBERBOX:
+			case core.project.search.Type.EASYUI.TAGBOX:
+			case core.project.search.Type.EASYUI.TEXTBOX:
+				dealEasyUIInput(search, tr, tdData);
+				break;
+			}
+		}
+	}
+
+	/**
+	 * 处理按钮
+	 * 
+	 * @param search
+	 * @param tr
+	 * @returns
+	 */
+	function dealButton(search, tr) {
+
+		// 添加按钮
+		tr.append(new core.html.element.viewer.Td().style("word-break:keep-all;white-space:nowrap;").colspan(2).append(
+				"&nbsp;").append(
+				new core.html.element.viewer.A().onInit(function(_this) {
+
+					new core.html.easyui.button.LinkButton(_this.id()).width("80px").text("搜&nbsp;&nbsp;&nbsp;索")
+							.onClick(function() {
+
+								search.searchEvent()();
+							}).init();
+				})).append("&nbsp;").append(
+				new core.html.element.viewer.A().onInit(function(_this) {
+
+					new core.html.easyui.button.LinkButton(_this.id()).width("80px").text("重&nbsp;&nbsp;&nbsp;置")
+							.onClick(function() {
+
+								var fields = search.getFields();
+								for (var j = 0, jLength = fields.length; j < jLength; j++) {
+
+									fields[j].clear();
+								}
+							}).init();
+				})));
+	}
+
+	/**
+	 * 处理EasyUI输入框
 	 * 
 	 * @param search
 	 * @param tr
 	 * @param config
+	 * @returns
 	 */
-	function dealEasyUI(search, tr, config) {
+	function dealEasyUIInput(search, tr, config) {
 
-		// 添加标签单元格
-		tr.append(new core.html.element.viewer.Td().append(new core.html.element.viewer.Label().append(config.label
-				+ ":")));
-
-		// 添加搜索框单元格
+		// 创建单元格
 		var td = new core.html.element.viewer.Td().style("word-break:keep-all; white-space:nowrap;").colspan(
-				config.colspan === undefined ? 1 : config.colspan).rowspan(
-				config.rowspan === undefined ? 1 : config.rowspan);
+				config.colspan).rowspan(config.rowspan);
 
 		// 获取easyui配置
 		var easyui = config.easyui ? config.easyui : {};
 
 		// 判断类型
 		switch (config.type) {
+		case core.project.search.Type.EASYUI.SWITCHBUTTON:
+
+			// easyui
+			var switchbutton;
+
+			// 添加输入框,配置EasyUI
+			td.append(new core.html.element.viewer.Input(config.id).onInit(function(_this) {
+
+				// 实例化
+				switchbutton = new core.html.easyui.button.SwitchButton(_this.$jQuery());
+				// 遍历参数
+				for ( var attr in easyui) {
+					// 设置对应参数
+					switchbutton[attr] && switchbutton[attr](easyui[attr]);
+				}
+				// 初始化
+				switchbutton.init();
+
+				// 回收引用
+				easyui = null;
+			}));
+
+			// 添加字段
+			search.addField({
+				ignore : config.ignore,
+				field : config.field,
+				dataType : config.dataType ? config.dataType : core.project.search.DataType.STRING,
+				queryMode : config.queryMode ? config.queryMode : core.project.search.QueryMode.EQ,
+				values : function() {
+
+					return [ switchbutton.getValue() ];
+				},
+				start : switchbutton,
+				clear : function() {
+
+					switchbutton.setValue("");
+				}
+			});
+
+			break;
 		case core.project.search.Type.EASYUI.COMBOBOX:
 
-			// easyui下拉列表框
+			// easyui
 			var combobox;
 
 			// 添加输入框,配置EasyUI
-			td.append(new core.html.element.viewer.Input(config.id).load(function(_this) {
+			td.append(new core.html.element.viewer.Input(config.id).onInit(function(_this) {
 
-				// 调用easyui下拉列表框模板
-				combobox = new core.html.easyui.form.ComboBox(_this.id());
+				// 实例化
+				combobox = new core.html.easyui.form.ComboBox(_this.$jQuery());
 				// 遍历参数
-				for (attr in easyui) {
+				for ( var attr in easyui) {
 					// 设置对应参数
 					combobox[attr] && combobox[attr](easyui[attr]);
 				}
 				// 初始化
 				combobox.init();
+
+				// 回收引用
+				easyui = null;
 			}));
 
 			// 添加字段
 			search.addField({
+				ignore : config.ignore,
 				field : config.field,
 				dataType : config.dataType ? config.dataType : core.project.search.DataType.STRING,
 				queryMode : config.queryMode ? config.queryMode : core.project.search.QueryMode.EQ,
-				min : function() {
-					return combobox.getValue();
+				values : function() {
+
+					return [ combobox.getValue() ];
 				},
-				max : function() {
-					return null;
-				},
+				start : combobox,
 				clear : function() {
+
 					combobox.setValue("");
 				}
 			});
@@ -1377,27 +1604,30 @@ core.project.search.Search = (function() {
 			break;
 		case core.project.search.Type.EASYUI.DATEBOX:
 
-			// easyui日期框
+			// easyui
 			var startdatebox;
 			var enddatebox;
 
 			// 添加输入框,配置EasyUI
-			td.append(new core.html.element.viewer.Input("start" + config.id).load(function(_this) {
+			td.append(
+					new core.html.element.viewer.Input(config.id ? ("start" + config.id) : config.id).onInit(function(
+							_this) {
 
-				// 调用easyui日期框模板
-				startdatebox = new core.html.easyui.form.DateBox(_this.id());
-				// 遍历参数
-				for (attr in easyui) {
-					// 设置对应参数
-					startdatebox[attr] && startdatebox[attr](easyui[attr]);
-				}
-				// 初始化
-				startdatebox.init();
-			})).append("&nbsp;-&nbsp;").append(
-					new core.html.element.viewer.Input("end" + config.id).load(function(_this) {
+						// 实例化
+						startdatebox = new core.html.easyui.form.DateBox(_this.$jQuery());
+						// 遍历参数
+						for ( var attr in easyui) {
+							// 设置对应参数
+							startdatebox[attr] && startdatebox[attr](easyui[attr]);
+						}
+						// 初始化
+						startdatebox.init();
+					})).append("&nbsp;-&nbsp;").append(
+					new core.html.element.viewer.Input(config.id ? ("end" + config.id) : config.id).onInit(function(
+							_this) {
 
-						// 调用easyui日期框模板
-						enddatebox = new core.html.easyui.form.DateBox(_this.id());
+						// 实例化
+						enddatebox = new core.html.easyui.form.DateBox(_this.$jQuery());
 						// 遍历参数
 						for (attr in easyui) {
 							// 设置对应参数
@@ -1409,16 +1639,18 @@ core.project.search.Search = (function() {
 
 			// 添加字段
 			search.addField({
+				ignore : config.ignore,
 				field : config.field,
 				dataType : config.dataType ? config.dataType : core.project.search.DataType.DATE,
 				queryMode : config.queryMode ? config.queryMode : core.project.search.QueryMode.BETWEEN,
-				min : function() {
-					return startdatebox.getValue();
+				values : function() {
+
+					return [ startdatebox.getValue(), enddatebox.getValue() ];
 				},
-				max : function() {
-					return enddatebox.getValue();
-				},
+				start : startdatebox,
+				end : enddatebox,
 				clear : function() {
+
 					startdatebox.setValue("");
 					enddatebox.setValue("");
 				}
@@ -1427,29 +1659,32 @@ core.project.search.Search = (function() {
 			break;
 		case core.project.search.Type.EASYUI.DATETIMEBOX:
 
-			// easyui日期时间框
+			// easyui
 			var startdatetimebox;
 			var enddatetimebox;
 
 			// 添加输入框,配置EasyUI
-			td.append(new core.html.element.viewer.Input("start" + config.id).load(function(_this) {
+			td.append(
+					new core.html.element.viewer.Input(config.id ? ("start" + config.id) : config.id).onInit(function(
+							_this) {
 
-				// 调用easyui日期时间框模板
-				startdatetimebox = new core.html.easyui.form.DateTimeBox(_this.id());
-				// 遍历参数
-				for (attr in easyui) {
-					// 设置对应参数
-					startdatetimebox[attr] && startdatetimebox[attr](easyui[attr]);
-				}
-				// 初始化
-				startdatetimebox.init();
-			})).append("&nbsp;-&nbsp;").append(
-					new core.html.element.viewer.Input("end" + config.id).load(function(_this) {
-
-						// 调用easyui日期时间框模板
-						enddatetimebox = new core.html.easyui.form.DateTimeBox(_this.id());
+						// 实例化
+						startdatetimebox = new core.html.easyui.form.DateTimeBox(_this.$jQuery());
 						// 遍历参数
-						for (attr in easyui) {
+						for ( var attr in easyui) {
+							// 设置对应参数
+							startdatetimebox[attr] && startdatetimebox[attr](easyui[attr]);
+						}
+						// 初始化
+						startdatetimebox.init();
+					})).append("&nbsp;-&nbsp;").append(
+					new core.html.element.viewer.Input(config.id ? ("end" + config.id) : config.id).onInit(function(
+							_this) {
+
+						// 实例化
+						enddatetimebox = new core.html.easyui.form.DateTimeBox(_this.$jQuery());
+						// 遍历参数
+						for ( var attr in easyui) {
 							// 设置对应参数
 							enddatetimebox[attr] && enddatetimebox[attr](easyui[attr]);
 						}
@@ -1459,16 +1694,18 @@ core.project.search.Search = (function() {
 
 			// 添加字段
 			search.addField({
+				ignore : config.ignore,
 				field : config.field,
 				dataType : config.dataType ? config.dataType : core.project.search.DataType.DATETIME,
 				queryMode : config.queryMode ? config.queryMode : core.project.search.QueryMode.BETWEEN,
-				min : function() {
-					return startdatetimebox.getValue();
+				values : function() {
+
+					return [ startdatetimebox.getValue(), enddatetimebox.getValue() ];
 				},
-				max : function() {
-					return enddatetimebox.getValue();
-				},
+				start : startdatetimebox,
+				end : enddatetimebox,
 				clear : function() {
+
 					startdatetimebox.setValue("");
 					enddatetimebox.setValue("");
 				}
@@ -1477,29 +1714,32 @@ core.project.search.Search = (function() {
 			break;
 		case core.project.search.Type.EASYUI.NUMBERBOX:
 
-			// easyui数字框
+			// easyui
 			var startnumberbox;
 			var endnumberbox;
 
 			// 添加输入框,配置EasyUI
-			td.append(new core.html.element.viewer.Input("start" + config.id).load(function(_this) {
+			td.append(
+					new core.html.element.viewer.Input(config.id ? ("start" + config.id) : config.id).onInit(function(
+							_this) {
 
-				// 调用easyui数字框模板
-				startnumberbox = new core.html.easyui.form.NumberBox(_this.id());
-				// 遍历参数
-				for (attr in easyui) {
-					// 设置对应参数
-					startnumberbox[attr] && startnumberbox[attr](easyui[attr]);
-				}
-				// 初始化
-				startnumberbox.init();
-			})).append("&nbsp;-&nbsp;").append(
-					new core.html.element.viewer.Input("end" + config.id).load(function(_this) {
-
-						// 调用easyui数字框模板
-						endnumberbox = new core.html.easyui.form.NumberBox(_this.id());
+						// 实例化
+						startnumberbox = new core.html.easyui.form.NumberBox(_this.$jQuery());
 						// 遍历参数
-						for (attr in easyui) {
+						for ( var attr in easyui) {
+							// 设置对应参数
+							startnumberbox[attr] && startnumberbox[attr](easyui[attr]);
+						}
+						// 初始化
+						startnumberbox.init();
+					})).append("&nbsp;-&nbsp;").append(
+					new core.html.element.viewer.Input(config.id ? ("end" + config.id) : config.id).onInit(function(
+							_this) {
+
+						// 实例化
+						endnumberbox = new core.html.easyui.form.NumberBox(_this.$jQuery());
+						// 遍历参数
+						for ( var attr in easyui) {
 							// 设置对应参数
 							endnumberbox[attr] && endnumberbox[attr](easyui[attr]);
 						}
@@ -1509,16 +1749,18 @@ core.project.search.Search = (function() {
 
 			// 添加字段
 			search.addField({
+				ignore : config.ignore,
 				field : config.field,
 				dataType : config.dataType ? config.dataType : core.project.search.DataType.DOUBLE,
 				queryMode : config.queryMode ? config.queryMode : core.project.search.QueryMode.BETWEEN,
-				min : function() {
-					return startnumberbox.getValue();
+				values : function() {
+
+					return [ startnumberbox.getValue(), endnumberbox.getValue() ];
 				},
-				max : function() {
-					return endnumberbox.getValue();
-				},
+				start : startnumberbox,
+				end : endnumberbox,
 				clear : function() {
+
 					startnumberbox.setValue("");
 					endnumberbox.setValue("");
 				}
@@ -1527,35 +1769,39 @@ core.project.search.Search = (function() {
 			break;
 		case core.project.search.Type.EASYUI.TAGBOX:
 
-			// easyui标签框
+			// easyui
 			var tagbox;
 
 			// 添加输入框,配置EasyUI
-			td.append(new core.html.element.viewer.Input(config.id).load(function(_this) {
+			td.append(new core.html.element.viewer.Input(config.id).onInit(function(_this) {
 
-				// 调用easyui标签框模板
-				tagbox = new core.html.easyui.form.TagBox(_this.id());
+				// 实例化
+				tagbox = new core.html.easyui.form.TagBox(_this.$jQuery());
 				// 遍历参数
-				for (attr in easyui) {
+				for ( var attr in easyui) {
 					// 设置对应参数
 					tagbox[attr] && tagbox[attr](easyui[attr]);
 				}
 				// 初始化
 				tagbox.init();
+
+				// 回收引用
+				easyui = null;
 			}));
 
 			// 添加字段
 			search.addField({
+				ignore : config.ignore,
 				field : config.field,
 				dataType : config.dataType ? config.dataType : core.project.search.DataType.STRING,
 				queryMode : config.queryMode ? config.queryMode : core.project.search.QueryMode.EQ,
-				min : function() {
-					return tagbox.getValue();
+				values : function() {
+
+					return [ tagbox.getValue() ];
 				},
-				max : function() {
-					return null;
-				},
+				start : tagbox,
 				clear : function() {
+
 					tagbox.setValue("");
 				}
 			});
@@ -1563,14 +1809,14 @@ core.project.search.Search = (function() {
 			break;
 		case core.project.search.Type.EASYUI.TEXTBOX:
 
-			// easyui文本框
+			// easyui
 			var textbox;
 
 			// 创建输入框,配置EasyUI
-			td.append(new core.html.element.viewer.Input(config.id).load(function(_this) {
+			td.append(new core.html.element.viewer.Input(config.id).onInit(function(_this) {
 
-				// 调用easyui文本框模板
-				textbox = new core.html.easyui.form.TextBox(_this.id());
+				// 实例化
+				textbox = new core.html.easyui.form.TextBox(_this.$jQuery());
 				// 遍历参数
 				for (attr in easyui) {
 					// 设置对应参数
@@ -1578,20 +1824,24 @@ core.project.search.Search = (function() {
 				}
 				// 初始化
 				textbox.init();
+
+				// 回收引用
+				easyui = null;
 			}));
 
 			// 添加字段
 			search.addField({
+				ignore : config.ignore,
 				field : config.field,
 				dataType : config.dataType ? config.dataType : core.project.search.DataType.STRING,
 				queryMode : config.queryMode ? config.queryMode : core.project.search.QueryMode.LIKE,
-				min : function() {
-					return textbox.getValue();
+				values : function() {
+
+					return [ textbox.getValue() ];
 				},
-				max : function() {
-					return null;
-				},
+				start : textbox,
 				clear : function() {
+
 					textbox.setValue("");
 				}
 			});
@@ -1604,9 +1854,238 @@ core.project.search.Search = (function() {
 	}
 
 	/**
+	 * 通过字段获取JSON
+	 * 
+	 * @param fields{array}
+	 * @returns {array}
+	 */
+	function getJsonFromFields(fields) {
+
+		// 返回的json
+		var json = [];
+
+		// 遍历搜索字段
+		for (var i = 0, length = fields.length; i < length; i++) {
+
+			// 搜索字段
+			var field = fields[i];
+
+			// 判断该字段是否需要忽略
+			if (field.ignore === undefined || !field.ignore) {
+
+				// 判断值的个数
+				if (field.values().length === 1) {
+
+					// 获取值
+					var value = field.values()[0];
+
+					// 值不为空
+					if (value !== "") {
+
+						// 添加数据
+						json.push({
+							field : field.field,
+							value : [ value ],
+							fieldtype : field.dataType,
+							model : field.queryMode
+						});
+					}
+				} else {
+
+					// 获取值
+					var min = field.values()[0];
+					var max = field.values()[1];
+
+					// 判断最小值最大值的存在关系
+					if (min === "" && max !== "") {
+
+						json
+								.push({
+									field : field.field,
+									value : [ max ],
+									fieldtype : field.dataType,
+									model : field.queryMode === core.project.search.QueryMode.BETWEEN ? core.project.search.QueryMode.LE
+											: field.queryMode
+								});
+					} else if (min !== "" && max === "") {
+
+						json
+								.push({
+									field : field.field,
+									value : [ min ],
+									fieldtype : field.dataType,
+									model : field.queryMode === core.project.search.QueryMode.BETWEEN ? core.project.search.QueryMode.GE
+											: field.queryMode
+								});
+					} else if (min !== "" && max !== "") {
+
+						json.push({
+							field : field.field,
+							value : [ min, max ],
+							fieldtype : field.dataType,
+							model : field.queryMode
+						});
+					}
+				}
+			}
+		}
+
+		return json;
+	}
+
+	/**
+	 * 通过字段获取SQL
+	 * 
+	 * @param fields{array}
+	 * @returns {string}
+	 */
+	function getSqlFromFields(fields) {
+
+		// 返回的sql
+		var sql = [];
+
+		// 遍历搜索字段
+		for (var i = 0, length = fields.length; i < length; i++) {
+
+			// 搜索字段
+			var field = fields[i];
+
+			// 判断该字段是否需要忽略
+			if (field.ignore === undefined || !field.ignore) {
+
+				// 判断值的个数
+				if (field.values().length === 1) {
+
+					// 获取值
+					var value = field.values()[0];
+
+					// 值不为空
+					if (value !== "") {
+
+						sql.push(" and ");
+						sql.push(field.field);
+						switch (field.queryMode) {
+						case core.project.search.QueryMode.EQ:
+							sql.push(" ='" + value + "' ");
+							break;
+						case core.project.search.QueryMode.NE:
+							sql.push(" <>'" + value + "' ");
+							break;
+						case core.project.search.QueryMode.GE:
+							sql.push(" >='" + value + "' ");
+							break;
+						case core.project.search.QueryMode.LE:
+							sql.push(" <='" + value + "' ");
+							break;
+						case core.project.search.QueryMode.GT:
+							sql.push(" >'" + value + "' ");
+							break;
+						case core.project.search.QueryMode.LT:
+							sql.push(" <'" + value + "' ");
+							break;
+						case core.project.search.QueryMode.LIKE:
+							sql.push(" like '%" + value + "%' ");
+							break;
+						case core.project.search.QueryMode.LIKESTART:
+							sql.push(" like '" + value + "%' ");
+							break;
+						case core.project.search.QueryMode.LIKEEND:
+							sql.push(" like '%" + value + "' ");
+							break;
+						case core.project.search.QueryMode.ISEMPTY:
+							sql.push((value === true || value === "true") ? " = " : " <> ");
+							sql.push(" '' ");
+							break;
+						case core.project.search.QueryMode.ISNOTEMPTY:
+							sql.push((value === true || value === "true") ? " <> " : " = ");
+							sql.push(" '' ");
+							break;
+						case core.project.search.QueryMode.ISNULL:
+							sql.push(" is ");
+							sql.push((value === true || value === "true") ? "" : " not ");
+							sql.push(" null ");
+							break;
+						case core.project.search.QueryMode.ISNOTNULL:
+							sql.push(" is ");
+							sql.push((value === true || value === "true") ? " not " : "");
+							sql.push(" null ");
+							break;
+						}
+					}
+				} else {
+
+					// 获取值
+					var min = field.values()[0];
+					var max = field.values()[1];
+
+					// 判断最小值最大值的存在关系
+					if (min === "" && max !== "") {
+
+						sql.push(" and ");
+						sql.push(field.field);
+
+						if (core.project.search.CurrentDBType === core.project.search.DBType.ORACLE
+								&& field.dataType === core.project.search.DataType.DATE) {
+
+							sql.push(" <=to_date('" + max + "', 'yyyy-mm-dd') ");
+						} else if (core.project.search.CurrentDBType === core.project.search.DBType.ORACLE
+								&& field.dataType === core.project.search.DataType.DATETIME) {
+
+							sql.push(" <=to_date('" + max + "', 'yyyy-mm-dd hh24:mi:ss') ");
+						} else {
+
+							sql.push(" <='" + max + "' ");
+						}
+					} else if (min !== "" && max === "") {
+
+						sql.push(" and ");
+						sql.push(field.field);
+
+						if (core.project.search.CurrentDBType === core.project.search.DBType.ORACLE
+								&& field.dataType === core.project.search.DataType.DATE) {
+
+							sql.push(" >=to_date('" + min + "', 'yyyy-mm-dd') ");
+						} else if (core.project.search.CurrentDBType === core.project.search.DBType.ORACLE
+								&& field.dataType === core.project.search.DataType.DATETIME) {
+
+							sql.push(" >=to_date('" + min + "', 'yyyy-mm-dd hh24:mi:ss') ");
+						} else {
+
+							sql.push(" >='" + min + "' ");
+						}
+					} else if (min !== "" && max !== "") {
+
+						sql.push(" and ");
+						sql.push(field.field);
+
+						if (core.project.search.CurrentDBType === core.project.search.DBType.ORACLE
+								&& field.dataType === core.project.search.DataType.DATE) {
+
+							sql.push(" between to_date('" + min + "', 'yyyy-mm-dd') and to_date('" + max
+									+ "', 'yyyy-mm-dd') ");
+						} else if (core.project.search.CurrentDBType === core.project.search.DBType.ORACLE
+								&& field.dataType === core.project.search.DataType.DATETIME) {
+
+							sql.push(" between to_date('" + min + "', 'yyyy-mm-dd hh24:mi:ss') and to_date('" + max
+									+ "', 'yyyy-mm-dd hh24:mi:ss') ");
+						} else {
+
+							sql.push(" between '" + min + "' and '" + max + "' ");
+						}
+					}
+				}
+			}
+		}
+
+		// 返回sql
+		return sql.join("");
+	}
+
+	/**
 	 * 构造函数
 	 * 
 	 * @param id
+	 * @returns
 	 */
 	var Constructor = function(id) {
 
@@ -1618,6 +2097,7 @@ core.project.search.Search = (function() {
 		 * 搜索字段
 		 */
 		var fields = [];
+
 		/**
 		 * 搜索按钮事件
 		 */
@@ -1627,6 +2107,8 @@ core.project.search.Search = (function() {
 
 		/**
 		 * 获取Div对象
+		 * 
+		 * @return core.html.element.Element
 		 */
 		this.div = function() {
 
@@ -1635,6 +2117,9 @@ core.project.search.Search = (function() {
 
 		/**
 		 * 添加搜索字段
+		 * 
+		 * @param field{object}
+		 * @returns
 		 */
 		this.addField = function(field) {
 
@@ -1643,6 +2128,8 @@ core.project.search.Search = (function() {
 
 		/**
 		 * 返回搜索字段
+		 * 
+		 * @returns {array}
 		 */
 		this.getFields = function() {
 
@@ -1652,7 +2139,8 @@ core.project.search.Search = (function() {
 		/**
 		 * 获取/设置搜索事件
 		 * 
-		 * @param searchEvent
+		 * @param searchEvent{function}
+		 * @returns {function/core.project.search.Search}
 		 */
 		this.searchEvent = function() {
 
@@ -1669,67 +2157,26 @@ core.project.search.Search = (function() {
 	/**
 	 * 搜索初始化
 	 * 
-	 * @param configs
+	 * @param configs{array}
+	 * @returns
 	 */
 	Constructor.prototype.project = function(configs) {
 
 		// 备份this对象
 		var search = this;
 
-		// 创建表格对象,添加至div中,并清空div
-		var table = new core.html.element.viewer.Table().style("font-size:12px;").appendTo(this.div().clear());
+		// 创建表格对象
+		var table = new core.html.element.viewer.Table().style("font-size:12px;").appendTo(this.div());
 		// 遍历配置项
 		for (var i = 0, length = configs.length; i < length; i++) {
 
 			// 创建表格行
 			var tr = new core.html.element.viewer.Tr().appendTo(table);
 
-			// 获取行配置集合
-			var trConfigs = configs[i];
-			// 遍历行配置
-			for (var j = 0, jLength = trConfigs.length; j < jLength; j++) {
-
-				// 获取单元格配置
-				var tdConfig = trConfigs[j];
-				// 依据类型处理配置
-				switch (tdConfig.type) {
-				case core.project.search.Type.EASYUI.COMBOBOX:
-				case core.project.search.Type.EASYUI.DATEBOX:
-				case core.project.search.Type.EASYUI.DATETIMEBOX:
-				case core.project.search.Type.EASYUI.NUMBERBOX:
-				case core.project.search.Type.EASYUI.TEXTBOX:
-				case core.project.search.Type.EASYUI.SWITCHBUTTON:
-					dealEasyUI(this, tr, tdConfig);
-					break;
-				}
-			}
-
-			// 第一行添加按钮
-			if (i === 0) {
-
-				// 添加按钮
-				tr.append(new core.html.element.viewer.Td().style("word-break:keep-all;white-space:nowrap;").append(
-						"&nbsp;").append(
-						new core.html.element.viewer.A().load(function(_this) {
-
-							new core.html.easyui.button.LinkButton(_this.id()).width("80px").text(
-									"搜&nbsp;&nbsp;&nbsp;索").onClick(function() {
-								search.searchEvent()();
-							}).init();
-
-						})).append("&nbsp;").append(
-						new core.html.element.viewer.A().load(function(_this) {
-
-							new core.html.easyui.button.LinkButton(_this.id()).width("80px").text(
-									"重&nbsp;&nbsp;&nbsp;置").onClick(function() {
-								var fields = search.getFields();
-								for (var j = 0; j < fields.length; j++) {
-									fields[j].clear();
-								}
-							}).init();
-
-						})));
-			}
+			// 处理表格行数据
+			dealTableTrData(this, tr, configs[i]);
+			// 为第一行,则处理按钮
+			i === 0 && dealButton(this, tr);
 		}
 
 		return this;
@@ -1740,7 +2187,7 @@ core.project.search.Search = (function() {
 	 */
 	Constructor.prototype.show = function() {
 
-		this.div().show();
+		this.div().$jQuery().show();
 
 		return this;
 	};
@@ -1750,7 +2197,7 @@ core.project.search.Search = (function() {
 	 */
 	Constructor.prototype.hide = function() {
 
-		this.div().hide();
+		this.div().$jQuery().hide();
 
 		return this;
 	};
@@ -1762,71 +2209,7 @@ core.project.search.Search = (function() {
 	 */
 	Constructor.prototype.getJson = function() {
 
-		// 返回的json数组
-		var json = [];
-
-		// 获取搜索字段
-		var fields = this.getFields();
-		// 遍历搜索字段
-		for (var i = 0, length = fields.length; i < length; i++) {
-
-			// 搜索字段
-			var field = fields[i];
-			// 最小值
-			var min = field.min();
-			// 最大值
-			var max = field.max();
-
-			// 最大值为空
-			if (max === null) {
-
-				// 最小值不为空
-				if (min != "") {
-
-					json.push({
-						field : field.field,
-						value : [ min ],
-						fieldtype : field.dataType,
-						model : field.queryMode
-					})
-				}
-			} else {
-
-				// 最小为空,最大不为空
-				if (min === "" && max !== "") {
-
-					json
-							.push({
-								field : field.field,
-								value : [ max ],
-								fieldtype : field.dataType,
-								model : field.queryMode === core.project.search.QueryMode.BETWEEN ? core.project.search.QueryMode.LE
-										: field.queryMode
-							});
-				} else if (min !== "" && max === "") {
-
-					json
-							.push({
-								field : field.field,
-								value : [ min ],
-								fieldtype : field.dataType,
-								model : field.queryMode === core.project.search.QueryMode.BETWEEN ? core.project.search.QueryMode.GE
-										: field.queryMode
-							});
-				} else if (min !== "" && max !== "") {
-
-					json.push({
-						field : field.field,
-						value : [ min, max ],
-						fieldtype : field.dataType,
-						model : field.queryMode
-					});
-				}
-			}
-		}
-
-		// 返回json数组
-		return json;
+		return getJsonFromFields(this.getFields());
 	};
 
 	/**
@@ -1836,100 +2219,7 @@ core.project.search.Search = (function() {
 	 */
 	Constructor.prototype.getSql = function() {
 
-		// 返回的sql
-		var sql = [];
-
-		// 获取搜索字段
-		var fields = this.getFields();
-		// 遍历搜索字段
-		for (var i = 0, length = fields.length; i < length; i++) {
-
-			// 搜索字段
-			var field = fields[i];
-			// 最小值
-			var min = field.min();
-			// 最大值
-			var max = field.max();
-
-			// 最大值为空,即单框条件
-			if (max === null) {
-
-				// 最小值不为空
-				if (min != "") {
-
-					sql.push(" and ");
-					sql.push(field.field);
-					switch (field.queryMode) {
-					case core.project.search.QueryMode.EQ:
-						sql.push(" ='" + min + "' ");
-						break;
-					case core.project.search.QueryMode.LIKE:
-						sql.push(" like '%" + min + "%' ");
-						break;
-					}
-				}
-			} else {
-
-				// 最小为空,最大不为空
-				if (min === "" && max !== "") {
-
-					sql.push(" and ");
-					sql.push(field.field);
-
-					if (core.project.search.CurrentDBType === core.project.search.DBType.ORACLE
-							&& field.dataType === core.project.search.DataType.DATE) {
-
-						sql.push(" <=to_date('" + max + "', 'yyyy-mm-dd') ");
-					} else if (core.project.search.CurrentDBType === core.project.search.DBType.ORACLE
-							&& field.dataType === core.project.search.DataType.DATETIME) {
-
-						sql.push(" <=to_date('" + max + "', 'yyyy-mm-dd hh24:mi:ss') ");
-					} else {
-
-						sql.push(" <='" + max + "' ");
-					}
-				} else if (min !== "" && max === "") {
-
-					sql.push(" and ");
-					sql.push(field.field);
-
-					if (core.project.search.CurrentDBType === core.project.search.DBType.ORACLE
-							&& field.dataType === core.project.search.DataType.DATE) {
-
-						sql.push(" >=to_date('" + min + "', 'yyyy-mm-dd') ");
-					} else if (core.project.search.CurrentDBType === core.project.search.DBType.ORACLE
-							&& field.dataType === core.project.search.DataType.DATETIME) {
-
-						sql.push(" >=to_date('" + min + "', 'yyyy-mm-dd hh24:mi:ss') ");
-					} else {
-
-						sql.push(" >='" + min + "' ");
-					}
-				} else if (min !== "" && max !== "") {
-
-					sql.push(" and ");
-					sql.push(field.field);
-
-					if (core.project.search.CurrentDBType === core.project.search.DBType.ORACLE
-							&& field.dataType === core.project.search.DataType.DATE) {
-
-						sql.push(" between to_date('" + min + "', 'yyyy-mm-dd') and to_date('" + max
-								+ "', 'yyyy-mm-dd') ");
-					} else if (core.project.search.CurrentDBType === core.project.search.DBType.ORACLE
-							&& field.dataType === core.project.search.DataType.DATETIME) {
-
-						sql.push(" between to_date('" + min + "', 'yyyy-mm-dd hh24:mi:ss') and to_date('" + max
-								+ "', 'yyyy-mm-dd hh24:mi:ss') ");
-					} else {
-
-						sql.push(" between '" + min + "' and '" + max + "' ");
-					}
-				}
-			}
-		}
-
-		// 返回sql
-		return sql.join("");
+		return getSqlFromFields(this.getFields());
 	};
 
 	return Constructor;
@@ -1942,10 +2232,11 @@ core.project.search.Search = (function() {
  * 
  * @date	2016年9月2日 16:25:11
  */
-
 core.project.search.Type = {
 
 	EASYUI : {
+		SWITCHBUTTON : "switchbutton",
+
 		COMBOBOX : "combobox",
 		DATEBOX : "datebox",
 		DATETIMEBOX : "datetimebox",
@@ -1953,4 +2244,4 @@ core.project.search.Type = {
 		TAGBOX : "tagbox",
 		TEXTBOX : "textbox"
 	}
-}
+};

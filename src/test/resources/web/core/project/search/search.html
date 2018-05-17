@@ -9,20 +9,20 @@
 
 </head>
 <body>
+	<div id="search"></div>
 </body>
 
 <script type="text/javascript" src="/~/core/resource/jquery-3.1.1/jquery-3.1.1.js"></script>
 
-<script type="text/javascript" src="/~/core/resource/jquery-easyui-1.5.1/jquery.easyui.min.js"></script>
-<script type="text/javascript" src="/~/core/resource/jquery-easyui-1.5.1/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="/~/core/resource/jquery-easyui-1.5.4.5/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="/~/core/resource/jquery-easyui-1.5.4.5/locale/easyui-lang-zh_CN.js"></script>
 
 <script type="text/javascript" src="/~/core/release/core.js"></script>
 <script type="text/javascript" src="/~/core/release/easyui.js"></script>
 
 <script type="text/javascript" src="/~/core/package.js"></script>
 
-<script type="text/javascript" src="/~/core/project/constant/Font.js"></script>
-
+<script type="text/javascript" src="/~/core/project/search/DBType.js"></script>
 <script type="text/javascript" src="/~/core/project/search/Search.js"></script>
 <script type="text/javascript" src="/~/core/project/search/Type.js"></script>
 <script type="text/javascript" src="/~/core/project/search/DataType.js"></script>
@@ -44,12 +44,12 @@
 				valueField : "id",
 				textField : "text"
 			}
-		}, {
+		} ], [ {
 			label : "datebox",
 			id : "datebox",
 			field : "datebox",
 			type : core.project.search.Type.EASYUI.DATEBOX
-		}, {
+		} ], [ {
 			label : "datetimebox",
 			id : "datetimebox",
 			field : "datetimebox",
@@ -60,12 +60,23 @@
 			field : "numberbox",
 			dataType : core.project.search.DataType.FLOAT,
 			type : core.project.search.Type.EASYUI.NUMBERBOX
-		}, {
+		} ], [ {
+			label : "tagbox",
+			id : "tagbox",
+			field : "tagbox",
+			type : core.project.search.Type.EASYUI.TAGBOX,
+			easyui : {
+				hasDownArrow : true,
+				url : "http://localhost:8080/~/core/html/easyui/form/combobox.json",
+				valueField : "id",
+				textField : "text"
+			}
+		} ], [ {
 			label : "textbox",
 			id : "textbox",
 			field : "textbox",
 			type : core.project.search.Type.EASYUI.TEXTBOX
-		} ] ]).show();
+		} ] ]);
 	});
 </script>
 

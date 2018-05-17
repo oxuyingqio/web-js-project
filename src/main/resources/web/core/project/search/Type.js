@@ -6,10 +6,11 @@
  * 
  * @date	2016年9月2日 16:25:11
  */
-
 core.project.search.Type = {
 
 	EASYUI : {
+		SWITCHBUTTON : "switchbutton",
+
 		COMBOBOX : "combobox",
 		DATEBOX : "datebox",
 		DATETIMEBOX : "datetimebox",
@@ -17,4 +18,4 @@ core.project.search.Type = {
 		TAGBOX : "tagbox",
 		TEXTBOX : "textbox"
 	}
-}
+};

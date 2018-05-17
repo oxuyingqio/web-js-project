@@ -1,10 +1,10 @@
 /**
- * @name Font
+ * @name	Font
  * @package core.project.constant
- * @desc 语言
- * @type 枚举
+ * @desc	语言
+ * @type	枚举
  * 
- * @date 2016年11月2日 09:53:40
+ * @date	2016年11月2日 09:53:40
  */
 core.project.constant.Font = function() {
 
@@ -14,6 +14,7 @@ core.project.constant.Font = function() {
 		language = navigator.browserLanguage;
 
 	if (language.toLowerCase().indexOf("zh") >= 0) {
+		
 		return {
 			add : "增加",
 			edit : "编辑",
@@ -35,6 +36,7 @@ core.project.constant.Font = function() {
 			failure : "失败"
 		};
 	} else if (language.toLowerCase().indexOf("en") >= 0) {
+		
 		return {};
 	}
 }();

@@ -4,18 +4,18 @@
 <meta charset="UTF-8">
 <title></title>
 
-<link rel="stylesheet" type="text/css" href="/~/core/resource/jquery-easyui-1.5/themes/default/easyui.css">
-<link rel="stylesheet" type="text/css" href="/~/core/resource/jquery-easyui-1.5/themes/icon.css">
+<link rel="stylesheet" type="text/css" href="/~/core/resource/jquery-easyui-themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="/~/core/resource/jquery-easyui-themes/icon.css">
 
 </head>
 <body>
 	<div id="formDiv"></div>
 </body>
 
-<script type="text/javascript" src="/~/core/resource/jquery-3.1.0/jquery-3.1.0.js"></script>
+<script type="text/javascript" src="/~/core/resource/jquery-3.1.1/jquery-3.1.1.js"></script>
 
-<script type="text/javascript" src="/~/core/resource/jquery-easyui-1.5/jquery.easyui.min.js"></script>
-<script type="text/javascript" src="/~/core/resource/jquery-easyui-1.5/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="/~/core/resource/jquery-easyui-1.5.4.5/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="/~/core/resource/jquery-easyui-1.5.4.5/locale/easyui-lang-zh_CN.js"></script>
 
 <script type="text/javascript" src="/~/core/release/core.js"></script>
 <script type="text/javascript" src="/~/core/release/easyui.js"></script>
@@ -28,21 +28,30 @@
 <script type="text/javascript">
 	$(function() {
 
-		new core.project.form.Form("formDiv").formId("test").height("500px").toolbar([ {
-			text : "测试",
-			iconCls : 'icon-add',
-			handler : function() {
-				alert('add')
-			}
-		}, "-", {
-			iconCls : 'icon-edit',
-			handler : function() {
-				alert('edit')
-			}
-		} ]).groupData([ {
+		new core.project.form.Form("formDiv").formId("form").height("500px").isGroup(true).groupData([ {
 			id : "group1",
-			text : "这是分组1",
+			text : "分组1",
 			data : [ [ {
+				label : "a",
+				type : core.project.form.Type.A,
+				id : "a"
+			}, {
+				label : "label",
+				type : core.project.form.Type.LABEL,
+				id : "label"
+			}, {
+				label : "div",
+				type : core.project.form.Type.DIV,
+				id : "div"
+			} ] ]
+		}, {
+			id : "group2",
+			text : "分组2",
+			data : [ [ {
+				label : "hidden",
+				type : core.project.form.Type.INPUT.HIDDEN,
+				id : "hidden"
+			}, {
 				label : "radio",
 				type : core.project.form.Type.INPUT.RADIO,
 				id : "radio",
@@ -57,6 +66,24 @@
 					value : "3"
 				} ]
 			}, {
+				label : "checkbox",
+				type : core.project.form.Type.INPUT.CHECKBOX,
+				id : "checkbox",
+				data : [ {
+					text : "one",
+					value : "1"
+				}, {
+					text : "two",
+					value : "2"
+				}, {
+					text : "three",
+					value : "3"
+				} ]
+			} ] ]
+		}, {
+			id : "group3",
+			text : "分组3",
+			data : [ [ {
 				label : "switchbutton",
 				type : core.project.form.Type.EASYUI.SWITCHBUTTON,
 				id : "switchbutton"
@@ -64,19 +91,28 @@
 				label : "combo",
 				type : core.project.form.Type.EASYUI.COMBO,
 				id : "combo"
-			}, {
+			} ], [ {
 				label : "combobox",
 				type : core.project.form.Type.EASYUI.COMBOBOX,
 				id : "combobox",
 				easyui : {
-					valueField : "label",
-					textField : "value",
-					data : [ {
-						label : "java",
-						value : "Java"
-					} ]
+					url : "http://localhost:8080/~/core/html/easyui/form/combobox.json",
+					valueField : "id",
+					textField : "text"
 				}
-			} ], [ {
+			}, {
+				label : "combogrid",
+				type : core.project.form.Type.EASYUI.COMBOGRID,
+				id : "combogrid"
+			}, {
+				label : "combotree",
+				type : core.project.form.Type.EASYUI.COMBOTREE,
+				id : "combotree"
+			}, ], [ {
+				label : "combotreegrid",
+				type : core.project.form.Type.EASYUI.COMBOTREEGRID,
+				id : "combotreegrid"
+			}, {
 				label : "datebox",
 				type : core.project.form.Type.EASYUI.DATEBOX,
 				id : "datebox"
@@ -84,15 +120,19 @@
 				label : "datetimebox",
 				type : core.project.form.Type.EASYUI.DATETIMEBOX,
 				id : "datetimebox"
-			}, {
+			} ], [ {
 				label : "datetimespinner",
 				type : core.project.form.Type.EASYUI.DATETIMESPINNER,
 				id : "datetimespinner"
-			} ], [ {
+			}, {
 				label : "filebox",
 				type : core.project.form.Type.EASYUI.FILEBOX,
 				id : "filebox"
 			}, {
+				label : "maskedbox",
+				type : core.project.form.Type.EASYUI.MASKEDBOX,
+				id : "maskedbox"
+			} ], [ {
 				label : "numberbox",
 				type : core.project.form.Type.EASYUI.NUMBERBOX,
 				id : "numberbox"
@@ -100,11 +140,11 @@
 				label : "numberspinner",
 				type : core.project.form.Type.EASYUI.NUMBERSPINNER,
 				id : "numberspinner"
-			} ], [ {
+			}, {
 				label : "passwordbox",
 				type : core.project.form.Type.EASYUI.PASSWORDBOX,
 				id : "passwordbox"
-			}, {
+			} ], [ {
 				label : "slider",
 				type : core.project.form.Type.EASYUI.SLIDER,
 				id : "slider"
@@ -112,7 +152,15 @@
 				label : "spinner",
 				type : core.project.form.Type.EASYUI.SPINNER,
 				id : "spinner"
+			}, {
+				label : "tagbox",
+				type : core.project.form.Type.EASYUI.TAGBOX,
+				id : "tagbox"
 			} ], [ {
+				label : "textarea",
+				type : core.project.form.Type.EASYUI.TEXTAREA,
+				id : "textarea"
+			}, {
 				label : "textbox",
 				type : core.project.form.Type.EASYUI.TEXTBOX,
 				id : "textbox"
@@ -120,7 +168,7 @@
 				label : "timespinner",
 				type : core.project.form.Type.EASYUI.TIMESPINNER,
 				id : "timespinner"
-			}, {
+			} ], [ {
 				label : "validatebox",
 				type : core.project.form.Type.EASYUI.VALIDATEBOX,
 				id : "validatebox",
@@ -129,6 +177,17 @@
 					validType : "email"
 				}
 			} ] ]
+		} ]).toolbar([ {
+			text : "测试",
+			iconCls : 'icon-add',
+			handler : function() {
+				alert('add')
+			}
+		}, "-", {
+			iconCls : 'icon-edit',
+			handler : function() {
+				alert('edit')
+			}
 		} ]).project();
 	});
 </script>

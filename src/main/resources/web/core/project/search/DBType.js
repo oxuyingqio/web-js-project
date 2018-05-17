@@ -6,7 +6,6 @@
  * 
  * @date	2017年8月10日 14:21:52
  */
-
 core.project.search.DBType = {
 
 	ORACLE : "oracle",
@@ -14,6 +13,6 @@ core.project.search.DBType = {
 };
 
 /**
- * 数据库类型
+ * 当前数据库类型
  */
 core.project.search.CurrentDBType = core.project.search.DBType.ORACLE;

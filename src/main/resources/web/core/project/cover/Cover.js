@@ -9,9 +9,8 @@
  * 			core.project.cover.Cover			show()					显示遮盖层
  * 			core.project.cover.Cover			hide()					隐藏遮盖层
  *  
- * @date	2016年9月3日 09:36:45
+ * @date	2018年5月11日 10:34:39
  */
-
 core.project.cover.Cover = (function() {
 
 	/**
@@ -41,12 +40,13 @@ core.project.cover.Cover = (function() {
 		/**
 		 * 遮盖层
 		 */
-		var div = new core.html.element.viewer.Div().style(style.join(""));
+		var div = new core.html.element.viewer.Div().style(style.join(" ")).init();
 
 		/**
 		 * 获取/设置遮盖层
 		 * 
-		 * @param div
+		 * @param div{object}
+		 * @returns {object/core.project.cover.Cover}
 		 */
 		this.div = function() {
 
@@ -63,12 +63,12 @@ core.project.cover.Cover = (function() {
 	/**
 	 * 添加HTML信息
 	 * 
-	 * @param html
+	 * @param html{string}
 	 * @returns {core.project.cover.Cover}
 	 */
 	Constructor.prototype.content = function(html) {
 
-		this.div().clear().append(html);
+		this.div().$jQuery().html(html);
 
 		return this;
 	};
@@ -80,7 +80,7 @@ core.project.cover.Cover = (function() {
 	 */
 	Constructor.prototype.show = function() {
 
-		this.div().show();
+		this.div().$jQuery().show();
 
 		return this;
 	};
@@ -92,7 +92,7 @@ core.project.cover.Cover = (function() {
 	 */
 	Constructor.prototype.hide = function() {
 
-		this.div().hide();
+		this.div().$jQuery().hide();
 
 		return this;
 	};
@@ -107,6 +107,7 @@ core.project.cover.Cover = (function() {
 		getInstance : function() {
 
 			if (!cover) {
+				
 				cover = new Constructor();
 			}
 
