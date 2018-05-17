@@ -104,7 +104,9 @@ core.project.cover.Cover = (function() {
 		/**
 		 * 遮盖层
 		 */
-		var div = new core.html.element.viewer.Div().style(style.join(" ")).init();
+		var div = new core.html.element.viewer.Div().style(style.join(" ")).appendTo("body");
+		// 隐藏遮盖层
+		div.$jQuery().hide();
 
 		/**
 		 * 获取/设置遮盖层
@@ -1554,7 +1556,10 @@ core.project.search.Search = (function() {
 
 					return [ switchbutton.getValue() ];
 				},
-				start : switchbutton,
+				start : function() {
+
+					return switchbutton;
+				},
 				clear : function() {
 
 					switchbutton.setValue("");
@@ -1594,7 +1599,10 @@ core.project.search.Search = (function() {
 
 					return [ combobox.getValue() ];
 				},
-				start : combobox,
+				start : function() {
+
+					return combobox;
+				},
 				clear : function() {
 
 					combobox.setValue("");
@@ -1647,8 +1655,14 @@ core.project.search.Search = (function() {
 
 					return [ startdatebox.getValue(), enddatebox.getValue() ];
 				},
-				start : startdatebox,
-				end : enddatebox,
+				start : function() {
+
+					return startdatebox;
+				},
+				end : function() {
+
+					return enddatebox;
+				},
 				clear : function() {
 
 					startdatebox.setValue("");
@@ -1702,8 +1716,14 @@ core.project.search.Search = (function() {
 
 					return [ startdatetimebox.getValue(), enddatetimebox.getValue() ];
 				},
-				start : startdatetimebox,
-				end : enddatetimebox,
+				start : function() {
+
+					return startdatetimebox;
+				},
+				end : function() {
+
+					return enddatetimebox;
+				},
 				clear : function() {
 
 					startdatetimebox.setValue("");
@@ -1757,8 +1777,14 @@ core.project.search.Search = (function() {
 
 					return [ startnumberbox.getValue(), endnumberbox.getValue() ];
 				},
-				start : startnumberbox,
-				end : endnumberbox,
+				start : function() {
+
+					return startnumberbox;
+				},
+				end : function() {
+
+					return endnumberbox;
+				},
 				clear : function() {
 
 					startnumberbox.setValue("");
@@ -1799,7 +1825,10 @@ core.project.search.Search = (function() {
 
 					return [ tagbox.getValue() ];
 				},
-				start : tagbox,
+				start : function() {
+
+					return tagbox;
+				},
 				clear : function() {
 
 					tagbox.setValue("");
@@ -1839,7 +1868,10 @@ core.project.search.Search = (function() {
 
 					return [ textbox.getValue() ];
 				},
-				start : textbox,
+				start : function() {
+
+					return textbox;
+				},
 				clear : function() {
 
 					textbox.setValue("");
@@ -2205,7 +2237,7 @@ core.project.search.Search = (function() {
 	/**
 	 * 获取json
 	 * 
-	 * @returns {Array}
+	 * @returns {array}
 	 */
 	Constructor.prototype.getJson = function() {
 
@@ -2215,11 +2247,32 @@ core.project.search.Search = (function() {
 	/**
 	 * 获取sql
 	 * 
-	 * @returns {String}
+	 * @returns {string}
 	 */
 	Constructor.prototype.getSql = function() {
 
 		return getSqlFromFields(this.getFields());
+	};
+
+	/**
+	 * 获取字段对象
+	 * 
+	 * @param field{string}
+	 * @returns {object}
+	 */
+	Constructor.prototype.getField = function(field) {
+
+		var fields = this.getFields();
+
+		for (var i = 0, length = fields.length; i < length; i++) {
+
+			if (fields[i].field === field) {
+
+				return fields[i];
+			}
+		}
+
+		return null;
 	};
 
 	return Constructor;

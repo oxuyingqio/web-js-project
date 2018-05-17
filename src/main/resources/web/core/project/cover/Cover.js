@@ -40,7 +40,9 @@ core.project.cover.Cover = (function() {
 		/**
 		 * 遮盖层
 		 */
-		var div = new core.html.element.viewer.Div().style(style.join(" ")).init();
+		var div = new core.html.element.viewer.Div().style(style.join(" ")).appendTo("body");
+		// 隐藏遮盖层
+		div.$jQuery().hide();
 
 		/**
 		 * 获取/设置遮盖层
