@@ -1,10 +1,10 @@
 /**
- * @name	Font
+ * @name Font
  * @package core.project.constant
- * @desc	语言
- * @type	枚举
+ * @desc 语言
+ * @type 枚举
  * 
- * @date	2016年11月2日 09:53:40
+ * @date 2016年11月2日 09:53:40
  */
 core.project.constant.Font = function() {
 
@@ -14,8 +14,11 @@ core.project.constant.Font = function() {
 		language = navigator.browserLanguage;
 
 	if (language.toLowerCase().indexOf("zh") >= 0) {
-		
+
 		return {
+			badGatewayMessage : "服务器连接超时，请稍后重试。<br>点击[确定]将自动刷新本页面。",
+			dataInWrongFormatMessage : "服务器响应数据异常，请稍后重试或刷新页面重试。<br>点击[确定]将自动刷新本页面。",
+			unknownAnomalyMessage : "服务器未知异常，请联系技术支持。",
 			add : "增加",
 			edit : "编辑",
 			del : "删除",
@@ -36,7 +39,7 @@ core.project.constant.Font = function() {
 			failure : "失败"
 		};
 	} else if (language.toLowerCase().indexOf("en") >= 0) {
-		
+
 		return {};
 	}
 }();
