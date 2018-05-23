@@ -38,7 +38,7 @@ public class Release {
 
 		// 若生成文件存在,则先删除
 		if (coreFile.exists()) {
-			
+
 			coreFile.delete();
 		}
 
@@ -46,7 +46,7 @@ public class Release {
 		for (int i = 0, length = packagePaths.length; i < length; i++) {
 
 			LOGGER.debug("进度:" + (i + 1) + "/" + length);
-			
+
 			FileUtils.recursionFile(new File(projectPath + jsCommonPath + packagePaths[i]),
 					new HandleSpecifyFormatFile(fileType, new CopyFileContent2SpecifiedFile(coreFile)));
 		}

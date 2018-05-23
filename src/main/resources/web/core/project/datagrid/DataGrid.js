@@ -1,14 +1,14 @@
 /**
- * @name	DataGrid
+ * @name DataGrid
  * @package core.project.datagrid
- * @desc	数据列表
- * @type	类型
+ * @desc 数据列表
+ * @type 类型
  * 
  * @constructor core.project.datagrid.DataGrid(string id/object jQuery)
  * 
- * @extend	core.html.easyui.datagrid.DataGrid
+ * @extend core.html.easyui.datagrid.DataGrid
  * 
- * @date	2018年5月11日 10:46:43
+ * @date 2018年5月11日 10:46:43
  */
 core.project.datagrid.DataGrid = (function() {
 
@@ -43,6 +43,14 @@ core.project.datagrid.DataGrid = (function() {
 		this.pagination(true);
 		this.rownumbers(true);
 		this.singleSelect(true);
+		this.onLoadError(function() {
+
+			core.html.easyui.window.Messager.getInstance().alert(null, "远程数据加载失败，请刷新页面重试。<br>点击[确定]将自动刷新本页面。", null,
+					function() {
+
+						location.reload();
+					});
+		});
 
 		/**
 		 * 属性

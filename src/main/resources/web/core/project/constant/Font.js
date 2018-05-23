@@ -19,6 +19,7 @@ core.project.constant.Font = function() {
 			badGatewayMessage : "服务器连接超时，请稍后重试。<br>点击[确定]将自动刷新本页面。",
 			dataInWrongFormatMessage : "服务器响应数据异常，请稍后重试或刷新页面重试。<br>点击[确定]将自动刷新本页面。",
 			unknownAnomalyMessage : "服务器未知异常，请联系技术支持。",
+			serverProcessingMessage : "服务器处理中，请等待...",
 			add : "增加",
 			edit : "编辑",
 			del : "删除",
@@ -36,7 +37,8 @@ core.project.constant.Font = function() {
 			yes : "是",
 			no : "否",
 			success : "成功",
-			failure : "失败"
+			fail : "失败",
+			reload : "刷新"
 		};
 	} else if (language.toLowerCase().indexOf("en") >= 0) {
 
