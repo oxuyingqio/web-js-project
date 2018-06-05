@@ -98,6 +98,29 @@ core.project.search.Search = (function() {
 
 		// 获取easyui配置
 		var easyui = config.easyui ? config.easyui : {};
+		// 除tagbox,添加清除按钮
+		if (config.type !== core.project.search.Type.EASYUI.TAGBOX) {
+
+			// 清除按钮
+			var clearButton = {
+				iconCls : "icon-clear",
+				handler : function(e) {
+
+					$(e.data.target).textbox("setValue", "");
+				}
+			};
+
+			// 是否配置icons属性
+			if (easyui.icons) {
+
+				// 添加清除按钮
+				easyui.icons.push(clearButton);
+			} else {
+
+				// 添加清除按钮
+				easyui.icons = [ clearButton ];
+			}
+		}
 
 		// 判断类型
 		switch (config.type) {
