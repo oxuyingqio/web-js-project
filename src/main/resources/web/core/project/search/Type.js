@@ -15,6 +15,7 @@ core.project.search.Type = {
 		DATEBOX : "datebox",
 		DATETIMEBOX : "datetimebox",
 		NUMBERBOX : "numberbox",
+		NUMBERSPINNER : "numberspinner",
 		TAGBOX : "tagbox",
 		TEXTBOX : "textbox"
 	}

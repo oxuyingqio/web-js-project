@@ -40,6 +40,7 @@ core.project.search.Search = (function() {
 			case core.project.search.Type.EASYUI.DATEBOX:
 			case core.project.search.Type.EASYUI.DATETIMEBOX:
 			case core.project.search.Type.EASYUI.NUMBERBOX:
+			case core.project.search.Type.EASYUI.NUMBERSPINNER:
 			case core.project.search.Type.EASYUI.TAGBOX:
 			case core.project.search.Type.EASYUI.TEXTBOX:
 				dealEasyUIInput(search, tr, tdData);
@@ -389,6 +390,67 @@ core.project.search.Search = (function() {
 
 					startnumberbox.setValue("");
 					endnumberbox.setValue("");
+				}
+			});
+
+			break;
+		case core.project.search.Type.EASYUI.NUMBERSPINNER:
+
+			// easyui
+			var startnumberspinner;
+			var endnumberspinner;
+
+			// 添加输入框,配置EasyUI
+			td.append(
+					new core.html.element.viewer.Input(config.id ? ("start" + config.id) : config.id).onInit(function(
+							_this) {
+
+						// 实例化
+						startnumberspinner = new core.html.easyui.form.NumberSpinner(_this.$jQuery());
+						// 遍历参数
+						for ( var attr in easyui) {
+							// 设置对应参数
+							startnumberspinner[attr] && startnumberspinner[attr](easyui[attr]);
+						}
+						// 初始化
+						startnumberspinner.init();
+					})).append("&nbsp;-&nbsp;").append(
+					new core.html.element.viewer.Input(config.id ? ("end" + config.id) : config.id).onInit(function(
+							_this) {
+
+						// 实例化
+						endnumberspinner = new core.html.easyui.form.NumberSpinner(_this.$jQuery());
+						// 遍历参数
+						for ( var attr in easyui) {
+							// 设置对应参数
+							endnumberspinner[attr] && endnumberspinner[attr](easyui[attr]);
+						}
+						// 初始化
+						endnumberspinner.init();
+					}));
+
+			// 添加字段
+			search.addField({
+				ignore : config.ignore,
+				field : config.field,
+				dataType : config.dataType ? config.dataType : core.project.search.DataType.DOUBLE,
+				queryMode : config.queryMode ? config.queryMode : core.project.search.QueryMode.BETWEEN,
+				values : function() {
+
+					return [ startnumberspinner.getValue(), endnumberspinner.getValue() ];
+				},
+				start : function() {
+
+					return startnumberspinner;
+				},
+				end : function() {
+
+					return endnumberspinner;
+				},
+				clear : function() {
+
+					startnumberspinner.setValue("");
+					endnumberspinner.setValue("");
 				}
 			});
 
