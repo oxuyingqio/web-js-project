@@ -42,6 +42,30 @@ core.project.constant.Font = function() {
 		};
 	} else if (language.toLowerCase().indexOf("en") >= 0) {
 
-		return {};
+		return {
+			badGatewayMessage : "Server timeout, retry later.<br>click OK to update the page",
+			dataInWrongFormatMessage : "Server data anomaly, retry later or updage page. <br>clikc OK to updage the page",
+			unknownAnomalyMessage : "unknown server anomaly, contact technical supports",
+			serverProcessingMessage : "Server is processing, wait...",
+			add : "Add",
+			edit : "Edit",
+			del : "Delete",
+			save : "Save",
+			update : "Update",
+			remove : "Remove",
+			confirm : "OK",
+			cancel : "Cancel",
+			search : "Search",
+			reset : "Reset",
+			back : "Back",
+			print : "Print",
+			download : "Download",
+			upload : "Upload",
+			yes : "Yes",
+			no : "No",
+			success : "OK",
+			fail : "Failed",
+			reload : "Update"
+		};
 	}
 }();

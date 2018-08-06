@@ -63,23 +63,23 @@ core.project.search.Search = (function() {
 				"&nbsp;").append(
 				new core.html.element.viewer.A().onInit(function(_this) {
 
-					new core.html.easyui.button.LinkButton(_this.id()).width("80px").text("搜&nbsp;&nbsp;&nbsp;索")
-							.onClick(function() {
+					new core.html.easyui.button.LinkButton(_this.id()).width("80px").text(
+							core.project.search.Font.search).onClick(function() {
 
-								search.searchEvent()();
-							}).init();
+						search.searchEvent()();
+					}).init();
 				})).append("&nbsp;").append(
 				new core.html.element.viewer.A().onInit(function(_this) {
 
-					new core.html.easyui.button.LinkButton(_this.id()).width("80px").text("重&nbsp;&nbsp;&nbsp;置")
-							.onClick(function() {
+					new core.html.easyui.button.LinkButton(_this.id()).width("80px").text(
+							core.project.search.Font.reset).onClick(function() {
 
-								var fields = search.getFields();
-								for (var j = 0, jLength = fields.length; j < jLength; j++) {
+						var fields = search.getFields();
+						for (var j = 0, jLength = fields.length; j < jLength; j++) {
 
-									fields[j].clear();
-								}
-							}).init();
+							fields[j].clear();
+						}
+					}).init();
 				})));
 	}
 
