@@ -791,7 +791,11 @@ core.project.search.Search = (function() {
 		 * 搜索字段
 		 */
 		var fields = [];
-
+		/**
+		 * 按钮位置
+		 */
+		var buttonPosition = true;
+		
 		/**
 		 * 搜索按钮事件
 		 */
@@ -830,6 +834,23 @@ core.project.search.Search = (function() {
 			return fields;
 		};
 
+		/**
+		 * 获取/设置按钮位置
+		 * 
+		 * @param buttonPosition{Boolean}
+		 * @returns {Boolean/core.project.search.Search}
+		 */
+		this.buttonPosition = function() {
+
+			switch (arguments.length) {
+			case 0:
+				return buttonPosition;
+			default:
+				buttonPosition = arguments[0];
+				return this;
+			}
+		};
+		
 		/**
 		 * 获取/设置搜索事件
 		 * 
