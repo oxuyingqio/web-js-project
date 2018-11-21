@@ -877,9 +877,6 @@ core.project.search.Search = (function() {
 	 */
 	Constructor.prototype.project = function(configs) {
 
-		// 备份this对象
-		var search = this;
-
 		// 创建表格对象
 		var table = new core.html.element.viewer.Table().style("font-size:12px;").appendTo(this.div());
 		// 遍历配置项
@@ -891,7 +888,13 @@ core.project.search.Search = (function() {
 			// 处理表格行数据
 			dealTableTrData(this, tr, configs[i]);
 			// 为第一行,则处理按钮
-			i === 0 && dealButton(this, tr);
+			if (this.buttonPosition()) {
+
+				i === 0 && dealButton(this, tr);
+			} else {
+
+				i === (length - 1) && dealButton(this, tr);
+			}
 		}
 
 		return this;
