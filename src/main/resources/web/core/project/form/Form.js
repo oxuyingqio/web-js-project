@@ -1,10 +1,10 @@
 /**
- * @name	Form
+ * @name Form
  * @package core.project.form
- * @desc	表单
- * @type	类
+ * @desc 表单
+ * @type 类
  * 
- * @date	2018年5月11日 14:47:27
+ * @date 2018年5月11日 14:47:27
  */
 core.project.form.Form = (function() {
 
@@ -762,8 +762,16 @@ core.project.form.Form = (function() {
 	 */
 	Constructor.prototype.project = function() {
 
+		// 表单样式
+		var style = [ "padding-top:15px;" ];
+		// 判断浏览器是否为IE
+		if (!!window.ActiveXObject || "ActiveXObject" in window) {
+
+			style.push("text-align:center;");
+		}
+
 		// 创建表单对象
-		var form = new core.html.element.viewer.Form(this.formId()).style("padding-top:15px;").method("post").enctype(
+		var form = new core.html.element.viewer.Form(this.formId()).style(style.join("")).method("post").enctype(
 				"multipart/form-data");
 		// 添加表单HTML
 		this.content(form.convertHtml());
