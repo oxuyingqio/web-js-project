@@ -39,6 +39,10 @@ core.project.datagrid.DataGrid = (function() {
 		// 调用父类构造
 		core.project.datagrid.DataGrid.superClass.constructor.call(this, arguments[0]);
 		// 默认参数修改
+		this.width("100%");
+		this.height("100%");
+		this.fit(true);
+		this.fitColumns(true);
 		this.striped(true);
 		this.pagination(true);
 		this.rownumbers(true);
