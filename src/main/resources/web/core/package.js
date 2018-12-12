@@ -5,9 +5,6 @@
 // 项目包
 core.project = {
 
-	// 常量包
-	constant : {},
-
 	// 遮盖层
 	cover : {},
 
