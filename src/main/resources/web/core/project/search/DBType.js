@@ -15,4 +15,4 @@ core.project.search.DBType = {
 /**
  * 当前数据库类型
  */
-core.project.search.CurrentDBType = core.project.search.DBType.ORACLE;
+core.project.search.CurrentDBType = core.project.search.DBType.MYSQL;

@@ -5,9 +5,6 @@
 // 项目包
 core.project = {
 
-	// 常量包
-	constant : {},
-
 	// 遮盖层
 	cover : {},
 
@@ -20,53 +17,6 @@ core.project = {
 	// 搜索
 	search : {}
 };
-/**
- * @name Font
- * @package core.project.constant
- * @desc 语言
- * @type 枚举
- * 
- * @date 2016年11月2日 09:53:40
- */
-core.project.constant.Font = function() {
-
-	// 获取浏览器语言设置
-	var language = navigator.language;
-	if (!language)
-		language = navigator.browserLanguage;
-
-	if (language.toLowerCase().indexOf("zh") >= 0) {
-
-		return {
-			badGatewayMessage : "服务器连接超时，请稍后重试。<br>点击[确定]将自动刷新本页面。",
-			dataInWrongFormatMessage : "服务器响应数据异常，请稍后重试或刷新页面重试。<br>点击[确定]将自动刷新本页面。",
-			unknownAnomalyMessage : "服务器未知异常，请联系技术支持。",
-			serverProcessingMessage : "服务器处理中，请等待...",
-			add : "增加",
-			edit : "编辑",
-			del : "删除",
-			save : "保存",
-			update : "更新",
-			remove : "移除",
-			confirm : "确认",
-			cancel : "取消",
-			search : "搜索",
-			reset : "重置",
-			back : "后退",
-			print : "打印",
-			download : "下载",
-			upload : "上传",
-			yes : "是",
-			no : "否",
-			success : "成功",
-			fail : "失败",
-			reload : "刷新"
-		};
-	} else if (language.toLowerCase().indexOf("en") >= 0) {
-
-		return {};
-	}
-}();
 /**
  * @name	Cover
  * @package core.project.cover
@@ -363,12 +313,12 @@ core.project.datagrid.DataGrid = (function() {
 	return Constructor;
 })();
 /**
- * @name	Form
+ * @name Form
  * @package core.project.form
- * @desc	表单
- * @type	类
+ * @desc 表单
+ * @type 类
  * 
- * @date	2018年5月11日 14:47:27
+ * @date 2018年5月11日 14:47:27
  */
 core.project.form.Form = (function() {
 
@@ -1126,8 +1076,16 @@ core.project.form.Form = (function() {
 	 */
 	Constructor.prototype.project = function() {
 
+		// 表单样式
+		var style = [ "padding-top:15px;" ];
+		// 判断浏览器是否为IE
+		if (!!window.ActiveXObject || "ActiveXObject" in window) {
+
+			style.push("text-align:center;");
+		}
+
 		// 创建表单对象
-		var form = new core.html.element.viewer.Form(this.formId()).style("padding-top:15px;").method("post").enctype(
+		var form = new core.html.element.viewer.Form(this.formId()).style(style.join("")).method("post").enctype(
 				"multipart/form-data");
 		// 添加表单HTML
 		this.content(form.convertHtml());
@@ -1362,7 +1320,36 @@ core.project.search.DBType = {
 /**
  * 当前数据库类型
  */
-core.project.search.CurrentDBType = core.project.search.DBType.ORACLE;
+core.project.search.CurrentDBType = core.project.search.DBType.MYSQL;
+/**
+ * @name Font
+ * @package core.project.search
+ * @desc 语言
+ * @type 枚举
+ * 
+ * @date 2018年8月4日 15:22:21
+ */
+core.project.search.Font = function() {
+
+	// 获取浏览器语言设置
+	var language = navigator.language;
+	if (!language)
+		language = navigator.browserLanguage;
+
+	if (language.toLowerCase().indexOf("zh") >= 0) {
+
+		return {
+			search : "搜&nbsp;&nbsp;&nbsp;索",
+			reset : "重&nbsp;&nbsp;&nbsp;置"
+		};
+	} else if (language.toLowerCase().indexOf("en") >= 0) {
+
+		return {
+			search : "搜索",
+			reset : "重置"
+		};
+	}
+}();
 /**
  * @name	QueryMode
  * @package core.project.search
@@ -1499,23 +1486,23 @@ core.project.search.Search = (function() {
 				"&nbsp;").append(
 				new core.html.element.viewer.A().onInit(function(_this) {
 
-					new core.html.easyui.button.LinkButton(_this.id()).width("80px").text("搜&nbsp;&nbsp;&nbsp;索")
-							.onClick(function() {
+					new core.html.easyui.button.LinkButton(_this.id()).width("80px").text(
+							core.project.search.Font.search).onClick(function() {
 
-								search.searchEvent()();
-							}).init();
+						search.searchEvent()();
+					}).init();
 				})).append("&nbsp;").append(
 				new core.html.element.viewer.A().onInit(function(_this) {
 
-					new core.html.easyui.button.LinkButton(_this.id()).width("80px").text("重&nbsp;&nbsp;&nbsp;置")
-							.onClick(function() {
+					new core.html.easyui.button.LinkButton(_this.id()).width("80px").text(
+							core.project.search.Font.reset).onClick(function() {
 
-								var fields = search.getFields();
-								for (var j = 0, jLength = fields.length; j < jLength; j++) {
+						var fields = search.getFields();
+						for (var j = 0, jLength = fields.length; j < jLength; j++) {
 
-									fields[j].clear();
-								}
-							}).init();
+							fields[j].clear();
+						}
+					}).init();
 				})));
 	}
 
@@ -2227,7 +2214,11 @@ core.project.search.Search = (function() {
 		 * 搜索字段
 		 */
 		var fields = [];
-
+		/**
+		 * 按钮位置
+		 */
+		var buttonPosition = true;
+		
 		/**
 		 * 搜索按钮事件
 		 */
@@ -2267,6 +2258,23 @@ core.project.search.Search = (function() {
 		};
 
 		/**
+		 * 获取/设置按钮位置
+		 * 
+		 * @param buttonPosition{Boolean}
+		 * @returns {Boolean/core.project.search.Search}
+		 */
+		this.buttonPosition = function() {
+
+			switch (arguments.length) {
+			case 0:
+				return buttonPosition;
+			default:
+				buttonPosition = arguments[0];
+				return this;
+			}
+		};
+		
+		/**
 		 * 获取/设置搜索事件
 		 * 
 		 * @param searchEvent{function}
@@ -2292,9 +2300,6 @@ core.project.search.Search = (function() {
 	 */
 	Constructor.prototype.project = function(configs) {
 
-		// 备份this对象
-		var search = this;
-
 		// 创建表格对象
 		var table = new core.html.element.viewer.Table().style("font-size:12px;").appendTo(this.div());
 		// 遍历配置项
@@ -2306,7 +2311,13 @@ core.project.search.Search = (function() {
 			// 处理表格行数据
 			dealTableTrData(this, tr, configs[i]);
 			// 为第一行,则处理按钮
-			i === 0 && dealButton(this, tr);
+			if (this.buttonPosition()) {
+
+				i === 0 && dealButton(this, tr);
+			} else {
+
+				i === (length - 1) && dealButton(this, tr);
+			}
 		}
 
 		return this;
