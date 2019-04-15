@@ -1,10 +1,10 @@
 /**
- * @name Type
+ * @name	Type
  * @package core.project.form
- * @desc 表单数据内容类型
- * @type 枚举
+ * @desc	表单数据内容类型
+ * @type	枚举
  * 
- * @date 2016年9月2日 16:25:11
+ * @date	2016年9月2日 16:25:11
  */
 core.project.form.Type = {
 
@@ -20,7 +20,6 @@ core.project.form.Type = {
 		SWITCHBUTTON : "switchbutton",
 
 		CALENDAR : "calendar",
-		CHECKBOX : "easyui_checkbox",
 		COMBO : "combo",
 		COMBOBOX : "combobox",
 		COMBOGRID : "combogrid",
@@ -34,7 +33,6 @@ core.project.form.Type = {
 		NUMBERBOX : "numberbox",
 		NUMBERSPINNER : "numberspinner",
 		PASSWORDBOX : "passwordbox",
-		RADIOBUTTON : "radiobutton",
 		SLIDER : "slider",
 		SPINNER : "spinner",
 		TAGBOX : "tagbox",

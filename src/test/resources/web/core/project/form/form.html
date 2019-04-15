@@ -6,7 +6,57 @@
 
 <link rel="stylesheet" type="text/css" href="/~/core/resource/jquery-easyui-themes/default/easyui.css">
 <link rel="stylesheet" type="text/css" href="/~/core/resource/jquery-easyui-themes/icon.css">
+<style>
+body {
+	background-color: #fafafa;
+}
 
+.formTable {
+	width: 100%;
+	font-size: 12px;
+	border-collapse: collapse;
+}
+
+.formTr {
+	height: 34px;
+}
+
+.formGroupTd {
+	top: 0 !important;
+	left: 0 !important;
+	width: 95%;
+	height: 39px;
+}
+
+.formGroupContent {
+	position: relative;
+	top: 0px;
+	display: inline-block;
+	color: #4c84d1;
+	font-size: 12px;
+	font-weight: bold;
+	height: 22px;
+	line-height: 22px;
+}
+
+.formTd {
+	white-space: nowrap;
+	padding: 5px;
+}
+
+.formInfoTd {
+	border: 1px solid #C5C5C5;
+}
+
+.formLabelTd {
+	text-align: right;
+	font-family: Microsoft Yahei;
+}
+
+.formInfoValueTd {
+	background-color: #F5F5F5;
+}
+</style>
 </head>
 <body>
 	<div id="formDiv"></div>
@@ -14,8 +64,8 @@
 
 <script type="text/javascript" src="/~/core/resource/jquery-3.1.1/jquery-3.1.1.js"></script>
 
-<script type="text/javascript" src="/~/core/resource/jquery-easyui-1.5.4.5/jquery.easyui.min.js"></script>
-<script type="text/javascript" src="/~/core/resource/jquery-easyui-1.5.4.5/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="/~/core/resource/jquery-easyui-1.7.6/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="/~/core/resource/jquery-easyui-1.7.6/locale/easyui-lang-zh_CN.js"></script>
 
 <script type="text/javascript" src="/~/core/release/core.js"></script>
 <script type="text/javascript" src="/~/core/release/easyui.js"></script>
@@ -28,9 +78,133 @@
 <script type="text/javascript">
 	$(function() {
 
-		new core.project.form.Form("formDiv").formId("form").height("500px").isGroup(true).groupData([ {
+		var ys = [ {
+			"id" : 1,
+			"text" : "text1"
+		}, {
+			"id" : 2,
+			"text" : "text2"
+		} ]
+		
+		var cookie = core.html.util.Cookie.getInstance();
+		var cookieData = cookie.get("data");
+		
+		var data = ys;
+		if (cookieData) {
+
+			var a = cookieData.split("~");
+			for (var i = 0; i < a.length; i++) {
+
+				data.push({
+					id : a[i],
+					text : a[i]
+				})
+			}
+		}
+
+		console.log(data)
+
+		new core.project.form.Form("formDiv").formId("form").height("900px").groupData([ {
+			text : "用户信息",
+			colspan : 8,
+			showOnly : true,
+			data : [ [ {
+				label : "用户编号",
+				type : core.project.form.Type.A,
+				id : "userCode",
+				content : "1056000137"
+			}, {
+				label : "用户姓名",
+				type : core.project.form.Type.LABEL,
+				id : "userName",
+				content : "李庆祝"
+			}, {
+				label : "管理号",
+				type : core.project.form.Type.DIV,
+				id : "glh"
+			}, {
+				label : "用户电话",
+				type : core.project.form.Type.EASYUI.TEXTBOX,
+				id : "userTelephone",
+				easyui : {
+					value : 13953009396
+				}
+			} ], [ {
+				label : "用气类型",
+				type : core.project.form.Type.A,
+				id : "userType",
+				content : "民用阶梯"
+			}, {
+				label : "气价(元/方)",
+				type : core.project.form.Type.LABEL,
+				id : "qj",
+				content : "0"
+			}, {
+				label : "证件号码",
+				type : core.project.form.Type.DIV,
+				id : "zjhm",
+				colspan : 3
+			} ], [ {
+				label : "用户地址",
+				type : core.project.form.Type.A,
+				id : "userAddress",
+				content : "人民路烟草公司家属院3号楼，3单元，楼层 : 2，房号 : 1",
+				colspan : 3
+			}, {
+				label : "备注",
+				type : core.project.form.Type.LABEL,
+				id : "bz",
+				colspan : 3
+			} ] ]
+		}, {
+			text : "气表信息",
+			colspan : 8,
+			showOnly : true,
+			data : [ [ {
+				label : "气表类型",
+				type : core.project.form.Type.A,
+				id : "qblx",
+				content : "民用GPRS 46"
+			}, {
+				label : "表具条码",
+				type : core.project.form.Type.LABEL,
+				id : "bjtm",
+				content : "1840011510"
+			}, {
+				label : {
+					content : "气表参数",
+					rowspan : 3
+				},
+				type : core.project.form.Type.DIV,
+				id : "qbcs",
+				colspan : 3,
+				rowspan : 3,
+				content : "气表规格(卡)=IG2.5S,<br>卡最大存量=1000,"
+			} ], [ {
+				label : "表内剩余",
+				type : core.project.form.Type.A,
+				id : "bnsy",
+				content : "0.00"
+			}, {
+				label : "总用气量",
+				type : core.project.form.Type.LABEL,
+				id : "zyql",
+				content : "0.00"
+			} ], [ {
+				label : "总购气量",
+				type : core.project.form.Type.A,
+				id : "zgql",
+				content : "79.36"
+			}, {
+				label : "总购金额",
+				type : core.project.form.Type.LABEL,
+				id : "zgje",
+				content : "200.00"
+			} ] ]
+		}, {
 			id : "group1",
 			text : "分组1",
+			colspan : 8,
 			data : [ [ {
 				label : "a",
 				type : core.project.form.Type.A,
@@ -47,8 +221,8 @@
 		}, {
 			id : "group2",
 			text : "分组2",
+			colspan : 8,
 			data : [ [ {
-				label : "hidden",
 				type : core.project.form.Type.INPUT.HIDDEN,
 				id : "hidden"
 			}, {
@@ -83,6 +257,7 @@
 		}, {
 			id : "group3",
 			text : "分组3",
+			colspan : 8,
 			data : [ [ {
 				label : "switchbutton",
 				type : core.project.form.Type.EASYUI.SWITCHBUTTON,
@@ -96,9 +271,9 @@
 				type : core.project.form.Type.EASYUI.COMBOBOX,
 				id : "combobox",
 				easyui : {
-					url : "http://localhost:8080/~/core/html/easyui/form/combobox.json",
 					valueField : "id",
-					textField : "text"
+					textField : "text",
+					data : data
 				}
 			}, {
 				label : "combogrid",
@@ -147,7 +322,10 @@
 			} ], [ {
 				label : "slider",
 				type : core.project.form.Type.EASYUI.SLIDER,
-				id : "slider"
+				id : "slider",
+				easyui : {
+					width : "150px"
+				}
 			}, {
 				label : "spinner",
 				type : core.project.form.Type.EASYUI.SPINNER,
@@ -179,12 +357,41 @@
 					required : true,
 					validType : "email"
 				}
+			}, {
+				label : "checkbox",
+				type : core.project.form.Type.EASYUI.CHECKBOX,
+				id : "e_checkbox"
+			}, {
+				label : "radiobutton",
+				type : core.project.form.Type.EASYUI.RADIOBUTTON,
+				id : "radiobutton"
 			} ] ]
 		} ]).toolbar([ {
 			text : "测试",
 			iconCls : 'icon-add',
 			handler : function() {
-				alert('add')
+
+				var text = $("#combobox").combobox("getText");
+				var add = true;
+				for (var i = 0; i < data.length; i++) {
+
+					if (data[i].text === text) {
+
+						add = false;
+						break;
+					}
+				}
+				if (add) {
+
+					var c = cookie.get("data");
+					if (c == null || c == undefined) {
+
+						cookie.set("data", text);
+					} else {
+
+						cookie.set("data", c + "~" + text)
+					}
+				}
 			}
 		}, "-", {
 			text : "测试测试",
