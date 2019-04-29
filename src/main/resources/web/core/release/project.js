@@ -318,51 +318,155 @@ core.project.datagrid.DataGrid = (function() {
  * @desc 表单
  * @type 类
  * 
- * @date 2018年5月11日 14:47:27
+ * @date 2019年4月29日 15:08:06
  */
 core.project.form.Form = (function() {
 
 	/**
-	 * 处理组内表格行数据
+	 * 处理分组
 	 * 
-	 * @param tr
-	 * @param trData
+	 * @param table
+	 * @param config
 	 * @returns
 	 */
-	function dealTableTrData(tr, trData) {
+	function dealGroup(table, config) {
 
-		// 遍历表格行的格数据
-		for (var i = 0, length = trData.length; i < length; i++) {
+		// 实例化行
+		var tr = new core.html.element.viewer.Tr().clazz("formTr").append(
+				new core.html.element.viewer.Td().clazz("formGroupTd").colspan(config.colspan ? config.colspan : 1)
+						.rowspan(config.rowspan ? config.rowspan : 1).append(
+								"<span class='formGroupContent'>" + (config.content ? config.content : config.text)
+										+ "</span>"));
 
-			// 格数据
-			var tdData = trData[i];
+		// 添加行到表格
+		tr.appendTo(table);
+	}
 
-			// 判断是否存在label属性
-			if (tdData.label) {
+	/**
+	 * 处理分组数据
+	 * 
+	 * @param table
+	 * @param config
+	 */
+	function dealGroupData(table, config) {
 
-				// 创建添加label
-				tr.append(new core.html.element.viewer.Td().style("white-space:nowrap;text-align:right;").append(
-						new core.html.element.viewer.Label().append(tdData.label + ":")));
+		// 获取分组行数据
+		var data = config.data;
+		// 遍历分组行数据
+		for (var i = 0, length = data.length; i < length; i++) {
+
+			// 实例化行
+			var tr = new core.html.element.viewer.Tr().clazz("formTr");
+
+			// 遍历行格数据
+			for (var j = 0, jLength = data[i].length; j < jLength; j++) {
+
+				// 处理行格
+				dealTrTd(tr, data[i][j], config.showOnly);
 			}
 
+			// 添加行到表格
+			tr.appendTo(table);
+		}
+	}
+
+	/**
+	 * 处理行格
+	 * 
+	 * @param tr
+	 * @param config
+	 * @param showOnly
+	 * @returns
+	 */
+	function dealTrTd(tr, config, showOnly) {
+
+		// 判断是否存在标签
+		if (config.label) {
+
+			// 实例化格
+			var td = new core.html.element.viewer.Td(config.label.id);
+			// 实例化样式
+			var clazz = [];
+			// 默认样式
+			clazz.push("formTd");
+			clazz.push("formLabelTd");
+			// 判断是否为仅展示
+			if (showOnly) {
+
+				clazz.push("formInfoTd");
+				clazz.push("formInfoLabelTd");
+			}
+			// 设置样式
+			td.clazz(clazz.join(" "));
+
+			// 判断标签类型
+			if (typeof (config.label) === "string") {
+
+				// 添加标签内容
+				td.append(config.label + " :");
+			} else {
+
+				// 设置
+				td.style(config.label.tdStyle ? config.label.tdStyle : "").colspan(
+						config.label.colspan ? config.label.colspan : 1).rowspan(
+						config.label.rowspan ? config.label.rowspan : 1).append(config.label.content + " :");
+			}
+
+			// 添加格到行
+			td.appendTo(tr);
+		}
+
+		// 若为隐藏输入框,特殊处理
+		if (config.type === core.project.form.Type.INPUT.HIDDEN) {
+
+			// 添加到行
+			new core.html.element.viewer.Input(config.id).type("hidden").name(config.name ? config.name : config.id)
+					.value(config.value).appendTo(tr);
+		} else {
+
+			// 实例化格
+			var td = new core.html.element.viewer.Td();
+			// 实例化样式
+			var clazz = [];
+			// 默认样式
+			clazz.push("formTd");
+			// 判断是否为仅展示
+			if (showOnly) {
+
+				clazz.push("formInfoTd");
+				clazz.push("formInfoValueTd");
+			}
+			// 设置样式
+			td.clazz(clazz.join(" "));
+
+			// 设置
+			td.style(config.tdStyle ? config.tdStyle : "").colspan(config.colspan ? config.colspan : 1).rowspan(
+					config.rowspan ? config.rowspan : 1).append(config.before);
+
 			// 依据单元格数据类型,处理
-			switch (tdData.type) {
+			switch (config.type) {
 			case core.project.form.Type.A:
-				dealA(tr, tdData);
+				// 处理A
+				td.append(new core.html.element.viewer.A(config.id).append(config.content ? config.content
+						: config.text));
 				break;
 			case core.project.form.Type.LABEL:
-				dealLabel(tr, tdData);
+				// 处理Label
+				td.append(new core.html.element.viewer.Label(config.id).append(config.content ? config.content
+						: config.text));
 				break;
 			case core.project.form.Type.DIV:
-				dealDiv(tr, tdData);
+				// 处理DIV
+				td.append(new core.html.element.viewer.Div(config.id).append(config.content));
 				break;
-			case core.project.form.Type.INPUT.HIDDEN:
 			case core.project.form.Type.INPUT.RADIO:
 			case core.project.form.Type.INPUT.CHECKBOX:
-				dealInput(tr, tdData);
+				// 处理input
+				dealInput(td, config);
 				break;
 			case core.project.form.Type.EASYUI.SWITCHBUTTON:
 			case core.project.form.Type.EASYUI.CALENDAR:
+			case core.project.form.Type.EASYUI.CHECKBOX:
 			case core.project.form.Type.EASYUI.COMBO:
 			case core.project.form.Type.EASYUI.COMBOBOX:
 			case core.project.form.Type.EASYUI.COMBOGRID:
@@ -376,6 +480,7 @@ core.project.form.Form = (function() {
 			case core.project.form.Type.EASYUI.NUMBERBOX:
 			case core.project.form.Type.EASYUI.NUMBERSPINNER:
 			case core.project.form.Type.EASYUI.PASSWORDBOX:
+			case core.project.form.Type.EASYUI.RADIOBUTTON:
 			case core.project.form.Type.EASYUI.SLIDER:
 			case core.project.form.Type.EASYUI.SPINNER:
 			case core.project.form.Type.EASYUI.TAGBOX:
@@ -383,157 +488,99 @@ core.project.form.Form = (function() {
 			case core.project.form.Type.EASYUI.TEXTBOX:
 			case core.project.form.Type.EASYUI.TIMESPINNER:
 			case core.project.form.Type.EASYUI.VALIDATEBOX:
-				dealEasyUIInput(tr, tdData);
+				// 处理input
+				dealEasyUIInput(td, config);
 				break;
 			}
+
+			// 添加尾,添加格到行
+			td.append(config.after).appendTo(tr);
 		}
-	}
-
-	/**
-	 * 处理A
-	 * 
-	 * @param tr
-	 * @param config
-	 * @returns
-	 */
-	function dealA(tr, config) {
-
-		// 行添加单元格,单元格添加A
-		tr.append(new core.html.element.viewer.Td().style(config.tdStyle ? config.tdStyle : "white-space:nowrap;")
-				.colspan(config.colspan).rowspan(config.rowspan).append(config.before).append(
-						new core.html.element.viewer.A(config.id).append(config.text)).append(config.after));
-	}
-
-	/**
-	 * 处理Label
-	 * 
-	 * @param tr
-	 * @param config
-	 * @returns
-	 */
-	function dealLabel(tr, config) {
-
-		// 行添加单元格,单元格添加Label
-		tr.append(new core.html.element.viewer.Td().style(config.tdStyle ? config.tdStyle : "white-space:nowrap;")
-				.colspan(config.colspan).rowspan(config.rowspan).append(config.before).append(
-						new core.html.element.viewer.Label(config.id).append(config.text)).append(config.after));
-	}
-
-	/**
-	 * 处理Div
-	 * 
-	 * @param tr
-	 * @param config
-	 * @returns
-	 */
-	function dealDiv(tr, config) {
-
-		// 行添加单元格,单元格添加Div
-		tr.append(new core.html.element.viewer.Td().style(config.tdStyle).colspan(config.colspan).rowspan(
-				config.rowspan).append(config.before).append(
-				new core.html.element.viewer.Div(config.id).append(config.content)).append(config.after));
 	}
 
 	/**
 	 * 处理输入框
 	 * 
-	 * @param tr
+	 * @param td
 	 * @param config
 	 * @returns
 	 */
-	function dealInput(tr, config) {
+	function dealInput(td, config) {
 
-		// 隐藏域特殊处理
-		if (config.type === core.project.form.Type.INPUT.HIDDEN) {
+		// 判断输入框类型
+		switch (config.type) {
+		case core.project.form.Type.INPUT.RADIO:
 
-			// 添加隐藏域
-			tr.append(new core.html.element.viewer.Input(config.id).type("hidden").name(
-					config.name ? config.name : config.id).value(config.value));
-		} else {
+			// 获取数据
+			var data = config.data;
+			// 遍历数据
+			for (var i = 0; i < data.length; i++) {
 
-			// 创建输入框单元格
-			var td = new core.html.element.viewer.Td().style(config.tdStyle ? config.tdStyle : "white-space:nowrap;")
-					.colspan(config.colspan).rowspan(config.rowspan).append(config.before);
-
-			// 判断输入框类型
-			switch (config.type) {
-			case core.project.form.Type.INPUT.RADIO:
-
-				// 获取数据
-				var data = config.data;
-				// 遍历数据
-				for (var i = 0; i < data.length; i++) {
-
-					// 添加单选
-					td.append(new core.html.element.viewer.Input(config.id + i).type("radio").name(
-							config.name ? config.name : config.id).value(data[i].value));
-					// 添加标签
-					td.append(new core.html.element.viewer.Label().forAttr(config.id + i).append(data[i].text));
-				}
-
-				break;
-			case core.project.form.Type.INPUT.CHECKBOX:
-
-				// 获取数据
-				var data = config.data;
-				// 遍历数据
-				for (var i = 0; i < data.length; i++) {
-
-					// 添加单选
-					td.append(new core.html.element.viewer.Input(config.id + i).type("checkbox").name(
-							config.name ? config.name : config.id).value(data[i].value));
-					// 添加标签
-					td.append(new core.html.element.viewer.Label().forAttr(config.id + i).append(data[i].text));
-				}
-
-				break;
+				// 添加输入框
+				td.append(new core.html.element.viewer.Input(config.id + i).type("radio").name(
+						config.name ? config.name : config.id).value(data[i].value));
+				// 添加标签
+				td.append(new core.html.element.viewer.Label().forAttr(config.id + i).append(data[i].text));
 			}
 
-			// 后元素
-			td.append(config.after);
+			break;
+		case core.project.form.Type.INPUT.CHECKBOX:
 
-			// 行添加单元格
-			tr.append(td);
+			// 获取数据
+			var data = config.data;
+			// 遍历数据
+			for (var i = 0; i < data.length; i++) {
+
+				// 添加输入框
+				td.append(new core.html.element.viewer.Input(config.id + i).type("checkbox").name(
+						config.name ? config.name : config.id).value(data[i].value));
+				// 添加标签
+				td.append(new core.html.element.viewer.Label().forAttr(config.id + i).append(data[i].text));
+			}
+
+			break;
+		default:
+			// 添加输入框
+			td.append(new core.html.element.viewer.Input(config.id).name(config.name ? config.name : config.id));
+
+			break;
 		}
 	}
 
 	/**
 	 * 处理EasyUI输入框
 	 * 
-	 * @param tr
+	 * @param td
 	 * @param config
 	 * @returns
 	 */
-	function dealEasyUIInput(tr, config) {
+	function dealEasyUIInput(td, config) {
 
-		// 创建输入框单元格
-		var td = new core.html.element.viewer.Td().style(config.tdStyle ? config.tdStyle : "white-space:nowrap;")
-				.colspan(config.colspan).rowspan(config.rowspan).append(config.before);
-
-		// 创建输入框对象
+		// 实例化输入框
 		var input = new core.html.element.viewer.Input(config.id).name(config.name ? config.name : config.id);
-		// 获取easyui配置
-		var easyui = config.easyui ? config.easyui : {};
+		// 获取EASYUI配置
+		var easyuiConfig = config.easyui ? config.easyui : {};
 
-		// 判断EasyUI输入框类型
+		// 判断输入框类型
 		switch (config.type) {
 		case core.project.form.Type.EASYUI.SWITCHBUTTON:
 
 			// 添加输入框
 			td.append(input.onInit(function(_this) {
 
-				// 调用easyui选择按钮模板
-				var switchbutton = new core.html.easyui.button.SwitchButton(_this.$jQuery());
+				// 实例化EasyUI
+				var easyui = new core.html.easyui.button.SwitchButton(_this.$jQuery());
 				// 遍历参数
-				for ( var attr in easyui) {
+				for ( var attr in easyuiConfig) {
+
 					// 设置对应参数
-					switchbutton[attr] && switchbutton[attr](easyui[attr]);
+					easyui[attr] && easyui[attr](easyuiConfig[attr]);
 				}
 				// 初始化
-				switchbutton.init();
+				easyui.init();
 
-				// 回收引用
-				easyui = null;
+				// 回收配置引用
+				easyuiConfig = null;
 			}));
 
 			break;
@@ -542,18 +589,40 @@ core.project.form.Form = (function() {
 			// 添加输入框
 			td.append(input.onInit(function(_this) {
 
-				// 调用easyui选择按钮模板
-				var calendar = new core.html.easyui.form.Calendar(_this.$jQuery());
+				// 实例化EasyUI
+				var easyui = new core.html.easyui.form.Calendar(_this.$jQuery());
 				// 遍历参数
-				for ( var attr in easyui) {
+				for ( var attr in easyuiConfig) {
+
 					// 设置对应参数
-					calendar[attr] && calendar[attr](easyui[attr]);
+					easyui[attr] && easyui[attr](easyuiConfig[attr]);
 				}
 				// 初始化
-				calendar.init();
+				easyui.init();
 
-				// 回收引用
-				easyui = null;
+				// 回收配置引用
+				easyuiConfig = null;
+			}));
+
+			break;
+		case core.project.form.Type.EASYUI.CHECKBOX:
+
+			// 添加输入框
+			td.append(input.onInit(function(_this) {
+
+				// 实例化EasyUI
+				var easyui = new core.html.easyui.form.CheckBox(_this.$jQuery());
+				// 遍历参数
+				for ( var attr in easyuiConfig) {
+
+					// 设置对应参数
+					easyui[attr] && easyui[attr](easyuiConfig[attr]);
+				}
+				// 初始化
+				easyui.init();
+
+				// 回收配置引用
+				easyuiConfig = null;
 			}));
 
 			break;
@@ -562,18 +631,19 @@ core.project.form.Form = (function() {
 			// 添加输入框
 			td.append(input.onInit(function(_this) {
 
-				// 调用easyui下拉框模板
-				var combo = new core.html.easyui.form.Combo(_this.$jQuery());
+				// 实例化EasyUI
+				var easyui = new core.html.easyui.form.Combo(_this.$jQuery());
 				// 遍历参数
-				for ( var attr in easyui) {
+				for ( var attr in easyuiConfig) {
+
 					// 设置对应参数
-					combo[attr] && combo[attr](easyui[attr]);
+					easyui[attr] && easyui[attr](easyuiConfig[attr]);
 				}
 				// 初始化
-				combo.init();
+				easyui.init();
 
-				// 回收引用
-				easyui = null;
+				// 回收配置引用
+				easyuiConfig = null;
 			}));
 
 			break;
@@ -582,18 +652,19 @@ core.project.form.Form = (function() {
 			// 添加输入框
 			td.append(input.onInit(function(_this) {
 
-				// 调用easyui下拉列表框模板
-				var combobox = new core.html.easyui.form.ComboBox(_this.$jQuery());
+				// 实例化EasyUI
+				var easyui = new core.html.easyui.form.ComboBox(_this.$jQuery());
 				// 遍历参数
-				for ( var attr in easyui) {
+				for ( var attr in easyuiConfig) {
+
 					// 设置对应参数
-					combobox[attr] && combobox[attr](easyui[attr]);
+					easyui[attr] && easyui[attr](easyuiConfig[attr]);
 				}
 				// 初始化
-				combobox.init();
+				easyui.init();
 
-				// 回收引用
-				easyui = null;
+				// 回收配置引用
+				easyuiConfig = null;
 			}));
 
 			break;
@@ -602,18 +673,19 @@ core.project.form.Form = (function() {
 			// 添加输入框
 			td.append(input.onInit(function(_this) {
 
-				// 调用easyui下拉列表框模板
-				var combogrid = new core.html.easyui.form.ComboGrid(_this.$jQuery());
+				// 实例化EasyUI
+				var easyui = new core.html.easyui.form.ComboGrid(_this.$jQuery());
 				// 遍历参数
-				for ( var attr in easyui) {
+				for ( var attr in easyuiConfig) {
+
 					// 设置对应参数
-					combogrid[attr] && combogrid[attr](easyui[attr]);
+					easyui[attr] && easyui[attr](easyuiConfig[attr]);
 				}
 				// 初始化
-				combogrid.init();
+				easyui.init();
 
-				// 回收引用
-				easyui = null;
+				// 回收配置引用
+				easyuiConfig = null;
 			}));
 
 			break;
@@ -622,18 +694,19 @@ core.project.form.Form = (function() {
 			// 添加输入框
 			td.append(input.onInit(function(_this) {
 
-				// 调用easyui下拉列表框模板
-				var combotree = new core.html.easyui.form.ComboTree(_this.$jQuery());
+				// 实例化EasyUI
+				var easyui = new core.html.easyui.form.ComboTree(_this.$jQuery());
 				// 遍历参数
-				for ( var attr in easyui) {
+				for ( var attr in easyuiConfig) {
+
 					// 设置对应参数
-					combotree[attr] && combotree[attr](easyui[attr]);
+					easyui[attr] && easyui[attr](easyuiConfig[attr]);
 				}
 				// 初始化
-				combotree.init();
+				easyui.init();
 
-				// 回收引用
-				easyui = null;
+				// 回收配置引用
+				easyuiConfig = null;
 			}));
 
 			break;
@@ -642,18 +715,19 @@ core.project.form.Form = (function() {
 			// 添加输入框
 			td.append(input.onInit(function(_this) {
 
-				// 调用easyui下拉列表框模板
-				var combotreegrid = new core.html.easyui.form.ComboTreeGrid(_this.$jQuery());
+				// 实例化EasyUI
+				var easyui = new core.html.easyui.form.ComboTreeGrid(_this.$jQuery());
 				// 遍历参数
-				for ( var attr in easyui) {
+				for ( var attr in easyuiConfig) {
+
 					// 设置对应参数
-					combotreegrid[attr] && combotreegrid[attr](easyui[attr]);
+					easyui[attr] && easyui[attr](easyuiConfig[attr]);
 				}
 				// 初始化
-				combotreegrid.init();
+				easyui.init();
 
-				// 回收引用
-				easyui = null;
+				// 回收配置引用
+				easyuiConfig = null;
 			}));
 
 			break;
@@ -662,18 +736,19 @@ core.project.form.Form = (function() {
 			// 添加输入框
 			td.append(input.onInit(function(_this) {
 
-				// 调用easyui日期框模板
-				var datebox = new core.html.easyui.form.DateBox(_this.$jQuery());
+				// 实例化EasyUI
+				var easyui = new core.html.easyui.form.DateBox(_this.$jQuery());
 				// 遍历参数
-				for ( var attr in easyui) {
+				for ( var attr in easyuiConfig) {
+
 					// 设置对应参数
-					datebox[attr] && datebox[attr](easyui[attr]);
+					easyui[attr] && easyui[attr](easyuiConfig[attr]);
 				}
 				// 初始化
-				datebox.init();
+				easyui.init();
 
-				// 回收引用
-				easyui = null;
+				// 回收配置引用
+				easyuiConfig = null;
 			}));
 
 			break;
@@ -682,18 +757,19 @@ core.project.form.Form = (function() {
 			// 添加输入框
 			td.append(input.onInit(function(_this) {
 
-				// 调用easyui日期时间框模板
-				var datetimebox = new core.html.easyui.form.DateTimeBox(_this.$jQuery());
+				// 实例化EasyUI
+				var easyui = new core.html.easyui.form.DateTimeBox(_this.$jQuery());
 				// 遍历参数
-				for ( var attr in easyui) {
+				for ( var attr in easyuiConfig) {
+
 					// 设置对应参数
-					datetimebox[attr] && datetimebox[attr](easyui[attr]);
+					easyui[attr] && easyui[attr](easyuiConfig[attr]);
 				}
 				// 初始化
-				datetimebox.init();
+				easyui.init();
 
-				// 回收引用
-				easyui = null;
+				// 回收配置引用
+				easyuiConfig = null;
 			}));
 
 			break;
@@ -702,18 +778,19 @@ core.project.form.Form = (function() {
 			// 添加输入框
 			td.append(input.onInit(function(_this) {
 
-				// 调用easyui日期时间微调框模板
-				var datetimespinner = new core.html.easyui.form.DateTimeSpinner(_this.$jQuery());
+				// 实例化EasyUI
+				var easyui = new core.html.easyui.form.DateTimeSpinner(_this.$jQuery());
 				// 遍历参数
-				for ( var attr in easyui) {
+				for ( var attr in easyuiConfig) {
+
 					// 设置对应参数
-					datetimespinner[attr] && datetimespinner[attr](easyui[attr]);
+					easyui[attr] && easyui[attr](easyuiConfig[attr]);
 				}
 				// 初始化
-				datetimespinner.init();
+				easyui.init();
 
-				// 回收引用
-				easyui = null;
+				// 回收配置引用
+				easyuiConfig = null;
 			}));
 
 			break;
@@ -722,18 +799,19 @@ core.project.form.Form = (function() {
 			// 添加输入框
 			td.append(input.onInit(function(_this) {
 
-				// 调用easyui文件框模板
-				var filebox = new core.html.easyui.form.FileBox(_this.$jQuery());
+				// 实例化EasyUI
+				var easyui = new core.html.easyui.form.FileBox(_this.$jQuery());
 				// 遍历参数
-				for ( var attr in easyui) {
+				for ( var attr in easyuiConfig) {
+
 					// 设置对应参数
-					filebox[attr] && filebox[attr](easyui[attr]);
+					easyui[attr] && easyui[attr](easyuiConfig[attr]);
 				}
 				// 初始化
-				filebox.init();
+				easyui.init();
 
-				// 回收引用
-				easyui = null;
+				// 回收配置引用
+				easyuiConfig = null;
 			}));
 
 			break;
@@ -742,18 +820,19 @@ core.project.form.Form = (function() {
 			// 添加输入框
 			td.append(input.onInit(function(_this) {
 
-				// 调用easyui文件框模板
-				var maskedbox = new core.html.easyui.form.MaskedBox(_this.$jQuery());
+				// 实例化EasyUI
+				var easyui = new core.html.easyui.form.MaskedBox(_this.$jQuery());
 				// 遍历参数
-				for ( var attr in easyui) {
+				for ( var attr in easyuiConfig) {
+
 					// 设置对应参数
-					maskedbox[attr] && maskedbox[attr](easyui[attr]);
+					easyui[attr] && easyui[attr](easyuiConfig[attr]);
 				}
 				// 初始化
-				maskedbox.init();
+				easyui.init();
 
-				// 回收引用
-				easyui = null;
+				// 回收配置引用
+				easyuiConfig = null;
 			}));
 
 			break;
@@ -762,18 +841,19 @@ core.project.form.Form = (function() {
 			// 添加输入框
 			td.append(input.onInit(function(_this) {
 
-				// 调用easyui数字框模板
-				var numberbox = new core.html.easyui.form.NumberBox(_this.$jQuery());
+				// 实例化EasyUI
+				var easyui = new core.html.easyui.form.NumberBox(_this.$jQuery());
 				// 遍历参数
-				for ( var attr in easyui) {
+				for ( var attr in easyuiConfig) {
+
 					// 设置对应参数
-					numberbox[attr] && numberbox[attr](easyui[attr]);
+					easyui[attr] && easyui[attr](easyuiConfig[attr]);
 				}
 				// 初始化
-				numberbox.init();
+				easyui.init();
 
-				// 回收引用
-				easyui = null;
+				// 回收配置引用
+				easyuiConfig = null;
 			}));
 
 			break;
@@ -782,18 +862,19 @@ core.project.form.Form = (function() {
 			// 添加输入框
 			td.append(input.onInit(function(_this) {
 
-				// 调用easyui数字微调框模板
-				var numberspinner = new core.html.easyui.form.NumberSpinner(_this.$jQuery());
+				// 实例化EasyUI
+				var easyui = new core.html.easyui.form.NumberSpinner(_this.$jQuery());
 				// 遍历参数
-				for ( var attr in easyui) {
+				for ( var attr in easyuiConfig) {
+
 					// 设置对应参数
-					numberspinner[attr] && numberspinner[attr](easyui[attr]);
+					easyui[attr] && easyui[attr](easyuiConfig[attr]);
 				}
 				// 初始化
-				numberspinner.init();
+				easyui.init();
 
-				// 回收引用
-				easyui = null;
+				// 回收配置引用
+				easyuiConfig = null;
 			}));
 
 			break;
@@ -802,18 +883,40 @@ core.project.form.Form = (function() {
 			// 添加输入框
 			td.append(input.onInit(function(_this) {
 
-				// 调用easyui密码框模板
-				var passwordbox = new core.html.easyui.form.PasswordBox(_this.$jQuery());
+				// 实例化EasyUI
+				var easyui = new core.html.easyui.form.PasswordBox(_this.$jQuery());
 				// 遍历参数
-				for ( var attr in easyui) {
+				for ( var attr in easyuiConfig) {
+
 					// 设置对应参数
-					passwordbox[attr] && passwordbox[attr](easyui[attr]);
+					easyui[attr] && easyui[attr](easyuiConfig[attr]);
 				}
 				// 初始化
-				passwordbox.init();
+				easyui.init();
 
-				// 回收引用
-				easyui = null;
+				// 回收配置引用
+				easyuiConfig = null;
+			}));
+
+			break;
+		case core.project.form.Type.EASYUI.RADIOBUTTON:
+
+			// 添加输入框
+			td.append(input.onInit(function(_this) {
+
+				// 实例化EasyUI
+				var easyui = new core.html.easyui.form.RadioButton(_this.$jQuery());
+				// 遍历参数
+				for ( var attr in easyuiConfig) {
+
+					// 设置对应参数
+					easyui[attr] && easyui[attr](easyuiConfig[attr]);
+				}
+				// 初始化
+				easyui.init();
+
+				// 回收配置引用
+				easyuiConfig = null;
 			}));
 
 			break;
@@ -822,18 +925,19 @@ core.project.form.Form = (function() {
 			// 添加输入框
 			td.append(input.onInit(function(_this) {
 
-				// 调用easyui拖动条模板
-				var slider = new core.html.easyui.form.Slider(_this.$jQuery());
+				// 实例化EasyUI
+				var easyui = new core.html.easyui.form.Slider(_this.$jQuery());
 				// 遍历参数
-				for ( var attr in easyui) {
+				for ( var attr in easyuiConfig) {
+
 					// 设置对应参数
-					slider[attr] && slider[attr](easyui[attr]);
+					easyui[attr] && easyui[attr](easyuiConfig[attr]);
 				}
 				// 初始化
-				slider.init();
+				easyui.init();
 
-				// 回收引用
-				easyui = null;
+				// 回收配置引用
+				easyuiConfig = null;
 			}));
 
 			break;
@@ -842,18 +946,19 @@ core.project.form.Form = (function() {
 			// 添加输入框
 			td.append(input.onInit(function(_this) {
 
-				// 调用easyui微调框模板
-				var spinner = new core.html.easyui.form.Spinner(_this.$jQuery());
+				// 实例化EasyUI
+				var easyui = new core.html.easyui.form.Spinner(_this.$jQuery());
 				// 遍历参数
-				for ( var attr in easyui) {
+				for ( var attr in easyuiConfig) {
+
 					// 设置对应参数
-					spinner[attr] && spinner[attr](easyui[attr]);
+					easyui[attr] && easyui[attr](easyuiConfig[attr]);
 				}
 				// 初始化
-				spinner.init();
+				easyui.init();
 
-				// 回收引用
-				easyui = null;
+				// 回收配置引用
+				easyuiConfig = null;
 			}));
 
 			break;
@@ -862,18 +967,19 @@ core.project.form.Form = (function() {
 			// 添加输入框
 			td.append(input.onInit(function(_this) {
 
-				// 调用easyui标签模板
-				var tagbox = new core.html.easyui.form.TagBox(_this.$jQuery());
+				// 实例化EasyUI
+				var easyui = new core.html.easyui.form.TagBox(_this.$jQuery());
 				// 遍历参数
-				for ( var attr in easyui) {
+				for ( var attr in easyuiConfig) {
+
 					// 设置对应参数
-					tagbox[attr] && tagbox[attr](easyui[attr]);
+					easyui[attr] && easyui[attr](easyuiConfig[attr]);
 				}
 				// 初始化
-				tagbox.init();
+				easyui.init();
 
-				// 回收引用
-				easyui = null;
+				// 回收配置引用
+				easyuiConfig = null;
 			}));
 
 			break;
@@ -882,18 +988,19 @@ core.project.form.Form = (function() {
 			// 添加输入框
 			td.append(input.onInit(function(_this) {
 
-				// 调用easyui文本区模板
-				var textarea = new core.html.easyui.form.Textarea(_this.$jQuery());
+				// 实例化EasyUI
+				var easyui = new core.html.easyui.form.Textarea(_this.$jQuery());
 				// 遍历参数
-				for ( var attr in easyui) {
+				for ( var attr in easyuiConfig) {
+
 					// 设置对应参数
-					textarea[attr] && textarea[attr](easyui[attr]);
+					easyui[attr] && easyui[attr](easyuiConfig[attr]);
 				}
 				// 初始化
-				textarea.init();
+				easyui.init();
 
-				// 回收引用
-				easyui = null;
+				// 回收配置引用
+				easyuiConfig = null;
 			}));
 
 			break;
@@ -902,18 +1009,19 @@ core.project.form.Form = (function() {
 			// 添加输入框
 			td.append(input.onInit(function(_this) {
 
-				// 调用easyui文本框模板
-				var textbox = new core.html.easyui.form.TextBox(_this.$jQuery());
+				// 实例化EasyUI
+				var easyui = new core.html.easyui.form.TextBox(_this.$jQuery());
 				// 遍历参数
-				for ( var attr in easyui) {
+				for ( var attr in easyuiConfig) {
+
 					// 设置对应参数
-					textbox[attr] && textbox[attr](easyui[attr]);
+					easyui[attr] && easyui[attr](easyuiConfig[attr]);
 				}
 				// 初始化
-				textbox.init();
+				easyui.init();
 
-				// 回收引用
-				easyui = null;
+				// 回收配置引用
+				easyuiConfig = null;
 			}));
 
 			break;
@@ -922,18 +1030,19 @@ core.project.form.Form = (function() {
 			// 添加输入框
 			td.append(input.onInit(function(_this) {
 
-				// 调用easyui时间微调框模板
-				var timespinner = new core.html.easyui.form.TimeSpinner(_this.$jQuery());
+				// 实例化EasyUI
+				var easyui = new core.html.easyui.form.TimeSpinner(_this.$jQuery());
 				// 遍历参数
-				for ( var attr in easyui) {
+				for ( var attr in easyuiConfig) {
+
 					// 设置对应参数
-					timespinner[attr] && timespinner[attr](easyui[attr]);
+					easyui[attr] && easyui[attr](easyuiConfig[attr]);
 				}
 				// 初始化
-				timespinner.init();
+				easyui.init();
 
-				// 回收引用
-				easyui = null;
+				// 回收配置引用
+				easyuiConfig = null;
 			}));
 
 			break;
@@ -942,28 +1051,23 @@ core.project.form.Form = (function() {
 			// 添加输入框
 			td.append(input.onInit(function(_this) {
 
-				// 调用easyui验证框模板
-				var validatebox = new core.html.easyui.form.ValidateBox(_this.$jQuery());
+				// 实例化EasyUI
+				var easyui = new core.html.easyui.form.ValidateBox(_this.$jQuery());
 				// 遍历参数
-				for ( var attr in easyui) {
+				for ( var attr in easyuiConfig) {
+
 					// 设置对应参数
-					validatebox[attr] && validatebox[attr](easyui[attr]);
+					easyui[attr] && easyui[attr](easyuiConfig[attr]);
 				}
 				// 初始化
-				validatebox.init();
+				easyui.init();
 
-				// 回收引用
-				easyui = null;
+				// 回收配置引用
+				easyuiConfig = null;
 			}));
 
 			break;
 		}
-
-		// 后元素
-		td.append(config.after);
-
-		// 行添加单元格
-		tr.append(td);
 	}
 
 	/**
@@ -991,10 +1095,6 @@ core.project.form.Form = (function() {
 		 * 表单数据
 		 */
 		var data = [];
-		/**
-		 * 是否分组
-		 */
-		var isGroup = false;
 
 		/**
 		 * 获取/设置表单ID
@@ -1050,20 +1150,13 @@ core.project.form.Form = (function() {
 		};
 
 		/**
-		 * 获取/设置是否分组
+		 * 废弃
 		 * 
-		 * @param isGroup{boolean}
-		 * @returns {boolean/core.project.form.Form}
+		 * @returns {core.project.form.Form}
 		 */
 		this.isGroup = function() {
 
-			switch (arguments.length) {
-			case 0:
-				return isGroup;
-			default:
-				isGroup = arguments[0];
-				return this;
-			}
+			return this;
 		};
 	};
 	// 继承父类
@@ -1076,24 +1169,16 @@ core.project.form.Form = (function() {
 	 */
 	Constructor.prototype.project = function() {
 
-		// 表单样式
-		var style = [ "padding-top:15px;" ];
-		// 判断浏览器是否为IE
-		if (!!window.ActiveXObject || "ActiveXObject" in window) {
-
-			style.push("text-align:center;");
-		}
-
-		// 创建表单对象
-		var form = new core.html.element.viewer.Form(this.formId()).style(style.join("")).method("post").enctype(
+		// 实例化表单
+		var form = new core.html.element.viewer.Form(this.formId()).style("padding: 1px;").method("post").enctype(
 				"multipart/form-data");
 		// 添加表单HTML
 		this.content(form.convertHtml());
 		// 初始化Dialog
 		this.init();
 
-		// 获取是否分组
-		var isGroup = this.isGroup();
+		// 实例化表格
+		var table = new core.html.element.viewer.Table().clazz("formTable");
 		// 获取表单数据
 		var data = this.groupData();
 		// 遍历表单数据
@@ -1102,31 +1187,20 @@ core.project.form.Form = (function() {
 			// 获取本组数据
 			var groupData = data[i];
 
-			// 创建组内表格对象
-			var table = new core.html.element.viewer.Table(groupData.id).style("border-spacing:5px;font-size:12px;")
-					.align("center");
-			// 依据是否分组,判断是否创建组描述
-			if (isGroup) {
+			// 依据是否存在组描述,判断是否创建分组
+			if (groupData.content || groupData.text) {
 
-				// 创建分组对象,并添加分组描述信息,并添加表格对象,并添加至表单对象
-				new core.html.element.viewer.Fieldset().append(
-						new core.html.element.viewer.Legend().append(groupData.text)).append(table).appendTo(form);
-			} else {
-
-				// 将表格对象添加至表单对象中
-				table.appendTo(form);
+				// 处理分组
+				dealGroup(table, groupData);
 			}
 
-			// 获取组内表格数据
-			var tableData = groupData.data;
-			// 遍历组内表格数据
-			for (var j = 0, jLength = tableData.length; j < jLength; j++) {
-
-				// 处理组内表格行数据
-				dealTableTrData(new core.html.element.viewer.Tr().appendTo(table), tableData[j]);
-			}
+			// 处理分组数据
+			dealGroupData(table, groupData);
 		}
+		// 添加表格到表单
+		table.appendTo(form);
 
+		// 返回
 		return this;
 	};
 
@@ -1231,15 +1305,16 @@ core.project.form.Form = (function() {
 		return this.$formjQuery().form("resetDirty");
 	};
 
+	// 返回构造
 	return Constructor;
 })();
 /**
- * @name	Type
+ * @name Type
  * @package core.project.form
- * @desc	表单数据内容类型
- * @type	枚举
+ * @desc 表单数据内容类型
+ * @type 枚举
  * 
- * @date	2016年9月2日 16:25:11
+ * @date 2016年9月2日 16:25:11
  */
 core.project.form.Type = {
 
@@ -1255,6 +1330,7 @@ core.project.form.Type = {
 		SWITCHBUTTON : "switchbutton",
 
 		CALENDAR : "calendar",
+		CHECKBOX : "easyui_checkbox",
 		COMBO : "combo",
 		COMBOBOX : "combobox",
 		COMBOGRID : "combogrid",
@@ -1268,6 +1344,7 @@ core.project.form.Type = {
 		NUMBERBOX : "numberbox",
 		NUMBERSPINNER : "numberspinner",
 		PASSWORDBOX : "passwordbox",
+		RADIOBUTTON : "radiobutton",
 		SLIDER : "slider",
 		SPINNER : "spinner",
 		TAGBOX : "tagbox",

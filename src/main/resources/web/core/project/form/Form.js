@@ -4,7 +4,7 @@
  * @desc 表单
  * @type 类
  * 
- * @date 2019年4月15日 10:41:22
+ * @date 2019年4月29日 15:08:06
  */
 core.project.form.Form = (function() {
 
@@ -50,6 +50,7 @@ core.project.form.Form = (function() {
 				// 处理行格
 				dealTrTd(tr, data[i][j], config.showOnly);
 			}
+
 			// 添加行到表格
 			tr.appendTo(table);
 		}
@@ -131,22 +132,22 @@ core.project.form.Form = (function() {
 			// 依据单元格数据类型,处理
 			switch (config.type) {
 			case core.project.form.Type.A:
-				// 处理
+				// 处理A
 				td.append(new core.html.element.viewer.A(config.id).append(config.content ? config.content
 						: config.text));
 				break;
 			case core.project.form.Type.LABEL:
-				// 处理
+				// 处理Label
 				td.append(new core.html.element.viewer.Label(config.id).append(config.content ? config.content
 						: config.text));
 				break;
 			case core.project.form.Type.DIV:
-				// 处理
+				// 处理DIV
 				td.append(new core.html.element.viewer.Div(config.id).append(config.content));
 				break;
 			case core.project.form.Type.INPUT.RADIO:
 			case core.project.form.Type.INPUT.CHECKBOX:
-				// 处理
+				// 处理input
 				dealInput(td, config);
 				break;
 			case core.project.form.Type.EASYUI.SWITCHBUTTON:
@@ -173,7 +174,7 @@ core.project.form.Form = (function() {
 			case core.project.form.Type.EASYUI.TEXTBOX:
 			case core.project.form.Type.EASYUI.TIMESPINNER:
 			case core.project.form.Type.EASYUI.VALIDATEBOX:
-				// 处理
+				// 处理input
 				dealEasyUIInput(td, config);
 				break;
 			}
@@ -222,6 +223,11 @@ core.project.form.Form = (function() {
 				// 添加标签
 				td.append(new core.html.element.viewer.Label().forAttr(config.id + i).append(data[i].text));
 			}
+
+			break;
+		default:
+			// 添加输入框
+			td.append(new core.html.element.viewer.Input(config.id).name(config.name ? config.name : config.id));
 
 			break;
 		}
@@ -868,7 +874,7 @@ core.project.form.Form = (function() {
 			var groupData = data[i];
 
 			// 依据是否存在组描述,判断是否创建分组
-			if (groupData.text) {
+			if (groupData.content || groupData.text) {
 
 				// 处理分组
 				dealGroup(table, groupData);
