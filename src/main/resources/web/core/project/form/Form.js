@@ -768,6 +768,7 @@ core.project.form.Form = (function() {
 		this.width("100%");
 		this.left("0px");
 		this.top("0px");
+		this.bodyCls("formBody");
 		this.border(false);
 		this.closable(false);
 		this.draggable(false);
